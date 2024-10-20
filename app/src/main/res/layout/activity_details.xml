@@ -2,32 +2,71 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Agoda"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icons8_gift"/>
-
+            android:src="@drawable/icons8_gift"
+            android:layout_marginStart="8dp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Khách sạn"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:padding="8dp"
+            android:background="@drawable/rounded_background"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="Hoạt động"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:padding="8dp"
+                android:backgroundTint="#C8AFF3"
+                android:background="@drawable/rounded_background"/>
+
+            <TextView
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#74D378"
+                android:background="@drawable/rounded_background"
+                android:padding="8dp"
+                android:text="Chỗ ở riêng"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
 
     </LinearLayout>
 </LinearLayout>
