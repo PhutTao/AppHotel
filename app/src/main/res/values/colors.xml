@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#FF6200EE</color> <!-- Màu nền của thanh điều hướng -->
+    <color name="bottom_nav_item_color">#FFBDBDBD</color> <!-- Màu icon và text mặc định -->
+    <color name="bottom_nav_item_color_selected">#FFFFFF</color> <!-- Màu icon và text khi được chọn -->
+
+
+
 </resources>
