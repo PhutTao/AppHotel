@@ -362,7 +362,7 @@
                 <ImageView
                     android:layout_width="233dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/Image_vungtau" />
+                    android:src="@drawable/image_vung_tau" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -416,7 +416,7 @@
                 <ImageView
                     android:layout_width="233dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/Image_phanthiet" />
+                    android:src="@drawable/image_phan_thiet" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -467,7 +467,7 @@
                 <ImageView
                     android:layout_width="233dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/Image_buivien" />
+                    android:src="@drawable/image_vung_tau_uu_hotel" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -517,7 +517,7 @@
                 <ImageView
                     android:layout_width="233dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/Image_hotelphanthiet" />
+                    android:src="@drawable/image_hotel_phan_thiet" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -567,7 +567,7 @@
                 <ImageView
                     android:layout_width="233dp"
                     android:layout_height="169dp"
-                    android:src="@drawable/Image_vungtauuuhotel" />
+                    android:src="@drawable/image_vung_tau" />
 
                 <TextView
                     android:layout_width="wrap_content"
