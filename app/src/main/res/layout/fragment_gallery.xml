@@ -8,7 +8,11 @@
 
     <TextView
         android:id="@+id/text_gallery"
+<<<<<<< HEAD
         android:layout_width="wrap_content"
+=======
+        android:layout_width="match_parent"
+>>>>>>> 13ddd3f4ea6c7918d17ee5786b6e17c0dbf95dc2
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
