@@ -1,4 +1,4 @@
-package com.example.apphotel.ui.gallery;
+package com.example.apphotel.ui.Shop;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.apphotel.ui.gallery.GalleryFragment"
+        android:name="com.example.apphotel.ui.Shop.GalleryFragment"
         android:label="@string/menu_shop"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.apphotel.ui.slideshow.SlideshowFragment"
+        android:name="com.example.apphotel.ui.account.AccountFragment"
         android:label="@string/menu_account"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_account" />
 </navigation>
