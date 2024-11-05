@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_cv_search_result"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/searching_recently_viewed_background">
+
+        <ImageView
+            android:id="@+id/item_img_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/searching_image_muongthanh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_img_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/rating_img"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/searching_star_icon" />
+
+                    <TextView
+                        android:id="@+id/item_tv_search_result_score"
+                        app:layout_constraintBottom_toBottomOf="@+id/rating_img"
+                        app:layout_constraintStart_toEndOf="@+id/rating_img"
+                        app:layout_constraintTop_toTopOf="@+id/rating_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Rating"
+                        android:textColor="@color/searching_yellow"
+                        android:textSize="12dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/item_tv_result_item_count"
+                        app:layout_constraintBottom_toBottomOf="@+id/item_tv_search_result_score"
+                        app:layout_constraintStart_toEndOf="@id/item_tv_search_result_score"
+                        app:layout_constraintTop_toTopOf="@+id/item_tv_search_result_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="(Rating count)"
+                        android:textColor="@color/searching_grey"
+                        android:textSize="12dp" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/item_tv_search_result_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Hotel Name"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_tv_search_result_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:drawablePadding="4dp"
+                android:text="Hotel Address"
+                android:textColor="@color/searching_grey"
+                android:textSize="8sp" />
+
+            <TextView
+                android:id="@+id/item_tv_search_result_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Price"
+                android:textColor="@color/searching_primaryColor"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

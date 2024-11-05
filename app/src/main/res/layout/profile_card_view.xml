@@ -1,0 +1,19 @@
+<!-- res/layout/cardview_layout.xml -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    app:cardCornerRadius="120dp"
+    app:cardElevation="3dp"
+    app:contentPadding="0dp">
+
+    <!-- Nội dung bên trong CardView, ví dụ một ImageView -->
+    <ImageView
+        android:id="@+id/review_item_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:src="@drawable/profile_default_avatar" />
+
+</androidx.cardview.widget.CardView>

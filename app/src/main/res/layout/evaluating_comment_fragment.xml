@@ -1,0 +1,92 @@
+<!-- res/layout/fragment_my.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_margin="15dp"
+    android:paddingTop="7dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/evaluate_star"
+        android:padding="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:id="@+id/review_star_01"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/review_star_regular" />
+
+        <ImageView
+            android:id="@+id/review_star_02"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/review_star_regular" />
+
+        <ImageView
+            android:id="@+id/review_star_03"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/review_star_regular" />
+
+        <ImageView
+            android:id="@+id/review_star_04"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/review_star_regular" />
+
+        <ImageView
+            android:id="@+id/review_star_05"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/review_star_regular" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/signin_linearLayoutPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/signin_linearLayoutPasswordInput"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:padding="5dp"
+            android:background="@drawable/reviews_comment"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/comment_textBox"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Review"
+                android:layout_weight="0.8"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/send_comment_icon"
+                android:layout_width="0dp"
+                android:padding="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:alpha="1"
+                android:src="@drawable/reviews_send_icon"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

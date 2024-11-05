@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/btn_home"
+
+        android:title="Home"
+        android:icon="@drawable/homescreen_icon_home"/>
+    <item android:id="@+id/btn_mybooking"
+        android:title="My Booking"
+        android:icon="@drawable/homescreen_icon_tasksquare"/>
+    <item android:id="@+id/btn_setting"
+        android:title="Setting"
+        android:icon="@drawable/homescreen_icon_setting" />
+    <item
+        android:id="@+id/btn_about_us"
+        android:title="Shop"
+        android:icon="@drawable/homescreen_icon_people"></item>
+</menu>
