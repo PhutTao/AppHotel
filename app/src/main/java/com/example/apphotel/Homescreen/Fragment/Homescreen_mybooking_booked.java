@@ -27,7 +27,7 @@ import com.example.apphotel.Homescreen.HotelApiService.Home_ImageDetail;
 import com.example.apphotel.R;
 import com.example.apphotel.Homescreen.Adapter.Homescreen_BookedAdapter;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Booked;
-import com.example.apphotel.Searching.Activity.DetailActivity;
+
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -113,45 +113,6 @@ public class Homescreen_mybooking_booked extends Fragment {
             return result;
         }
 
-        @Override
-        protected void onPostExecute(List<Homescreen_Booked> result) {
-            if (result != null) {
-                arrayBookedHotel.clear();
-                arrayBookedHotel.addAll(result);
-                adapter.notifyDataSetChanged();
-                for (int i = 0; i < adapter.getCount(); i++) {
-                    final int position = i;
-                    View item = adapter.getView(i, null, null);
-                    lnBookedHotel.addView(item);
-                    item.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Lấy ID của view được nhấn
-                            int selectedHotelId = arrayBookedHotel.get(position).getHotelId();
-                            // Tạo intent để chuyển sang activity chi tiết và gửi ID
-                            Intent intent = new Intent(getContext(), DetailActivity.class);
-                            intent.putExtra("hotelId", selectedHotelId);
-                            startActivity(intent);
-                        }
-                    });
-                }
-
-                // Check and log the contents of arrayNearByHotel
-                if (!arrayBookedHotel.isEmpty()) {
-                    for (Homescreen_Booked hotel : arrayBookedHotel) {
-                        Log.d("Hotel Info", "Hotel Name: " + hotel.getTen());
-                        Log.d("Hotel Info", "Hotel rate: " + hotel.getDanhGia());
-                        Log.d("Hotel Info", "Hotel rate: " + hotel.getSoLuongDanhGia());
-                    }
-                } else {
-                    Log.e("Hotel Info", "arrayNearByHotel is empty");
-                }
-
-            } else {
-                Log.e("API Error", "Null response received from API");
-            }
-            progressBar.setVisibility(View.GONE);
-        }
 
 
     }

@@ -36,8 +36,6 @@ import com.example.apphotel.Homescreen.HotelApiService.Home_ImageDetail;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Nearbyhotel;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
 import com.example.apphotel.R;
-import com.example.apphotel.Searching.Activity.DetailActivity;
-import com.example.apphotel.Searching.Activity.SearchingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -136,15 +134,7 @@ public class Homescreen_home extends Fragment {
         });
 
 
-         //Intent searching
-        btn_seach = (ImageView) view.findViewById(R.id.home_btn_search);
-        btn_seach.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchingActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
 
 
@@ -192,32 +182,7 @@ public class Homescreen_home extends Fragment {
             return result;
         }
 
-        @Override
-        protected void onPostExecute(List<Homescreen_PopularHotel> result) {
-            if (result != null) {
-                arrayPopularHotel.clear();
-                arrayPopularHotel.addAll(result);
-                adapter_1.notifyDataSetChanged();
-                for (int i = 0; i < adapter_1.getCount(); i++) {
-                    final int position = i;
-                    View item = adapter_1.getView(i, null, null);
-                    lnPopularHotel.addView(item);
-                    item.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Lấy ID của view được nhấn
-                            int selectedHotelId = arrayPopularHotel.get(position).getHotelId();
-                            // Tạo intent để chuyển sang activity chi tiết và gửi ID
-                            Intent intent = new Intent(getContext(), DetailActivity.class);
-                            intent.putExtra("hotelId", selectedHotelId);
-                            startActivity(intent);
-                        }
-                    });
-                }
-            }
-            progressBar_1.setVisibility(View.GONE);
 
-        }
     }
     private class HotelsAsyncTask extends AsyncTask<Void, Void, List<Homescreen_Nearbyhotel>> {
         @Override
@@ -262,46 +227,7 @@ public class Homescreen_home extends Fragment {
             return result;
         }
 
-        @Override
-        protected void onPostExecute(List<Homescreen_Nearbyhotel> result) {
-            if (result != null) {
-                arrayNearByHotel.clear();
-                arrayNearByHotel.addAll(result);
-                adapter.notifyDataSetChanged();
-                for (int i = 0; i < adapter.getCount(); i++) {
-                    final int position = i;
-                    View item = adapter.getView(i, null, null);
-                    lnNearbyHotel.addView(item);
 
-                    item.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Lấy ID của view được nhấn
-                            int selectedHotelId = arrayNearByHotel.get(position).getHotelId();
-                            // Tạo intent để chuyển sang activity chi tiết và gửi ID
-                            Intent intent = new Intent(getContext(), DetailActivity.class);
-                            intent.putExtra("hotelId", selectedHotelId);
-                            startActivity(intent);
-                        }
-                    });
-                }
-
-                // Check and log the contents of arrayNearByHotel
-                if (!arrayNearByHotel.isEmpty()) {
-                    for (Homescreen_Nearbyhotel hotel : arrayNearByHotel) {
-                        Log.d("Hotel Info", "Hotel Name: " + hotel.getTen());
-                        Log.d("Hotel Info", "Hotel rate: " + hotel.getDanhGia());
-                        Log.d("Hotel Info", "Hotel rate: " + hotel.getSoLuongDanhGia());
-                    }
-                } else {
-                    Log.e("Hotel Info", "arrayNearByHotel is empty");
-                }
-
-            } else {
-                Log.e("API Error", "Null response received from API");
-            }
-            progressBar.setVisibility(View.GONE);
-        }
 
 
     }
