@@ -72,131 +72,129 @@
 
 
     <!-- Tàu hỏa -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="16dp"
         android:background="#F8F8F8"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="16dp">
 
         <!-- Tàu hỏa -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:gravity="center">
+            android:padding="8dp">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Tàu hỏa"
-                android:textSize="16sp"
                 android:textColor="#000000"
-                android:gravity="center"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!-- Xe buýt -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:gravity="center">
+            android:padding="8dp">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Xe buýt"
-                android:textSize="16sp"
                 android:textColor="#000000"
-                android:gravity="center"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!-- Phà -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:gravity="center">
+            android:padding="8dp">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Phà"
-                android:textSize="16sp"
                 android:textColor="#000000"
-                android:gravity="center"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!-- Ưu đãi ngày -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:gravity="center">
+            android:padding="8dp">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Ưu đãi ngày"
-                android:textSize="16sp"
                 android:textColor="#000000"
-                android:gravity="center"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!-- Ở trong ngày -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:gravity="center">
+            android:padding="8dp">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Ở trong ngày"
-                android:textSize="16sp"
                 android:textColor="#000000"
-                android:gravity="center"/>
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="16dp"
         android:background="#F8F8F8"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="16dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -205,6 +203,7 @@
 
         </TextView>
     </LinearLayout>
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
