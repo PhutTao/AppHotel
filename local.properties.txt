@@ -1,0 +1,1 @@
+sdk.dir=C\:\\Users\\<tahoa>\\AppData\\Local\\Android\\Sdk

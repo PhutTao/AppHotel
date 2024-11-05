@@ -28,39 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Review.ReviewsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".AdditionalProfile.AdditionalProfileActivity"
-            android:exported="true"
-            android:theme="@style/Theme.HotelBooking_App" />
-        <activity
-            android:name=".Register.RegisterActivity"
-            android:exported="true"
-            android:label="@string/title_activity_register"
-            android:theme="@style/Theme.HotelBooking_App" />
-        <activity
-            android:name=".Login.Activity.LoginActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Booking.Activity.BookingActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Booking.Activity.BookingAddCardActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Booking.Activity.BookingCheckoutActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Searching.Activity.SearchingActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Searching.Activity.SearchingResultsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Searching.Activity.DetailActivity"
-            android:exported="true" />
+
 
 
         <activity
