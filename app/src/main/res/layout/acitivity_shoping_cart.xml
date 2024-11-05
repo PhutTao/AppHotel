@@ -1,7 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/material_dynamic_neutral_variant80"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <Button
+        android:id="@+id/checkoutButton"
+        android:layout_width="459dp"
+        android:layout_height="55dp"
+        android:text="Thanh Toán"
+        android:textSize="20sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="664dp" />
+
+    <TextView
+        android:id="@+id/totalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        android:text="Tổng tiền: 0 VND"
+        android:textSize="20sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="410dp"
+        tools:layout_editor_absoluteY="827dp" />
+
+    <LinearLayout
+        android:layout_width="463dp"
+        android:layout_height="377dp"
+        android:background="@color/cardview_light_background"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="227dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="91dp"
+            android:background="#03A9F4"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_gravity="left"
+                android:src="@drawable/logokinhlup" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Xung quanh vị trí hiện tại"
+                android:textColor="#000000"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:background="#FFEB3B"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_gravity="left"
+                android:src="@drawable/logolich" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Thời gian muốn đặt phòng"
+                android:textColor="#000000"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:background="#17EDEC"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_gravity="left"
+                android:src="@drawable/logonguoi" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="1 phòng -  2 người lớn - Không có trẻ em"
+                android:textColor="#000000"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:layout_gravity="center"
+            android:background="#429BE4"
+            android:gravity="center"
+            android:text="Tìm"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="19sp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cartTitle"
+        android:layout_width="173dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_background"
+        android:gravity="center"
+        android:text="Đặt Phòng"
+        android:textSize="25.7sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:layout_width="169dp"
+        android:layout_height="141dp"
+        android:src="@drawable/logokhachsan"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="401dp"
+        tools:layout_editor_absoluteY="-5dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

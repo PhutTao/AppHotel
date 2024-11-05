@@ -2,4 +2,42 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="searching_primaryColor">#06B3C4</color>
+    <color name="searching_grey">#9A9EA6</color>
+    <color name="searching_medium_grey">#F9F9F9</color>
+    <color name="searching_yellow">#FFCE19</color>
+    <color name="searching_cardBg">#FBFBFD</color>
+    <color name="searching_red">#E71B1A</color>
+
+
+    <color name="booking_primaryColor">#06B3C4</color>
+    <color name="booking_grey">#949494</color>
+    <color name="booking_light_grey">#F6F6F6</color>
+    <color name="booking_medium_grey">#ECECEC</color>
+    <color name="booking_cyan_light_900">#06B3C4</color>
+    <color name="booking_cyan_light_100">#E5F7F9</color>
+    <color name="booking_red">#FFFF0000</color>
+
+    <color name="huan_red">#FFFF0000</color>
+    <color name="huan_green">#FF00FF00</color>
+    <color name="huan_blue">#FF0000FF</color>
+    <color name="huan_yellow">#FFFFFF00</color>
+    <color name="huan_orange">#FFFFA500</color>
+    <color name="huan_purple">#FF800080</color>
+    <color name="huan_pink">#FFFFC0CB</color>
+    <color name="huan_gray">#F8A5A1A1</color>
+    <color name="huan_brown">#FFA52A2A</color>
+    <color name="huan_cyan">#FF00FFFF</color>
+    <color name="huan_magenta">#FFFF00FF</color>
+    <color name="huan_teal">#FF008080</color>
+    <color name="huan_lavender">#F7D5D0D0</color>
+    <color name="huan_lime">#FF00FF00</color>
+    <color name="huan_indigo">#FF4B0082</color>
+    <color name="huan_maroon">#FF800000</color>
+    <color name="huan_olive">#FF808000</color>
+    <color name="huan_navy">#FF000080</color>
+    <color name="huan_textbox">#F2F9FA</color>
+    <color name="huan_upload">#FCFFFA</color>
+
 </resources>
