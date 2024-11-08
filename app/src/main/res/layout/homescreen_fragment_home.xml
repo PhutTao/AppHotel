@@ -8,6 +8,7 @@
         android:id="@+id/home_contentt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/homescreen_backround_homepage"
         android:fillViewport="true">
 
         <LinearLayout
@@ -60,7 +61,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="15sp"
                             android:text="Đà Nẵng, Việt Nam"
                             android:layout_gravity="center">
@@ -81,13 +82,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp">
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Popular hotels"
                     android:textStyle="bold"
@@ -108,8 +109,8 @@
                 <!--                    </TextView>-->
             </LinearLayout>
             <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp">
+                android:layout_width="match_parent"
+                android:layout_height="270dp">
                 <ProgressBar
                     android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
@@ -118,9 +119,9 @@
                     android:visibility="visible"/>
                 <HorizontalScrollView
                     android:id="@+id/homescreen_horizontal_scroll_view"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    >
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp">
 
                     <LinearLayout
                         android:id="@+id/home_lvpopularhotel"
@@ -136,13 +137,13 @@
 
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/home_nearbyhotels"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="List of hotels"
                     android:textStyle="bold"
@@ -163,8 +164,8 @@
                 <!--                    </TextView>-->
             </LinearLayout>
             <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
@@ -172,598 +173,12 @@
                     android:layout_centerInParent="true"/>
                 <LinearLayout
                     android:id="@+id/home_lvNearbyHotel"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                 </LinearLayout>
             </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Header Agoda -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_background"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="Khách sạn"
-                        android:textColor="#000000"
-                        android:textSize="20sp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="190dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/rounded_background"
-                            android:backgroundTint="#C8AFF3"
-                            android:padding="8dp"
-                            android:text="Hoạt động"
-                            android:textColor="#000000"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="224dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/rounded_background"
-                            android:backgroundTint="#74D378"
-                            android:padding="8dp"
-                            android:text="Chỗ ở riêng"
-                            android:textColor="#000000"
-                            android:textSize="20sp" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-                <!-- Tàu hỏa -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="16dp"
-                    android:background="@drawable/rounded_scollvie"
-                    android:gravity="center">
-
-                    <!-- Tàu hỏa -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icons8_train"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tàu hỏa"
-                            android:textSize="16sp"
-                            android:textColor="#000000"
-                            android:gravity="center"/>
-                    </LinearLayout>
-
-                    <!-- Xe buýt -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icons8_bus"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Xe buýt"
-                            android:textSize="16sp"
-                            android:textColor="#000000"
-                            android:gravity="center"/>
-                    </LinearLayout>
-
-                    <!-- Phà -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icons8_boat"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Thuê tàu"
-                            android:textSize="16sp"
-                            android:textColor="#000000"
-                            android:gravity="center"/>
-                    </LinearLayout>
-
-                    <!-- Ưu đãi ngày -->
-                    <LinearLayout
-                        android:layout_width="69dp"
-                        android:layout_height="84dp"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/icons8_prioritize" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Ưu đãi"
-                            android:textColor="#000000"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <!-- Ở trong ngày -->
-                    <LinearLayout
-                        android:layout_width="69dp"
-                        android:layout_height="82dp"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:src="@drawable/icons8_car" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Thuê xe"
-                            android:textColor="#000000"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="#F8F8F8"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Chào mừng khách hàng mới"
-                        android:textSize="23dp"
-                        android:textStyle="bold" >
-
-                    </TextView>
-                </LinearLayout>
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_scollvie"
-                        android:orientation="horizontal">
-
-                        <!-- Mục giảm giá 2% -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:src="@drawable/icons8_gift" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Giảm giá 2%"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-                        </LinearLayout>
-
-                        <!-- Mục dùng thử VIP Gold -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:src="@drawable/icons8_gift" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Dùng thử VIP Gold"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-                        </LinearLayout>
-
-                        <!-- Mục giảm giá 8% -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:src="@drawable/icons8_gift" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Giảm giá 8%"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-                        </LinearLayout>
-
-                        <!-- Mục giảm giá 10% -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:src="@drawable/icons8_gift" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Giảm giá 10%"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </HorizontalScrollView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:padding="5dp"
-                    android:text="Khuyến mãi có thời hạn tại Hồ Chí Minh"
-                    android:textSize="17dp"
-                    android:textStyle="bold" >
-
-                </TextView>
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FDFBFB"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_scollvie"
-                        android:orientation="horizontal">
-
-                        <!-- Hotel 1: Sửa lại nhà bên hồ -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="233dp"
-                                android:layout_height="150dp"
-                                android:src="@drawable/image_vung_tau" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sửa lại nhà bên hồ"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-
-                            <!-- Số sao -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="★★★★☆"
-                                android:textSize="14sp"
-                                android:textColor="#FFA000" />
-
-                            <!-- Nhận xét -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="8.5/10"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-
-                            <!-- Tình trạng phòng -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Còn phòng"
-                                android:textSize="14sp"
-                                android:textColor="#4CAF50" />
-
-                            <!-- Ngày nhận và trả phòng -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nhận: 25/10/2024, Trả: 28/10/2024"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-                        </LinearLayout>
-
-                        <!-- Hotel 2: Tam An Hotel -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="233dp"
-                                android:layout_height="150dp"
-                                android:src="@drawable/image_phan_thiet" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Tam An Hotel"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="★★★☆☆"
-                                android:textSize="14sp"
-                                android:textColor="#FFA000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="7.0/10"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Hết phòng"
-                                android:textSize="14sp"
-                                android:textColor="#F44336" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nhận: 26/10/2024, Trả: 30/10/2024"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-                        </LinearLayout>
-
-                        <!-- Hotel 3: Bùi Viện Hotel -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="233dp"
-                                android:layout_height="150dp"
-                                android:src="@drawable/image_vung_tau_uu_hotel" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bùi Viện Hotel"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="★★★★☆"
-                                android:textSize="14sp"
-                                android:textColor="#FFA000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="8.0/10"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Còn phòng"
-                                android:textSize="14sp"
-                                android:textColor="#4CAF50" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nhận: 20/10/2024, Trả: 23/10/2024"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-                        </LinearLayout>
-
-                        <!-- Hotel 4: Phan Thiết Hotel -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="233dp"
-                                android:layout_height="150dp"
-                                android:src="@drawable/image_hotel_phan_thiet" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Phan Thiết Hotel"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="★★★★★"
-                                android:textSize="14sp"
-                                android:textColor="#FFA000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="9.2/10"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Còn phòng"
-                                android:textSize="14sp"
-                                android:textColor="#4CAF50" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nhận: 01/11/2024, Trả: 05/11/2024"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-                        </LinearLayout>
-
-                        <!-- Hotel 5: Vũng Tàu Hotel -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp"
-                            android:gravity="center"
-                            android:layout_marginEnd="16dp">
-
-                            <ImageView
-                                android:layout_width="233dp"
-                                android:layout_height="169dp"
-                                android:src="@drawable/image_vung_tau" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Vũng Tàu Hotel"
-                                android:textSize="16sp"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="★★☆☆☆"
-                                android:textSize="14sp"
-                                android:textColor="#FFA000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="6.5/10"
-                                android:textSize="14sp"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Hết phòng"
-                                android:textSize="14sp"
-                                android:textColor="#F44336" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </HorizontalScrollView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:padding="5dp"
-                    android:text="Khuyến mãi"
-                    android:textStyle="bold"
-                    android:textSize="17dp">
-
-                </TextView>
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/image_uu_dai"
-                    ></ImageButton>
-            </LinearLayout>
 
 
 

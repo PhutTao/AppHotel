@@ -21,7 +21,9 @@ import com.example.apphotel.Homescreen.Activity.Homescreen_changepassword;
 import com.example.apphotel.Homescreen.Activity.Homescreen_myprofile;
 import com.example.apphotel.Homescreen.Activity.Homescreen_notifications;
 import com.example.apphotel.Homescreen.HomescreenActivity;
+import com.example.apphotel.Login.LoginActivity;
 import com.example.apphotel.R;
+import com.example.apphotel.Register.RegisterActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -53,7 +55,12 @@ public class Homescreen_setting extends Fragment {
         });
         //logout
         setting_logout = (LinearLayout) view.findViewById(R.id.setting_btn_logout);
-
+        setting_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSignOutDialog();
+            }
+        });
 
         //edit profile
         setting_editprofile = (LinearLayout) view.findViewById(R.id.setting_btn_editprofile);
@@ -93,7 +100,28 @@ public class Homescreen_setting extends Fragment {
         return view;
 
     }
+    public void showSignOutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View view = getLayoutInflater().inflate(R.layout.homescreen_arlert_empty, null);
+        builder.setView(view);
 
+        builder.setTitle("Logout of your account?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getActivity(), RegisterActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     public void showLanguageDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

@@ -1,13 +1,13 @@
-package com.example.apphotel.Homescreen.HotelApiService;
+package com.example.apphotel.Api;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Home_HotelApiClient {
-    private static final String BASE_URL = "http://10.0.2.2/hotel_booking_api/";
+public class RetrofitClient {
+    private static Retrofit retrofit;
+    private static final String BASE_URL = "http://10.0.2.2/api/"; // Địa chỉ localhost trên Android emulator
 
-    private static Retrofit retrofit = null;
-
-    public static Retrofit getClient() {
+    public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)

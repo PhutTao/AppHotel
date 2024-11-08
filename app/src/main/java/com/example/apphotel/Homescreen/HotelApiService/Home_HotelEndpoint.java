@@ -1,5 +1,7 @@
 package com.example.apphotel.Homescreen.HotelApiService;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -14,6 +16,8 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface Home_HotelEndpoint {
+    @GET("hotel_booking_api/getHotels.php")
+    Call<List<Home_Hotel>> getHotels();
     @GET("/api/v1/hotel")
     Call<Home_HotelsApiResponse> getHotels(@Header("Authorization") String authorization);
     @GET("/api/v1/hotel/popular")
@@ -38,12 +42,14 @@ public interface Home_HotelEndpoint {
             @Header("Authorization") String authorization,
             @Part MultipartBody.Part image
     );
-    @GET("/api/v1/user/profile")
+    @GET("http://localhost/hotel_booking_api/profile.php")
     Call<Home_ProfileResponse> getUserInfo(@Header("Authorization") String authorization);
-    @POST("/api/v1/user/profile")
+    @POST("http://10.0.2.2/hotel_booking_api/hotel_images")
     Call<Home_ProfileResponse> updateUserInfo(
             @Header("Authorization") String authorization,
             @Body Home_User updatedUserData
     );
+
+
 
 }

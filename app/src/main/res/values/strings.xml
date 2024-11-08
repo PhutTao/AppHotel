@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HotelBooking_App</string>
+    <string name="app_name">apphotel</string>
 
     <string name="txtClearAll">Clear All</string>
     <string name="txtSeeAll">See All</string>
@@ -14,7 +14,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="base_url">http://192.168.80.1/hotel_booking_api/</string>
+    <string name="base_url">http://10.0.2.2/hotel_booking_api/</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
