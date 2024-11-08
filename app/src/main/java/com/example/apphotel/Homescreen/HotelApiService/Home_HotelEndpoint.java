@@ -18,26 +18,26 @@ import retrofit2.http.Path;
 public interface Home_HotelEndpoint {
     @GET("hotel_booking_api/getHotels.php")
     Call<List<Home_Hotel>> getHotels();
-    @GET("/api/v1/hotel")
+    @GET("")
     Call<Home_HotelsApiResponse> getHotels(@Header("Authorization") String authorization);
-    @GET("/api/v1/hotel/popular")
+    @GET("")
     Call<Home_HotelsApiResponse> getPpHotels(@Header("Authorization") String authorization);
-    @GET("/api/v1/favourite-hotel")
+    @GET("")
     Call<Home_HotelsApiResponse> getFavoriteHotels(@Header("Authorization") String authorization);
-    @GET("/api/v1/booking")
+    @GET("")
     Call<Home_BookedApiResponse> getBooked(@Header("Authorization") String authorization);
-    @GET("/api/v1/hotel/{id}")
+    @GET("")
     Call<Home_HotelApiResponse> getHotel(@Path("id") int hotelId, @Header("Authorization") String authorization);
-    @POST("/api/v1/favourite-hotel/{hotelId}")
+    @POST("")
     Call<Home_HotelsApiResponse> postFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
-    @DELETE("/api/v1/favourite-hotel/{hotelId}")
+    @DELETE("")
     Call<Home_HotelsApiResponse> deleteFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
-    @PUT("/api/v1/auth/change-password")
+    @PUT("")
     Call<ResponseBody> changePassword(@Header("Authorization") String authorization, @Body Home_ChangePasswordRequest request);
-    @GET("/api/v1/user/profile/avatar")
+    @GET("")
     Call<ResponseBody> getUserAvatar(@Header("Authorization") String authorization);
     @Multipart
-    @POST("/api/v1/user/profile/avatar")
+    @POST("")
     Call<ResponseBody> uploadUserAvatar(
             @Header("Authorization") String authorization,
             @Part MultipartBody.Part image

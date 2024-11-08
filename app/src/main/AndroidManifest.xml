@@ -17,7 +17,6 @@
         android:theme="@style/Theme.apphotel"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity android:name=".RoomTypeActivity" />
 
         <activity
             android:name=".Login.LoginActivity"
