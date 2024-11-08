@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphotel.Api.ApiService;
 import com.example.apphotel.Api.RetrofitClient;
+
 import com.example.apphotel.Login.LoginActivity;
 import com.example.apphotel.Model.RegisterResponse;
 import com.example.apphotel.R;
@@ -62,6 +63,9 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+
+
+
                 // Gọi API đăng ký
                 Call<RegisterResponse> call = apiService.registerUser(username, email, password);
                 call.enqueue(new Callback<RegisterResponse>() {
@@ -77,7 +81,9 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(RegisterActivity.this, "Lỗi phản hồi từ server", Toast.LENGTH_SHORT).show();
                         }
+
                     }
+
 
                     @Override
                     public void onFailure(Call<RegisterResponse> call, Throwable t) {
@@ -95,5 +101,6 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 }

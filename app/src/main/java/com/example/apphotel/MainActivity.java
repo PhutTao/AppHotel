@@ -29,22 +29,6 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Home_HotelEndpoint endpoint = retrofit.create(Home_HotelEndpoint.class);
-        Call<List<Home_Hotel>> call = endpoint.getHotels();
 
-        call.enqueue(new Callback<List<Home_Hotel>>() {
-            @Override
-            public void onResponse(Call<List<Home_Hotel>> call, Response<List<Home_Hotel>> response) {
-                if (response.isSuccessful()) {
-                    List<Home_Hotel> hotels = response.body();
-                    // Xử lý dữ liệu khách sạn ở đây
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Home_Hotel>> call, Throwable t) {
-                // Xử lý lỗi khi gọi API
-            }
-        });
     }
 }
