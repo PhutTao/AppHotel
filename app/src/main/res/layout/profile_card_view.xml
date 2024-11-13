@@ -14,6 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerInside"
-        android:src="@drawable/profile_default_avatar" />
+        android:src="@drawable/image_vung_tau" />
 
 </androidx.cardview.widget.CardView>
