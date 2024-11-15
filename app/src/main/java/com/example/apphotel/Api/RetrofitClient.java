@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://10.0.2.2/api/"; // Địa chỉ localhost trên Android emulator
+    private static final String BASE_URL = "http://10.0.2.2/api_hotels/"; // Địa chỉ localhost trên Android emulator
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

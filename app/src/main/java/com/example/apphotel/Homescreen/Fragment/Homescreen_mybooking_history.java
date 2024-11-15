@@ -53,7 +53,7 @@ public class Homescreen_mybooking_history extends Fragment {
         arrayHistory = new ArrayList<>();
         new HotelsAsyncTask().execute();
 
-        adapter = new Homescreen_NearbyhotelAdapter(getActivity(),R.layout.homescreen_item_nearbyhotel, arrayHistory);
+      /*  adapter = new Homescreen_NearbyhotelAdapter(getActivity(),R.layout.homescreen_item_nearbyhotel, arrayHistory);*/
         lnHistory = (LinearLayout) view.findViewById(R.id.lvHistoryHotel);
 
         return view;

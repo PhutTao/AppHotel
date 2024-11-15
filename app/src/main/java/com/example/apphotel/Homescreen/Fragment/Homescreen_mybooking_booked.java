@@ -52,7 +52,7 @@ public class Homescreen_mybooking_booked extends Fragment {
 
         arrayBookedHotel = new ArrayList<>();
         new BookedsAsyncTask().execute();
-        adapter = new Homescreen_BookedAdapter(getActivity(),R.layout.homescreen_item_booked, arrayBookedHotel);
+      /*  adapter = new Homescreen_BookedAdapter(getActivity(),R.layout.homescreen_item_booked, arrayBookedHotel);*/
 
         lnBookedHotel = (LinearLayout) view.findViewById(R.id.lvBookedHotel);
 
