@@ -1,36 +1,23 @@
 package com.example.apphotel.Homescreen.Activity;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.apphotel.Homescreen.HomescreenActivity;
 import com.example.apphotel.Homescreen.HotelApiService.Home_ChangePasswordRequest;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiClient;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
-import com.example.apphotel.Homescreen.HotelApiService.Home_HotelsApiResponse;
 import com.example.apphotel.R;
 import com.google.android.material.textfield.TextInputEditText;
 
-import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.content.SharedPreferences;
 import android.widget.Toast;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

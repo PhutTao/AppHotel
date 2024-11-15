@@ -11,23 +11,17 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/bacground4"
-        android:roundIcon="@drawable/bacground4"
+        android:icon="@drawable/homescreen_haian"
+        android:label="HNLH"
+        android:roundIcon="@drawable/homescreen_haian"
         android:supportsRtl="true"
-        android:theme="@style/Theme.apphotel"
+        android:theme="@style/Theme.HotelBooking_App"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
 
         <activity
-            android:name=".Login.LoginActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".Homescreen.HomescreenActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Register.RegisterActivity"
+            android:name=".Login.Activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,8 +29,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Review.ReviewsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AdditionalProfile.AdditionalProfileActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HotelBooking_App" />
+        <activity
+            android:name=".Register.RegisterActivity"
+            android:exported="true"
+            android:label="@string/title_activity_register"
+            android:theme="@style/Theme.HotelBooking_App" />
+        <activity
+            android:name=".Homescreen.HomescreenActivity"
+            android:exported="true" />
 
-
+        <activity
+            android:name=".Booking.Activity.BookingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Booking.Activity.BookingAddCardActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Booking.Activity.BookingCheckoutActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Searching.Activity.SearchingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Searching.Activity.SearchingResultsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Searching.Activity.DetailActivity"
+            android:exported="true" />
 
         <activity
             android:name=".MainActivity"
@@ -51,7 +77,7 @@
             android:name=".Homescreen.Activity.Homescreen_myprofile"
             android:exported="true"
             android:label="@string/title_activity_homescreen_myprofile"
-            android:theme="@style/Theme.apphotel"
+            android:theme="@style/Theme.HotelBooking_App"
             android:windowSoftInputMode="adjustPan" />
     </application>
 

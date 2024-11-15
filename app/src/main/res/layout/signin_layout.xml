@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="UserName"
+                android:text="Email Or Phone"
                 android:textSize="20dp" />
 
             <LinearLayout
@@ -94,7 +94,7 @@
                     android:id="@+id/signin_email"
                     android:layout_width="300dp"
                     android:layout_height="match_parent"
-                    android:hint=" Name"
+                    android:hint=" Email"
                     android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>

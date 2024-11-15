@@ -21,9 +21,8 @@ import com.example.apphotel.Homescreen.Activity.Homescreen_changepassword;
 import com.example.apphotel.Homescreen.Activity.Homescreen_myprofile;
 import com.example.apphotel.Homescreen.Activity.Homescreen_notifications;
 import com.example.apphotel.Homescreen.HomescreenActivity;
-import com.example.apphotel.Login.LoginActivity;
+import com.example.apphotel.Login.Activity.LoginActivity;
 import com.example.apphotel.R;
-import com.example.apphotel.Register.RegisterActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -109,7 +108,7 @@ public class Homescreen_setting extends Fragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getActivity(), RegisterActivity.class);
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
                         startActivity(intent);
                     }
                 })

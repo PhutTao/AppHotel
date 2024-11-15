@@ -1,5 +1,9 @@
 package com.example.apphotel.Homescreen.HotelApiService;
 
+import com.example.apphotel.Searching.Domain.Hotel;
+
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -14,21 +18,23 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface Home_HotelEndpoint {
-    @GET("/api/v1/hotel")
+    @GET("popular_hotels.php")
+    Call<List<Hotel>> getHotels();
+    @GET("popular_hotels.php")
     Call<Home_HotelsApiResponse> getHotels(@Header("Authorization") String authorization);
-    @GET("/api/v1/hotel/popular")
+    @GET("popular_hotels.php")
     Call<Home_HotelsApiResponse> getPpHotels(@Header("Authorization") String authorization);
-    @GET("/api/v1/favourite-hotel")
+    @GET("favourite_hotel.php")
     Call<Home_HotelsApiResponse> getFavoriteHotels(@Header("Authorization") String authorization);
-    @GET("/api/v1/booking")
+    @GET("get_bookings.php")
     Call<Home_BookedApiResponse> getBooked(@Header("Authorization") String authorization);
-    @GET("/api/v1/hotel/{id}")
+    @GET("popular_hotels.php")
     Call<Home_HotelApiResponse> getHotel(@Path("id") int hotelId, @Header("Authorization") String authorization);
-    @POST("/api/v1/favourite-hotel/{hotelId}")
+    @POST("favourite_hotel.php")
     Call<Home_HotelsApiResponse> postFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
-    @DELETE("/api/v1/favourite-hotel/{hotelId}")
+    @DELETE("favourite_hotel.php")
     Call<Home_HotelsApiResponse> deleteFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
-    @PUT("/api/v1/auth/change-password")
+    @PUT("change_password.php")
     Call<ResponseBody> changePassword(@Header("Authorization") String authorization, @Body Home_ChangePasswordRequest request);
     @GET("/api/v1/user/profile/avatar")
     Call<ResponseBody> getUserAvatar(@Header("Authorization") String authorization);

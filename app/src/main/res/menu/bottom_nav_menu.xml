@@ -12,6 +12,6 @@
         android:icon="@drawable/homescreen_icon_setting" />
     <item
         android:id="@+id/btn_about_us"
-        android:title="Shop"
+        android:title="About Us"
         android:icon="@drawable/homescreen_icon_people"></item>
 </menu>

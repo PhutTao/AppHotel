@@ -2,42 +2,25 @@ package com.example.apphotel.Homescreen.Hotels;
 
 import android.graphics.Bitmap;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class Homescreen_Nearbyhotel {
     private int hotelId;
-    private String name;
-    private String address;
-    private double rating;
-    private int reviewCount;
-    private double price;
-    private Bitmap imageBitmap;
-    private String imageUrl;
+    private String Ten;
+    private String DiaChi;
+    private double DanhGia;
+    private int SoLuongDanhGia;
+    private double Gia;
+    private Bitmap Hinh;
 
-    // Constructor with Bitmap
-    public Homescreen_Nearbyhotel(int hotelId, String name, String address, double rating, int reviewCount, double price, Bitmap imageBitmap) {
+    public Homescreen_Nearbyhotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, Bitmap hinh) {
         this.hotelId = hotelId;
-        this.name = name;
-        this.address = address;
-        this.rating = rating;
-        this.reviewCount = reviewCount;
-        this.price = price;
-        this.imageBitmap = imageBitmap;
+        Ten = ten;
+        DiaChi = diaChi;
+        DanhGia = danhGia;
+        SoLuongDanhGia = soLuongDanhGia;
+        Gia = gia;
+        Hinh = hinh;
     }
 
-    // Constructor with URL
-    public Homescreen_Nearbyhotel(int hotelId, String name, String address, double rating, int reviewCount, double price, String imageUrl) {
-        this.hotelId = hotelId;
-        this.name = name;
-        this.address = address;
-        this.rating = rating;
-        this.reviewCount = reviewCount;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
-
-    // Getters and Setters
     public int getHotelId() {
         return hotelId;
     }
@@ -46,65 +29,51 @@ public class Homescreen_Nearbyhotel {
         this.hotelId = hotelId;
     }
 
-    public String getName() {
-        return name;
+    public String getTen() {
+        return Ten;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTen(String ten) {
+        Ten = ten;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDiaChi() {
+        return DiaChi;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDiaChi(String diaChi) {
+        DiaChi = diaChi;
     }
 
-    public double getRating() {
-        return rating;
+    public double getDanhGia() {
+        return DanhGia;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setDanhGia(double danhGia) {
+        DanhGia = danhGia;
     }
 
-    public int getReviewCount() {
-        return reviewCount;
+    public int getSoLuongDanhGia() {
+        return SoLuongDanhGia;
     }
 
-    public void setReviewCount(int reviewCount) {
-        this.reviewCount = reviewCount;
+    public void setSoLuongDanhGia(int soLuongDanhGia) {
+        SoLuongDanhGia = soLuongDanhGia;
     }
 
-    public double getPrice() {
-        return price;
+    public double getGia() {
+        return Gia;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setGia(double gia) {
+        Gia = gia;
     }
 
-    public Bitmap getImageBitmap() {
-        return imageBitmap;
+    public Bitmap getHinh() {
+        return Hinh;
     }
 
-    public void setImageBitmap(Bitmap imageBitmap) {
-        this.imageBitmap = imageBitmap;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    // Format price to currency format
-    public String getFormattedPrice() {
-        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
-        return format.format(price);
+    public void setHinh(Bitmap hinh) {
+        Hinh = hinh;
     }
 }
