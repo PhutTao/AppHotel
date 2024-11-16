@@ -76,4 +76,6 @@ public class Homescreen_Nearbyhotel {
     public void setHinh(Bitmap hinh) {
         Hinh = hinh;
     }
+
+
 }

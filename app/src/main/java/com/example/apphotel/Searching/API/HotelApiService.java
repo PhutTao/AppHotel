@@ -7,25 +7,25 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface HotelApiService {
-    @GET("api/v1/hotel")
+    @GET("popular_hotels.php")
     Call<HotelApiRespone> getAllHotels(@Header("Authorization") String token);
 
-    @GET("api/v1/hotel/{id}")
+    @GET("popular_hotels.php")
     Call<DetailHotelApiRespone> getHotelById(
             @Header("Authorization") String token,
             @Path("id") int hotelId
     );
 
-    @GET("api/v1/hotel/popular")
+    @GET("popular_hotels.php")
     Call<HotelApiRespone> getAllPopularHotels(@Header("Authorization") String token);
 
-    @GET("api/v1/hotel/search")
+    @GET("search.php")
     Call<HotelApiRespone> getSearchHotels(
             @Header("Authorization") String token,
             @Query("keyword") String keyword
     );
 
-    @GET("api/v1/review/{id}")
+    @GET("popular_hotels.php")
     Call<ReviewHotelApiRespone> getReviewHotelById(
             @Header("Authorization") String token,
             @Path("id") int hotelId

@@ -1,5 +1,10 @@
 package com.example.apphotel.Model;
 
+import com.example.apphotel.Homescreen.HotelApiService.Home_ImageDetail;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class Hotel {
     private int id;
     private String ten;
@@ -9,8 +14,25 @@ public class Hotel {
     private double price;   // Giá khách sạn
     private double rating;  // Đánh giá
     private int reviewCount; // Số lượng đánh giá
+    @SerializedName("imageDetails")
+    private List<Home_ImageDetail> imageDetails;
+    @SerializedName("reviewQuantity")
+    private int reviewQuantity;
+    @SerializedName("isFavourited")
+    private boolean isFavourited;
+
+    public boolean isFavourited() {
+        return isFavourited;
+    }
+
+    public void setFavourited(boolean favourited) {
+        isFavourited = favourited;
+    }
 
     // Getters and Setters
+    public int getReviewQuantity() {
+        return reviewQuantity;
+    }
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -34,6 +56,12 @@ public class Hotel {
 
     public int getReviewCount() { return reviewCount; }
     public void setReviewCount(int reviewCount) { this.reviewCount = reviewCount; }
+    public List<Home_ImageDetail> getImageDetails() {
+        return imageDetails;
+    }
 
+    public void setImageDetails(List<Home_ImageDetail> imageDetails) {
+        this.imageDetails = imageDetails;
+    }
 
 }

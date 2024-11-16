@@ -8,7 +8,6 @@
             android:id="@+id/home_contentt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/homescreen_backround_homepage"
             android:fillViewport="true">
 
             <LinearLayout
@@ -61,7 +60,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:textColor="@color/white"
+                                android:textColor="@color/black"
                                 android:textSize="15sp"
                                 android:text="Đà Nẵng, Việt Nam"
                                 android:layout_gravity="center">
@@ -92,7 +91,7 @@
                         android:layout_weight="1"
                         android:text="Popular hotels"
                         android:textStyle="bold"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:layout_marginLeft="10dp">
 

@@ -1,5 +1,6 @@
 package com.example.apphotel.Homescreen.HotelApiService;
 
+import com.example.apphotel.Api.ApiResponse;
 import com.example.apphotel.Searching.Domain.Hotel;
 
 import java.util.List;
@@ -21,9 +22,9 @@ public interface Home_HotelEndpoint {
     @GET("popular_hotels.php")
     Call<List<Hotel>> getHotels();
     @GET("popular_hotels.php")
-    Call<Home_HotelsApiResponse> getHotels(@Header("Authorization") String authorization);
+    Call<ApiResponse> getHotels(@Header("Authorization") String authorization);
     @GET("popular_hotels.php")
-    Call<Home_HotelsApiResponse> getPpHotels(@Header("Authorization") String authorization);
+    Call<ApiResponse> getPpHotels(@Header("Authorization") String authorization);
     @GET("favourite_hotel.php")
     Call<Home_HotelsApiResponse> getFavoriteHotels(@Header("Authorization") String authorization);
     @GET("get_bookings.php")
