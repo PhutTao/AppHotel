@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.apphotel.Login.Activity.LoginActivity;
+import com.example.apphotel.Login.LoginActivity;
 import com.example.apphotel.R;
 import com.example.apphotel.Review.ApiService.ICallBack;
 import com.example.apphotel.Review.ApiService.ReviewEndpoint;

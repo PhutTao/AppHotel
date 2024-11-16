@@ -36,17 +36,17 @@ public interface Home_HotelEndpoint {
     Call<Home_HotelsApiResponse> deleteFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
     @PUT("change_password.php")
     Call<ResponseBody> changePassword(@Header("Authorization") String authorization, @Body Home_ChangePasswordRequest request);
-    @GET("/api/v1/user/profile/avatar")
+    @GET("upload_avatar.php")
     Call<ResponseBody> getUserAvatar(@Header("Authorization") String authorization);
     @Multipart
-    @POST("/api/v1/user/profile/avatar")
+    @POST("upload_avatar.php")
     Call<ResponseBody> uploadUserAvatar(
             @Header("Authorization") String authorization,
             @Part MultipartBody.Part image
     );
-    @GET("profile.php")
+    @GET("get_user_info.php")
     Call<Home_ProfileResponse> getUserInfo(@Header("Authorization") String authorization);
-    @POST("profile.php")
+    @POST("update_user_info.php")
     Call<Home_ProfileResponse> updateUserInfo(
             @Header("Authorization") String authorization,
             @Body Home_User updatedUserData

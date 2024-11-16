@@ -2,6 +2,8 @@ package com.example.apphotel.AdditionalProfile.Dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class UserProfile {
     @SerializedName("phone")
     private String phone;

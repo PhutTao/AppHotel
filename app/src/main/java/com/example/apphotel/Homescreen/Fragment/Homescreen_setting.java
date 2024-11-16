@@ -21,7 +21,7 @@ import com.example.apphotel.Homescreen.Activity.Homescreen_changepassword;
 import com.example.apphotel.Homescreen.Activity.Homescreen_myprofile;
 import com.example.apphotel.Homescreen.Activity.Homescreen_notifications;
 import com.example.apphotel.Homescreen.HomescreenActivity;
-import com.example.apphotel.Login.Activity.LoginActivity;
+import com.example.apphotel.Login.LoginActivity;
 import com.example.apphotel.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

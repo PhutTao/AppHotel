@@ -1,6 +1,4 @@
-package com.example.apphotel.Login.Activity;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.apphotel.Login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,14 +17,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.apphotel.Homescreen.HomescreenActivity;
 import com.example.apphotel.Login.AuthService.AuthEnpoint;
-import com.example.apphotel.Login.AuthService.AuthenticationCallback;
-import com.example.apphotel.Login.AsynTask.AuthenticationTask;
 import com.example.apphotel.Login.Fragment.ForgotPasswordBottomSheetFragment;
+import com.example.apphotel.Model.LoginResponse;
 import com.example.apphotel.R;
 import com.example.apphotel.Register.RegisterActivity;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -91,47 +94,47 @@ public class LoginActivity extends AppCompatActivity  {
         });
 
 
-
-
-
         // 3. Login
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //3.1 Nho mat khau
-                SharedPreferences sharedPreferences = getSharedPreferences("SaveCredential", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (checkBox.isChecked()) {
-                    editor.putString("email", emailText.getText().toString());
-                    editor.putString("password", passwordText.getText().toString());
+                String username = emailText.getText().toString().trim();
+                String password = passwordText.getText().toString().trim();
 
-                } else {
-                    editor.putString("email", "");
-                    editor.putString("password", "");
+                // Kiểm tra rỗng
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+                    Toast.makeText(LoginActivity.this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-
-
-                //3.2 Dang nhap
-
-                new AuthenticationTask(LoginActivity.this, new AuthenticationCallback() {
+                AuthEnpoint authEndpoint = retrofit.create(AuthEnpoint.class);
+                Call<LoginResponse> call = authEndpoint.login(username, password);
+                call.enqueue(new Callback<LoginResponse>() {
                     @Override
-                    public void onSuccess() {
-                        successLogin();
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            LoginResponse loginResponse = response.body();
+                            if (loginResponse.isSuccess()) {
+                                successLogin();
+                            } else {
+                                Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Lỗi phản hồi từ server", Toast.LENGTH_SHORT).show();
+                        }
                     }
+
+
                     @Override
-                    public void onFailure() {
-                        showFailAuthentication();
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                        Log.e("LoginError", t.getMessage());
                     }
-                }, (AuthEnpoint) retrofit.create(AuthEnpoint.class)).execute(emailText.getText().toString(), passwordText.getText().toString());
-
-
-
-
+                });
             }
-
-
         });
+
+
 
 
 

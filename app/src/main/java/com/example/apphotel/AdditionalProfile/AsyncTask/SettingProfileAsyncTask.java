@@ -1,8 +1,11 @@
 package com.example.apphotel.AdditionalProfile.AsyncTask;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.apphotel.AdditionalProfile.Utils.DateUtils;
 import com.example.apphotel.AdditionalProfile.Dto.ResponseData;
 import com.example.apphotel.AdditionalProfile.Dto.SexEnum;
 import com.example.apphotel.AdditionalProfile.Dto.UserProfile;
@@ -10,6 +13,8 @@ import com.example.apphotel.AdditionalProfile.profileApiService.ProfileApiCallBa
 import com.example.apphotel.AdditionalProfile.profileApiService.ProfileEndpoint;
 
 import java.io.File;
+import java.text.ParseException;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
