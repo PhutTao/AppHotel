@@ -7,7 +7,7 @@ public class Homescreen_PopularHotel {
     private String Ten;
     private String DiaChi;
     private double DanhGia;
-    private int SoLuongDanhGia;
+    private int ReviewQuantity;
     private double Gia;
     private Bitmap Hinh;
     private boolean isRedHeart;
@@ -17,7 +17,7 @@ public class Homescreen_PopularHotel {
         Ten = ten;
         DiaChi = diaChi;
         DanhGia = danhGia;
-        SoLuongDanhGia = soLuongDanhGia;
+        ReviewQuantity = soLuongDanhGia;
         Gia = gia;
         Hinh = hinh;
         this.isRedHeart = isRedHeart;
@@ -56,11 +56,11 @@ public class Homescreen_PopularHotel {
     }
 
     public int getSoLuongDanhGia() {
-        return SoLuongDanhGia;
+        return ReviewQuantity;
     }
 
     public void setSoLuongDanhGia(int soLuongDanhGia) {
-        SoLuongDanhGia = soLuongDanhGia;
+        ReviewQuantity = soLuongDanhGia;
     }
 
     public double getGia() {

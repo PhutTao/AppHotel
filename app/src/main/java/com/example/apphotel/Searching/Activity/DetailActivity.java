@@ -47,116 +47,90 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
         rvReviewsItem = findViewById(R.id.detail_rv_reviews_item);
         AppCompatButton bookingBtn = findViewById(R.id.detail_booking_button);
         detailBackBtn = findViewById(R.id.detail_back_button);
-        detailBackBtn = findViewById(R.id.detail_back_button);
-        TextView tvReviewsSeeAll = (TextView) findViewById(R.id.detail_tv_reviews_see_all);
+        TextView tvReviewsSeeAll = findViewById(R.id.detail_tv_reviews_see_all);
 
-
-        int hotelId;
         Intent intent = getIntent();
-        if (intent.getAction() != null && intent.getAction().toString().equals(Constants.ACTION_BOOKING_TO_DETAIL)) {
-            hotelId = intent.getIntExtra("hotelId", 0);
-        } else {
-            hotelId = intent.getIntExtra("hotelId", 0);
+        int hotelId = intent.getIntExtra("hotelId", -1);
+        if (hotelId == -1) {
+            Toast.makeText(this, "Hotel ID is missing", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         getDetailHotel(hotelId);
         getReviewById(hotelId);
 
-        detailBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, SearchingActivity.class);
-                startActivity(intent);
-            }
+        detailBackBtn.setOnClickListener(v -> onBackPressed());
+        bookingBtn.setOnClickListener(v -> {
+            Intent bookingIntent = new Intent(DetailActivity.this, BookingActivity.class);
+            bookingIntent.setAction(Constants.ACTION_DETAIL_TO_BOOKING);
+            bookingIntent.putExtra("hotelId", hotelId);
+            startActivity(bookingIntent);
         });
-
-        bookingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, BookingActivity.class);
-                intent.setAction(Constants.ACTION_DETAIL_TO_BOOKING);
-                intent.putExtra("hotelId", hotelId);
-                startActivity(intent);
-            }
+        tvReviewsSeeAll.setOnClickListener(v -> {
+            Intent reviewIntent = new Intent(DetailActivity.this, ReviewsActivity.class);
+            reviewIntent.putExtra("hotelId", hotelId);
+            startActivity(reviewIntent);
         });
-
-        tvReviewsSeeAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, ReviewsActivity.class);
-                intent.putExtra("hotelId", hotelId);
-                startActivity(intent);
-            }
-        });
-        //End onCreate()
     }
 
     private void getReviewById(int hotelId) {
-        new ReviewHotelApiCallAsyncTask(this, this).execute(hotelId);
     }
 
     private void getDetailHotel(int hotelId) {
-        new DetailHotelApiCallAsyncTask(this, this).execute(hotelId);
     }
 
     @Override
     public void onApiCallSuccess(Hotel hotel) {
-        if (hotel != null) {
-            double formattedPrice = Math.round(hotel.getPrice() / 24237);
+        if (hotel == null) {
+            Toast.makeText(this, "Failed to fetch hotel details.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            tvName = findViewById(R.id.detail_tv_hotel_name);
-            tvAddress = findViewById(R.id.detail_tv_hotel_address);
-            tvOverview = findViewById(R.id.detail_tv_overview_content);
-            tvPrice = findViewById(R.id.detail_tv_price);
+        double formattedPrice = Math.round(hotel.getPrice() / 24237);
 
+        tvName = findViewById(R.id.detail_tv_hotel_name);
+        tvAddress = findViewById(R.id.detail_tv_hotel_address);
+        tvOverview = findViewById(R.id.detail_tv_overview_content);
+        tvPrice = findViewById(R.id.detail_tv_price);
 
-            tvName.setText(hotel.getName());
-            tvAddress.setText(hotel.getAddress());
-            tvOverview.setText(hotel.getOverview());
-            tvPrice.setText("$" + formattedPrice);
+        tvName.setText(hotel.getName());
+        tvAddress.setText(hotel.getAddress());
+        tvOverview.setText(hotel.getOverview());
+        tvPrice.setText("$" + formattedPrice);
 
-            if (hotel.getImageDetails() != null && !hotel.getImageDetails().isEmpty()) {
-                ImageSlider imageSlider = findViewById(R.id.detail_img_slider);
-                ArrayList<SlideModel> slideModels = new ArrayList<>();
+        if (hotel.getImageDetails() != null && hotel.getImageDetails().size() >= 3) {
+            ImageSlider imageSlider = findViewById(R.id.detail_img_slider);
+            ArrayList<SlideModel> slideModels = new ArrayList<>();
 
-                String imageUrl1 = hotel.getImageDetails().get(1).getImg();
-                String imageUrl2 = hotel.getImageDetails().get(2).getImg();
-                String imageUrl3 = hotel.getImageDetails().get(3).getImg();
-
-                slideModels.add(new SlideModel(imageUrl1, ScaleTypes.FIT));
-                slideModels.add(new SlideModel(imageUrl2, ScaleTypes.FIT));
-                slideModels.add(new SlideModel(imageUrl3, ScaleTypes.FIT));
-
-                // Using Glide to load images
-                for (SlideModel slideModel : slideModels) {
-                    ImageView imageView = new ImageView(this);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    Glide.with(this).load(slideModel.getImageUrl()).into(imageView);
-                }
-
-                // Set the images to the ImageSlider
-                imageSlider.setImageList(slideModels, ScaleTypes.FIT);
-            } else {
+            for (int i = 0; i < 3; i++) {
+                slideModels.add(new SlideModel(hotel.getImageDetails().get(i).getImg(), ScaleTypes.FIT));
             }
+
+            imageSlider.setImageList(slideModels, ScaleTypes.FIT);
+        } else {
+            Log.e("DetailActivity", "Image details are missing or insufficient.");
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onApiCallSuccess(List<Review> reviews) {
-        if (reviews != null && reviews.size() > 0) {
+        if (reviews != null && !reviews.isEmpty()) {
             List<Review> firstTwoReviews = reviews.subList(0, Math.min(2, reviews.size()));
-            reviewHotelAdapter = new ReviewHotelAdapter(this, firstTwoReviews);
-            reviewHotelAdapter.notifyDataSetChanged();
-            rvReviewsItem.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-
-            rvReviewsItem.setAdapter(reviewHotelAdapter);
+            if (reviewHotelAdapter == null) {
+                reviewHotelAdapter = new ReviewHotelAdapter(this, firstTwoReviews);
+                rvReviewsItem.setLayoutManager(new LinearLayoutManager(this));
+                rvReviewsItem.setAdapter(reviewHotelAdapter);
+            } else {
+                reviewHotelAdapter.updateReviews(firstTwoReviews);
+            }
+        } else {
+            Toast.makeText(this, "No reviews available", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onApiCallFailure(String errorMessage) {
-        Toast.makeText(this, "Api call failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
         Log.e("API Error", errorMessage);
     }
 }

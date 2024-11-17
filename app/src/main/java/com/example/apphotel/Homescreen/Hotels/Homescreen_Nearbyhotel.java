@@ -2,6 +2,9 @@ package com.example.apphotel.Homescreen.Hotels;
 
 import android.graphics.Bitmap;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Homescreen_Nearbyhotel {
     private int hotelId;
     private String Ten;
@@ -76,6 +79,4 @@ public class Homescreen_Nearbyhotel {
     public void setHinh(Bitmap hinh) {
         Hinh = hinh;
     }
-
-
 }

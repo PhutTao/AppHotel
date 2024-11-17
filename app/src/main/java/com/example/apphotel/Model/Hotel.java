@@ -3,6 +3,7 @@ package com.example.apphotel.Model;
 import com.example.apphotel.Homescreen.HotelApiService.Home_ImageDetail;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 public class Hotel {
@@ -13,13 +14,17 @@ public class Hotel {
     private String details; // Thông tin chi tiết khách sạn
     private double price;   // Giá khách sạn
     private double rating;  // Đánh giá
-    private int reviewCount; // Số lượng đánh giá
+    private int soLuongDanhGia; // Số lượng đánh giá
     @SerializedName("imageDetails")
     private List<Home_ImageDetail> imageDetails;
     @SerializedName("reviewQuantity")
     private int reviewQuantity;
     @SerializedName("isFavourited")
     private boolean isFavourited;
+    @SerializedName("startDate")
+    private Date startDate;
+    @SerializedName("endDate")
+    private Date endDate;
 
     public boolean isFavourited() {
         return isFavourited;
@@ -35,6 +40,21 @@ public class Hotel {
     }
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     public String getTen() { return ten; }
     public void setTen(String ten) { this.ten = ten; }
@@ -54,8 +74,8 @@ public class Hotel {
     public double getRating() { return rating; }
     public void setRating(double rating) { this.rating = rating; }
 
-    public int getReviewCount() { return reviewCount; }
-    public void setReviewCount(int reviewCount) { this.reviewCount = reviewCount; }
+    public int getReviewCount() { return soLuongDanhGia; }
+    public void setReviewCount(int reviewCount) { this.soLuongDanhGia = reviewCount; }
     public List<Home_ImageDetail> getImageDetails() {
         return imageDetails;
     }

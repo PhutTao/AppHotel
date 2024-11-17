@@ -1,5 +1,8 @@
 package com.example.apphotel.Booking.Adapter;
 
+import static com.example.apphotel.Booking.Enum.PaymentMethod.*;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.apphotel.Booking.Enum.PaymentMethod;
 import com.example.apphotel.Booking.Item.BookingPaymentMethod;
+import com.example.apphotel.Booking.Item.BookingRoomType;
 import com.example.apphotel.R;
 
 import java.util.ArrayList;

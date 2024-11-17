@@ -3,6 +3,7 @@ package com.example.apphotel.Booking.Item;
 import com.example.apphotel.Booking.Enum.PaymentMethod;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class BookingPaymentMethod implements Serializable {
     private int id;

@@ -1,5 +1,6 @@
 package com.example.apphotel.Booking.Api;
 
+import com.example.apphotel.Booking.Dto.BookingDto;
 import com.example.apphotel.Booking.Dto.PaymentDto;
 
 import retrofit2.Call;

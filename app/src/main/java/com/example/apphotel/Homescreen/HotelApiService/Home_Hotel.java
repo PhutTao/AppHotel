@@ -2,9 +2,11 @@ package com.example.apphotel.Homescreen.HotelApiService;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 public class Home_Hotel {
+
     @SerializedName("id")
     private int id;
 
@@ -17,12 +19,17 @@ public class Home_Hotel {
 
     @SerializedName("imageDetails")
     private List<Home_ImageDetail> imageDetails;
-    @SerializedName("reviewQuantity")
-    private int reviewQuantity;
+
     @SerializedName("rate")
     private double rate;
     @SerializedName("isFavourited")
     private boolean isFavourited;
+    private int reviewQuantity; // Kiểm tra kiểu dữ liệu
+    // Các trường khác...
+
+    public int getReviewQuantity() {
+        return reviewQuantity;
+    }
 
     public boolean isFavourited() {
         return isFavourited;
@@ -40,13 +47,7 @@ public class Home_Hotel {
         this.rate = rate;
     }
 
-    public int getReviewQuantity() {
-        return reviewQuantity;
-    }
 
-    public void setReviewQuantity(int reviewQuantity) {
-        this.reviewQuantity = reviewQuantity;
-    }
 
     public int getId() {
         return id;

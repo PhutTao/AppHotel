@@ -1,5 +1,6 @@
 package com.example.apphotel.Booking.Adapter;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.apphotel.Booking.Activity.BookingActivity;
 import com.example.apphotel.Booking.Item.BookingRoomType;
 import com.example.apphotel.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

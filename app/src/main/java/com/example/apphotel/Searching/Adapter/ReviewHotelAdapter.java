@@ -65,6 +65,9 @@ public class ReviewHotelAdapter extends RecyclerView.Adapter<ReviewHotelAdapter.
         return reviews.size();
     }
 
+    public void updateReviews(List<Review> firstTwoReviews) {
+    }
+
     public class myViewHolder  extends RecyclerView.ViewHolder {
         TextView tvName, tvContent, tvRaing;
         ImageView avatarImg;

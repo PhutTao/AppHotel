@@ -25,10 +25,6 @@ import android.widget.ImageView;
 import android.graphics.Color;
 import android.view.ViewTreeObserver;
 import android.content.Intent;
-
-import com.example.apphotel.Api.ApiResponse;
-import com.example.apphotel.Api.ApiService;
-import com.example.apphotel.Api.RetrofitClient;
 import com.example.apphotel.Homescreen.Activity.Homescreen_myprofile;
 import com.example.apphotel.Homescreen.Adapter.Homescreen_NearbyhotelAdapter;
 import com.example.apphotel.Homescreen.Adapter.Homescreen_PopularHotelAdapter;
@@ -39,7 +35,6 @@ import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
 import com.example.apphotel.Homescreen.HotelApiService.Home_ImageDetail;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Nearbyhotel;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
-import com.example.apphotel.Model.Hotel;
 import com.example.apphotel.R;
 import com.example.apphotel.Searching.Activity.DetailActivity;
 import com.example.apphotel.Searching.Activity.SearchingActivity;
@@ -74,7 +69,6 @@ public class Homescreen_home extends Fragment {
     ArrayList<Homescreen_PopularHotel> arrayPopularHotel;
     Homescreen_NearbyhotelAdapter adapter;
     Homescreen_PopularHotelAdapter adapter_1;
-
     ProgressBar progressBar, progressBar_1;
 
     @SuppressLint("MissingInflatedId")
@@ -106,6 +100,9 @@ public class Homescreen_home extends Fragment {
         lnNearbyHotel = (LinearLayout) view.findViewById(R.id.home_lvNearbyHotel);
 
         lnPopularHotel = (LinearLayout) view.findViewById(R.id.home_lvpopularhotel);
+
+
+
 
 
         //ImageButton accout
@@ -157,20 +154,24 @@ public class Homescreen_home extends Fragment {
         @Override
         protected List<Homescreen_PopularHotel> doInBackground(Void... voids) {
             List<Homescreen_PopularHotel> result = new ArrayList<>();
-            ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-            Call<ApiResponse> call = apiService.getPopularHotels();
+            // Retrofit network request
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("jwtKey", null);
+
+            Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
+            Call<Home_HotelsApiResponse> call = hotelEndpoint.getPpHotels("Bearer " + jwtToken);
             try {
-                Response<ApiResponse> response = call.execute();
+                Response<Home_HotelsApiResponse> response = call.execute();
                 if (response.isSuccessful()) {
-                    List<Hotel> apiHotels = response.body().getData();
-                    for (Hotel apiHotel : apiHotels) {
+                    List<Home_Hotel> apiHotels = response.body().getData();
+                    for (Home_Hotel apiHotel : apiHotels) {
                         // Convert API Hotel to Homescreen_Nearbyhotel
 
                         Homescreen_PopularHotel popularHotel = new Homescreen_PopularHotel(
                                 apiHotel.getId(),
-                                apiHotel.getTen(),
-                                apiHotel.getDiaChi(),
-                                apiHotel.getRating(),
+                                apiHotel.getName(),
+                                apiHotel.getAddress(),
+                                apiHotel.getRate(),
                                 apiHotel.getReviewQuantity(),
                                 apiHotel.getPrice(),
                                 getHinhFromImageDetails(apiHotel.getImageDetails()),
@@ -221,33 +222,31 @@ public class Homescreen_home extends Fragment {
         @Override
         protected List<Homescreen_Nearbyhotel> doInBackground(Void... voids) {
             List<Homescreen_Nearbyhotel> result = new ArrayList<>();
-
             // Retrofit network request
             SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String jwtToken = sharedPreferences.getString("jwtKey", null);
 
             Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
-            Call<ApiResponse> call = hotelEndpoint.getHotels("Bearer " + jwtToken);
-
+            Call<Home_HotelsApiResponse> call = hotelEndpoint.getPpHotels("Bearer " + jwtToken);
             try {
-                Response<ApiResponse> response = call.execute();
+                Response<Home_HotelsApiResponse> response = call.execute();
                 if (response.isSuccessful()) {
-                    List<Hotel> apiHotels = response.body().getData();
-                    for (Hotel apiHotel : apiHotels) {
+                    List<Home_Hotel> apiHotels = response.body().getData();
+                    for (Home_Hotel apiHotel : apiHotels) {
                         // Convert API Hotel to Homescreen_Nearbyhotel
 
-                        Homescreen_Nearbyhotel nearbyHotel = new Homescreen_Nearbyhotel(
+                        Homescreen_Nearbyhotel nearbyhotel = new Homescreen_Nearbyhotel(
                                 apiHotel.getId(),
-                                apiHotel.getTen(),
-                                apiHotel.getDiaChi(),
-                                apiHotel.getRating(),
+                                apiHotel.getName(),
+                                apiHotel.getAddress(),
+                                apiHotel.getRate(),
                                 apiHotel.getReviewQuantity(),
                                 apiHotel.getPrice(),
                                 getHinhFromImageDetails(apiHotel.getImageDetails())
                         );
 
                         // Add to result list
-                        result.add(nearbyHotel);
+                        result.add(nearbyhotel);
                     }
                 } else {
                     Log.e("API Error", "Error response from API: " + response.message());
@@ -319,7 +318,7 @@ public class Homescreen_home extends Fragment {
         try {
             return Picasso.get()
                     .load(imageUrl)
-                    .placeholder(R.drawable.homescreen_haian)  // Set a placeholder image
+                    .placeholder(R.drawable.homescreen_muongthanh)  // Set a placeholder image
                     .error(R.drawable.homescreen_meroda)  // Set an error image
                     .get();
         } catch (IOException e) {

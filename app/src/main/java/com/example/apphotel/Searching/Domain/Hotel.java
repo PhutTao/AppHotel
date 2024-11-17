@@ -13,6 +13,14 @@ public class Hotel {
     private boolean isFavourited;
     private double rate;
 
+    private double rating;
+    private int reviews;
+
+    // Getter và Setter
+
+    public double getRating() { return rating; }
+    public int getReviews() { return reviews; }
+
     public Hotel(int id, String name, String address, double price, String overview, List<ImageDetail> imageDetails, int reviewQuantity, boolean isFavourited, double rate) {
         this.id = id;
         this.name = name;

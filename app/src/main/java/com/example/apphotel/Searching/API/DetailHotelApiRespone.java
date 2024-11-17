@@ -1,29 +1,20 @@
 package com.example.apphotel.Searching.API;
 
 import com.example.apphotel.Searching.Domain.Hotel;
+import com.google.gson.annotations.SerializedName;
 
 public class DetailHotelApiRespone {
-    private String message;
+    @SerializedName("status")
+    private String status;
+
+    @SerializedName("data")
     private Hotel data;
 
-    public DetailHotelApiRespone(String message, Hotel data) {
-        this.message = message;
-        this.data = data;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public String getStatus() {
+        return status;
     }
 
     public Hotel getData() {
         return data;
-    }
-
-    public void setData(Hotel data) {
-        this.data = data;
     }
 }

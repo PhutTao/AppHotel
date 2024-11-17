@@ -1,6 +1,5 @@
 package com.example.apphotel.Homescreen.HotelApiService;
 
-import com.example.apphotel.Api.ApiResponse;
 import com.example.apphotel.Searching.Domain.Hotel;
 
 import java.util.List;
@@ -22,9 +21,9 @@ public interface Home_HotelEndpoint {
     @GET("popular_hotels.php")
     Call<List<Hotel>> getHotels();
     @GET("popular_hotels.php")
-    Call<ApiResponse> getHotels(@Header("Authorization") String authorization);
+    Call<Home_HotelsApiResponse> getHotels(@Header("Authorization") String authorization);
     @GET("popular_hotels.php")
-    Call<ApiResponse> getPpHotels(@Header("Authorization") String authorization);
+    Call<Home_HotelsApiResponse> getPpHotels(@Header("Authorization") String authorization);
     @GET("favourite_hotel.php")
     Call<Home_HotelsApiResponse> getFavoriteHotels(@Header("Authorization") String authorization);
     @GET("get_bookings.php")
@@ -37,17 +36,17 @@ public interface Home_HotelEndpoint {
     Call<Home_HotelsApiResponse> deleteFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
     @PUT("change_password.php")
     Call<ResponseBody> changePassword(@Header("Authorization") String authorization, @Body Home_ChangePasswordRequest request);
-    @GET("upload_avatar.php")
+    @GET("/api/v1/user/profile/avatar")
     Call<ResponseBody> getUserAvatar(@Header("Authorization") String authorization);
     @Multipart
-    @POST("upload_avatar.php")
+    @POST("/api/v1/user/profile/avatar")
     Call<ResponseBody> uploadUserAvatar(
             @Header("Authorization") String authorization,
             @Part MultipartBody.Part image
     );
-    @GET("get_user_info.php")
+    @GET("profile.php")
     Call<Home_ProfileResponse> getUserInfo(@Header("Authorization") String authorization);
-    @POST("update_user_info.php")
+    @POST("profile.php")
     Call<Home_ProfileResponse> updateUserInfo(
             @Header("Authorization") String authorization,
             @Body Home_User updatedUserData

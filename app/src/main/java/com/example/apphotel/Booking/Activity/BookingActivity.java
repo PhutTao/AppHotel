@@ -3,6 +3,8 @@ package com.example.apphotel.Booking.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 //import android.util.Pair;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -33,6 +35,7 @@ import java.util.Locale;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.util.Pair;
+import androidx.lifecycle.ViewModelProvider;
 
 public class BookingActivity extends AppCompatActivity implements OnSaveClickListener {
     private FrameLayout backBtn;

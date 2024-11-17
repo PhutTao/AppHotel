@@ -81,7 +81,6 @@ public class Homescreen_NearbyhotelAdapter extends BaseAdapter {
         holder.name.setText(String.valueOf(nearbyhotel.getDanhGia()));
         holder.name.setText(String.valueOf(nearbyhotel.getSoLuongDanhGia()));
         holder.name.setText(String.valueOf(nearbyhotel.getGia()));
-
         // Tải hình ảnh từ URL
         Glide.with(context)
                 .load(nearbyhotel.getHinh())
