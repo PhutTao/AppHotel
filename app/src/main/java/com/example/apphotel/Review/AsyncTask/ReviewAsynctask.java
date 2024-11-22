@@ -10,10 +10,13 @@ import com.example.apphotel.Review.ApiService.ReviewEndpoint;
 import com.example.apphotel.Review.dto.ReviewResponse;
 import com.google.gson.internal.LinkedTreeMap;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 

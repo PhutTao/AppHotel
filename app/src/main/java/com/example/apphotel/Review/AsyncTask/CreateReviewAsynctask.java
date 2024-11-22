@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.apphotel.AdditionalProfile.Dto.ResponseData;
 import com.example.apphotel.Review.ApiService.ReviewEndpoint;
 import com.example.apphotel.Review.Fragment.ReviewCommentFragment;
+import com.example.apphotel.Review.ReviewsActivity;
 import com.example.apphotel.Review.dto.ReviewRequest;
 
 import retrofit2.Call;

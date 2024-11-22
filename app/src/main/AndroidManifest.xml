@@ -48,9 +48,9 @@
         <activity
             android:name=".Booking.Activity.BookingActivity"
             android:exported="true" />
-        <activity
-            android:name=".Booking.Activity.BookingAddCardActivity"
-            android:exported="true" />
+       <!-- <activity
+            android:name=".Homescreen.HomescreenActivity"
+            android:exported="true" />-->
         <activity
             android:name=".Booking.Activity.BookingCheckoutActivity"
             android:exported="true" />

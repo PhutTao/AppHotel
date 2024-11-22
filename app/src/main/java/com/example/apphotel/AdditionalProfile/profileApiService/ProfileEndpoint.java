@@ -12,10 +12,10 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 
 public interface ProfileEndpoint {
-    @POST("/api/v1/user/profile")
+    @POST("create_user_profile.php")
     Call<ResponseData> setProfile(@Header("Authorization") String authorization ,@Body UserProfile userProfile);
 
     @Multipart()
-    @POST("/api/v1/user/profile/avatar")
+    @POST("get_user_profile.php")
     Call<ResponseData> setAvatar(@Header("Authorization") String authorization, @Part MultipartBody.Part img);
 }

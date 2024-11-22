@@ -12,16 +12,16 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface PaymentApiService {
-    @GET("payment.php")
+    @GET("api/v1/payment")
     Call<PaymentApiResponse> getAllPayments(@Header("Authorization") String token);
 
-    @POST("payment.php")
+    @POST("/api/v1/payment")
     Call<Void> postPayment(
             @Header("Authorization") String authorization,
             @Body PaymentDto paymentDto
     );
 
-    @DELETE("payment.php")
+    @DELETE("api/v1/payment/{paymentId}")
     Call<Void> deletePayment(
             @Header("Authorization") String authorization,
             @Path("paymentId") String paymentId

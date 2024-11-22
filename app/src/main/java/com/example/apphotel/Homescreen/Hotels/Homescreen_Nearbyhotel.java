@@ -2,9 +2,6 @@ package com.example.apphotel.Homescreen.Hotels;
 
 import android.graphics.Bitmap;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class Homescreen_Nearbyhotel {
     private int hotelId;
     private String Ten;

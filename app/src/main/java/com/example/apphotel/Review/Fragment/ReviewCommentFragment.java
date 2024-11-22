@@ -3,17 +3,23 @@ package com.example.apphotel.Review.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.apphotel.R;
 import com.example.apphotel.Review.ApiService.ReviewEndpoint;
 import com.example.apphotel.Review.AsyncTask.CreateReviewAsynctask;
+
+import java.util.Objects;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -3,7 +3,10 @@ package com.example.apphotel.Homescreen.Hotels;
 
 import android.graphics.Bitmap;
 
+import com.example.apphotel.Homescreen.HotelApiService.Home_ImageDetail;
+
 import java.util.Date;
+import java.util.List;
 
 public class Homescreen_Booked {
     private int hotelId;
@@ -16,7 +19,7 @@ public class Homescreen_Booked {
     private Date NgayCheckIn;
     private Date NgayCheckOut;
 
-    public Homescreen_Booked(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, Bitmap hinh, Date ngayCheckIn, Date ngayCheckOut) {
+    public Homescreen_Booked(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia,  Bitmap hinh, Date ngayCheckIn, Date ngayCheckOut) {
         this.hotelId = hotelId;
         Ten = ten;
         DiaChi = diaChi;

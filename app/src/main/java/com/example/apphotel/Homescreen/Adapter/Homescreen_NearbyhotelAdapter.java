@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.example.apphotel.Booking.Adapter.BookingPaymentMethodAdapter;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Nearbyhotel;
 
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
@@ -20,6 +17,8 @@ public class Homescreen_NearbyhotelAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
+
+    ImageView imgHinh;
     private List<Homescreen_Nearbyhotel> nearbyHotelList;
 
     public Homescreen_NearbyhotelAdapter(Context context, int layout, List<Homescreen_Nearbyhotel> nearbyHotelList) {
@@ -43,53 +42,37 @@ public class Homescreen_NearbyhotelAdapter extends BaseAdapter {
         return 0;
     }
 
-    private static class ViewHolder {
-        TextView name;
-        TextView txtDiaChi;
-        ImageView imgHinh;
-        TextView txtDanhGia;
-        TextView txtSLDanhGia;
-        TextView txtGia;
-        ImageView heartImageView;
-    }
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
 
-    public View getView(final int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(layout, null);
 
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(layout, null);
+        // ánh xạ view
+        TextView txtTen = (TextView) view.findViewById(R.id.home_name_nearbyhotel);
+        TextView txtDiaChi = (TextView) view.findViewById(R.id.home_location_nearbyhotel);
+        ImageView imgHinh = (ImageView) view.findViewById(R.id.home_img_nearbyhotel);
+        TextView txtDanhGia = (TextView) view.findViewById(R.id.home_rate_nearbyhotel);
+        TextView txtSLDanhGia = (TextView) view.findViewById(R.id.home_SLdanhgia_nearbyhotel);
+        TextView txtGia = (TextView) view.findViewById(R.id.home_price_nearbyhotel);
 
-            holder = new Homescreen_NearbyhotelAdapter.ViewHolder();
-            holder.name = view.findViewById(R.id.home_name_nearbyhotel);
-            holder.txtDiaChi = view.findViewById(R.id.home_location_nearbyhotel);
-            holder.imgHinh = view.findViewById(R.id.home_img_nearbyhotel);
-            holder.name = view.findViewById(R.id.home_rate_nearbyhotel);
-            holder.name = view.findViewById(R.id.home_SLdanhgia_nearbyhotel);
-            holder.name = view.findViewById(R.id.home_price_nearbyhotel);
-            holder.heartImageView = view.findViewById(R.id.home_tym);
 
-            view.setTag(holder);
-        } else {
-            holder = (Homescreen_NearbyhotelAdapter.ViewHolder) view.getTag();
-        }
-
-        // Gán giá trị từ đối tượng popularHotel vào các View
+        //gán giá trị
         Homescreen_Nearbyhotel nearbyhotel = nearbyHotelList.get(i);
-        holder.name.setText(nearbyhotel.getTen());
-        holder.txtDiaChi.setText(nearbyhotel.getDiaChi());
-        holder.name.setText(String.valueOf(nearbyhotel.getDanhGia()));
-        holder.name.setText(String.valueOf(nearbyhotel.getSoLuongDanhGia()));
-        holder.name.setText(String.valueOf(nearbyhotel.getGia()));
-        // Tải hình ảnh từ URL
-        Glide.with(context)
-                .load(nearbyhotel.getHinh())
-                .placeholder(R.drawable.homescreen_haian) // Hình ảnh hiển thị trong khi tải
-                .error(R.drawable.homescreen_haian) // Hình ảnh khi xảy ra lỗi
-                .into(holder.imgHinh);
 
+        txtTen.setText(nearbyhotel.getTen());
+        txtDiaChi.setText(nearbyhotel.getDiaChi());
+        imgHinh.setImageBitmap(nearbyhotel.getHinh());
+        txtDanhGia.setText(String.valueOf(nearbyhotel.getDanhGia()));
+        txtSLDanhGia.setText(String.valueOf(nearbyhotel.getSoLuongDanhGia()));
+        txtGia.setText(String.valueOf(nearbyhotel.getGia()));
+
+        Homescreen_Nearbyhotel hotel = nearbyHotelList.get(i);
 
 
         return view;
     }
 }
+
+
+

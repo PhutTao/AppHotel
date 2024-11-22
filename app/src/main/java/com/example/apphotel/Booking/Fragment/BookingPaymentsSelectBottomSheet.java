@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.apphotel.Booking.Activity.BookingAddCardActivity;
+
 import com.example.apphotel.Booking.Activity.BookingCheckoutActivity;
 import com.example.apphotel.Booking.Adapter.BookingPaymentMethodAdapter;
 import com.example.apphotel.Booking.AsyncTask.DeletePaymentApi;
@@ -115,24 +115,12 @@ public class BookingPaymentsSelectBottomSheet extends BottomSheetDialogFragment
         itemTouchHelper.attachToRecyclerView(rvPaymentMethod);
 
         // Set up click listener for add payment button
-        setUpNavigateToAddPayment();
+
 
         // Trigger the API call
         new GetAllPaymentsApi(requireContext(), this).execute();
     }
 
-    private void setUpNavigateToAddPayment() {
-        addPaymentBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), BookingAddCardActivity.class);
-            intent.setAction(Constants.ACTION_CHECKOUT_TO_ADDCARD);
-
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("bookingFormData", (Serializable) bookingFormDetailData);
-            intent.putExtras(bundle);
-
-            startActivity(intent);
-        });
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

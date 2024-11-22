@@ -2,6 +2,9 @@ package com.example.apphotel.Review.ApiService;
 
 import com.example.apphotel.AdditionalProfile.Dto.ResponseData;
 import com.example.apphotel.Review.dto.ReviewRequest;
+import com.example.apphotel.Review.dto.ReviewResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

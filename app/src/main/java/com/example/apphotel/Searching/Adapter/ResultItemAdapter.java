@@ -12,11 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.request.target.ImageViewTargetFactory;
 import com.example.apphotel.R;
 import com.example.apphotel.Searching.Activity.DetailActivity;
 import com.example.apphotel.Searching.Domain.Hotel;
+import com.example.apphotel.Searching.Domain.ResultItemDomain;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.resultItemHolder> {

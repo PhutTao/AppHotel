@@ -14,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apphotel.R;
+import com.example.apphotel.Searching.Domain.Hotel;
 import com.example.apphotel.Searching.Domain.Review;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -63,9 +65,6 @@ public class ReviewHotelAdapter extends RecyclerView.Adapter<ReviewHotelAdapter.
     @Override
     public int getItemCount() {
         return reviews.size();
-    }
-
-    public void updateReviews(List<Review> firstTwoReviews) {
     }
 
     public class myViewHolder  extends RecyclerView.ViewHolder {

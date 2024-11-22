@@ -1,8 +1,11 @@
 package com.example.apphotel.Review;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,16 +21,19 @@ import android.widget.Toast;
 
 import com.example.apphotel.Login.LoginActivity;
 import com.example.apphotel.R;
+import com.example.apphotel.Review.Adapter.ReviewAdapter;
 import com.example.apphotel.Review.ApiService.ICallBack;
 import com.example.apphotel.Review.ApiService.ReviewEndpoint;
 import com.example.apphotel.Review.AsyncTask.ReviewAsynctask;
 import com.example.apphotel.Review.Fragment.ReviewCommentFragment;
 import com.example.apphotel.Review.Fragment.ReviewListFragment;
+import com.example.apphotel.Review.Model.Review;
 import com.example.apphotel.Review.dto.ReviewResponse;
 import com.example.apphotel.Searching.Activity.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

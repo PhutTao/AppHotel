@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.apphotel.Booking.Activity.BookingActivity;
 import com.example.apphotel.R;
 import com.example.apphotel.Searching.Activity.DetailActivity;
+import com.example.apphotel.Searching.Activity.SearchingResultsActivity;
 import com.example.apphotel.Searching.Domain.Hotel;
+import com.example.apphotel.Searching.Domain.LastSearchDomain;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

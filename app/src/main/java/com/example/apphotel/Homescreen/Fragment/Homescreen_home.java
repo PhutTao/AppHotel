@@ -136,7 +136,7 @@ public class Homescreen_home extends Fragment {
         });
 
 
-         //Intent searching
+        //Intent searching
         btn_seach = (ImageView) view.findViewById(R.id.home_btn_search);
         btn_seach.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,14 +166,15 @@ public class Homescreen_home extends Fragment {
                     List<Home_Hotel> apiHotels = response.body().getData();
                     for (Home_Hotel apiHotel : apiHotels) {
                         // Convert API Hotel to Homescreen_Nearbyhotel
-
+                        double formattedRate = Math.round(apiHotel.getRate() * 10.0) / 10.0;
+                        double formattedPrice = Math.round(apiHotel.getGia() / 24237);
                         Homescreen_PopularHotel popularHotel = new Homescreen_PopularHotel(
                                 apiHotel.getId(),
                                 apiHotel.getName(),
                                 apiHotel.getAddress(),
-                                apiHotel.getRate(),
+                                formattedRate,
                                 apiHotel.getReviewQuantity(),
-                                apiHotel.getPrice(),
+                                formattedPrice,
                                 getHinhFromImageDetails(apiHotel.getImageDetails()),
                                 apiHotel.isFavourited()
                         );
@@ -222,31 +223,34 @@ public class Homescreen_home extends Fragment {
         @Override
         protected List<Homescreen_Nearbyhotel> doInBackground(Void... voids) {
             List<Homescreen_Nearbyhotel> result = new ArrayList<>();
+
             // Retrofit network request
             SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String jwtToken = sharedPreferences.getString("jwtKey", null);
 
             Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
-            Call<Home_HotelsApiResponse> call = hotelEndpoint.getPpHotels("Bearer " + jwtToken);
+            Call<Home_HotelsApiResponse> call = hotelEndpoint.getHotels("Bearer " + jwtToken);
+
             try {
                 Response<Home_HotelsApiResponse> response = call.execute();
                 if (response.isSuccessful()) {
                     List<Home_Hotel> apiHotels = response.body().getData();
                     for (Home_Hotel apiHotel : apiHotels) {
                         // Convert API Hotel to Homescreen_Nearbyhotel
-
-                        Homescreen_Nearbyhotel nearbyhotel = new Homescreen_Nearbyhotel(
+                        double formattedRate = Math.round(apiHotel.getRate() * 10.0) / 10.0;
+                        double formattedPrice = Math.round(apiHotel.getGia() / 24237);
+                        Homescreen_Nearbyhotel nearbyHotel = new Homescreen_Nearbyhotel(
                                 apiHotel.getId(),
                                 apiHotel.getName(),
                                 apiHotel.getAddress(),
-                                apiHotel.getRate(),
+                                formattedRate,
                                 apiHotel.getReviewQuantity(),
-                                apiHotel.getPrice(),
+                                formattedPrice,
                                 getHinhFromImageDetails(apiHotel.getImageDetails())
                         );
 
                         // Add to result list
-                        result.add(nearbyhotel);
+                        result.add(nearbyHotel);
                     }
                 } else {
                     Log.e("API Error", "Error response from API: " + response.message());

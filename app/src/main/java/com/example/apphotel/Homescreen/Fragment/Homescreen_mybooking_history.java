@@ -82,7 +82,7 @@ private class HotelsAsyncTask extends AsyncTask<Void, Void, List<Homescreen_Near
                         Home_Hotel apiTymHotel = hotelResponse.body().getData();
                         // Convert API Hotel to Homescreen_Nearbyhotel
                         double formattedRate = Math.round(apiTymHotel.getRate() * 10.0) / 10.0;
-                        double formattedPrice = Math.round(apiHotel.getPrice() / 24237);
+                        double formattedPrice = Math.round(apiHotel.getGia() / 24237);
                         Homescreen_Nearbyhotel nearbyHotel = new Homescreen_Nearbyhotel(
                                 apiHotel.getId(),
                                 apiHotel.getName(),

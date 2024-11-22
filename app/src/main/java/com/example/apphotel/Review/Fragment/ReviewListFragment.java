@@ -5,13 +5,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apphotel.R;
 import com.example.apphotel.Review.Adapter.ReviewAdapter;
+import com.example.apphotel.Review.ReviewsActivity;
 import com.example.apphotel.Review.dto.ReviewResponse;
 
 import java.util.List;

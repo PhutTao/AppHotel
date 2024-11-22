@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import com.example.apphotel.Api.ApiService;
-import com.example.apphotel.Api.RetrofitClient;
 import com.example.apphotel.Searching.API.HotelApiRespone;
 import com.example.apphotel.Searching.API.HotelApiService;
 import com.example.apphotel.Searching.API.HotelRetrofitClient;
@@ -37,7 +35,7 @@ public class PopularHotelApiCallAsyncTask extends AsyncTask<Void, Void, List<Hot
         String authToken = preferences.getString("jwtKey", null);
         if (authToken != null) {
             try {
-                ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+                HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
                 Call<HotelApiRespone> call = apiService.getAllPopularHotels("Bearer " + authToken);
 
                 Response<HotelApiRespone> response = call.execute();

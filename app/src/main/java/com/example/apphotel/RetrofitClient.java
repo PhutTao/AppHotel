@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://localhost:3000"; // Địa chỉ server Node.js của bạn
+    private static final String BASE_URL = "http://10.0.2.2/api_hotels/"; // Địa chỉ server Node.js của bạn
 
     // Lấy Retrofit instance
     public static Retrofit getRetrofitInstance() {

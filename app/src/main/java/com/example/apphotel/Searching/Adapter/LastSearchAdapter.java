@@ -16,6 +16,7 @@ import com.example.apphotel.Searching.Activity.SearchingResultsActivity;
 import com.example.apphotel.Searching.Domain.LastSearchDomain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LastSearchAdapter extends RecyclerView.Adapter<LastSearchAdapter.lastSearchHolder> {
     Context context;

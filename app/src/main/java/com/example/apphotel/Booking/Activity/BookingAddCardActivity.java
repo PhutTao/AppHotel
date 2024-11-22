@@ -1,3 +1,4 @@
+/*
 package com.example.apphotel.Booking.Activity;
 
 import android.content.Context;
@@ -201,3 +202,4 @@ public class BookingAddCardActivity extends AppCompatActivity {
         });
     }
 }
+*/

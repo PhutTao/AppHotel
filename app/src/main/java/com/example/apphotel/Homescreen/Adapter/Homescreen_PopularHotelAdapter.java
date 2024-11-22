@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiClient;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelsApiResponse;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
@@ -61,63 +60,39 @@ public class Homescreen_PopularHotelAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
-        if (view == null) {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(layout, null);
-
+            convertView = inflater.inflate(layout, null);
             holder = new ViewHolder();
-            holder.txtTen = view.findViewById(R.id.home_name_popularhotel);
-            holder.txtDiaChi = view.findViewById(R.id.home_location_popularhotel);
-            holder.imgHinh = view.findViewById(R.id.home_img_popularhotel);
-            holder.txtDanhGia = view.findViewById(R.id.home_rate_popularhotel);
-            holder.txtSLDanhGia = view.findViewById(R.id.home_SLdanhgia_popularhotel);
-            holder.txtGia = view.findViewById(R.id.home_price_popularhotel);
-            holder.heartImageView = view.findViewById(R.id.home_tym);
-
-            view.setTag(holder);
+            holder.txtTen = convertView.findViewById(R.id.home_name_popularhotel);
+            holder.txtGia = convertView.findViewById(R.id.home_price_popularhotel);
+            holder.txtSLDanhGia = convertView.findViewById(R.id.home_SLdanhgia_popularhotel);
+            holder.txtDanhGia = convertView.findViewById(R.id.home_rate_popularhotel);
+            holder.imgHinh = convertView.findViewById(R.id.home_img_popularhotel);
+            convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) view.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        // Gán giá trị từ đối tượng popularHotel vào các View
-        Homescreen_PopularHotel popularHotel = popularHotelList.get(i);
-        holder.txtTen.setText(popularHotel.getTen());
-        holder.txtDiaChi.setText(popularHotel.getDiaChi());
-        holder.txtDanhGia.setText(String.valueOf(popularHotel.getDanhGia()));
-        holder.txtSLDanhGia.setText(String.valueOf(popularHotel.getSoLuongDanhGia()));
-        holder.txtGia.setText(String.valueOf(popularHotel.getGia()));
+        Homescreen_PopularHotel hotel = popularHotelList.get(position);
 
-        // Tải hình ảnh từ URL
-        Glide.with(context)
-                .load(popularHotel.getHinh())
-                .placeholder(R.drawable.homescreen_novotel) // Hình ảnh hiển thị trong khi tải
-                .error(R.drawable.homescreen_novotel) // Hình ảnh khi xảy ra lỗi
-                .into(holder.imgHinh);
+        holder.txtTen.setText(hotel.getTen());
+        holder.txtGia.setText(String.format("$%.2f/Day", hotel.getGia()));
+        holder.txtSLDanhGia.setText(String.format("(%d)", hotel.getSoLuongDanhGia()));
+        holder.txtDanhGia.setText(String.format("%.1f⭐", hotel.getDanhGia()));
 
-        // Đổi màu trái tim khi trạng thái thay đổi
-        holder.heartImageView.setImageResource(popularHotel.isRedHeart() ? R.drawable.homescreen_heart_red : R.drawable.homescreen_heart_white);
+        // Load image with Picasso or other library
+        if (hotel.getHinh() != null) {
+            holder.imgHinh.setImageBitmap(hotel.getHinh());
+        } else {
+            holder.imgHinh.setImageResource(R.drawable.homescreen_haian);
+        }
 
-        // Xử lý sự kiện khi click vào hình trái tim
-        holder.heartImageView.setOnClickListener(v -> {
-            boolean currentState = popularHotel.isRedHeart();
-            popularHotel.setRedHeart(!currentState);
-
-            // Cập nhật trạng thái hình trái tim
-            holder.heartImageView.setImageResource(popularHotel.isRedHeart() ? R.drawable.homescreen_heart_red : R.drawable.homescreen_heart_white);
-
-            // Thực hiện gọi API tương ứng
-            if (popularHotel.isRedHeart()) {
-                addToFavorites(popularHotel.getHotelId());
-            } else {
-                removeFromFavorites(popularHotel.getHotelId());
-            }
-        });
-
-        return view;
+        return convertView;
     }
+
 
 
     private void addToFavorites(int hotelId) {

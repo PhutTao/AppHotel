@@ -1,5 +1,7 @@
 package com.example.apphotel.Login;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,14 +19,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.apphotel.Homescreen.HomescreenActivity;
+
 import com.example.apphotel.Login.AuthService.AuthEnpoint;
+import com.example.apphotel.Login.AuthService.AuthenticationCallback;
+
 import com.example.apphotel.Login.Fragment.ForgotPasswordBottomSheetFragment;
 import com.example.apphotel.Model.LoginResponse;
 import com.example.apphotel.R;
 import com.example.apphotel.Register.RegisterActivity;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -8,13 +8,6 @@ public class HotelApiRespone {
     private String message;
     private List<Hotel> data;
     private String status;
-    private boolean success;
-
-
-    public boolean isSuccess() { return success; }
-    public void setSuccess(boolean success) { this.success = success; }
-
-
 
     public HotelApiRespone(String message, List<Hotel> data, String status) {
         this.message = message;

@@ -3,14 +3,10 @@ package com.example.apphotel.Searching.AsyncTask;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.example.apphotel.Api.ApiService;
-import com.example.apphotel.Api.RetrofitClient;
 import com.example.apphotel.Searching.API.DetailHotelApiRespone;
 import com.example.apphotel.Searching.API.HotelApiService;
 import com.example.apphotel.Searching.API.HotelRetrofitClient;
-import com.example.apphotel.Searching.API.ReviewHotelApiRespone;
 import com.example.apphotel.Searching.Domain.Hotel;
 
 import java.io.IOException;
@@ -41,29 +37,23 @@ public class DetailHotelApiCallAsyncTask extends AsyncTask<Integer, Void, Hotel>
 
         if (authToken != null) {
             try {
-                ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-                Call<DetailHotelApiRespone> call = apiService.getHotelById(hotelId, "Bearer " + authToken);
+                HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
+                Call<DetailHotelApiRespone> call = apiService.getHotelById("Bearer " + authToken, hotelId);
 
                 Response<DetailHotelApiRespone> response = call.execute();
-
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d("API Call", "Response success: " + response.body());
                     return response.body().getData();
                 } else {
-                    Log.e("API Call", "Response error: " + response.message());
                     return null;
                 }
             } catch (IOException e) {
-                Log.e("API Call", "Exception: " + e.getMessage());
                 e.printStackTrace();
                 return null;
             }
         } else {
-            Log.e("API Call", "Auth token is null");
             return null;
         }
     }
-
 
     @Override
     protected void onPostExecute(Hotel hotel) {

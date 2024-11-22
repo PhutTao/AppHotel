@@ -7,16 +7,33 @@ import java.util.Date;
 public class Home_Booked {
     @SerializedName("id")
     private int id;
-    @SerializedName("startDate")
+
+    @SerializedName("NgayCheckIn")
     private Date startDate;
-    @SerializedName("endDate")
+
+    @SerializedName("NgayCheckOut")
     private Date endDate;
-    @SerializedName("hotelRate")
+
+    @SerializedName("DanhGia")
     private double hotelRate;
-    @SerializedName("reviewQuantity")
+
+    @SerializedName("SoLuongDanhGia")
     private int reviewQuantity;
-    @SerializedName("hotelId")
+
+    @SerializedName("hotel_id")
     private int hotelId;
+
+    @SerializedName("Ten")
+    private String hotelName;
+
+    @SerializedName("DiaChi")
+    private String hotelAddress;
+
+    @SerializedName("Gia")
+    private double price;
+
+    @SerializedName("Hinh")
+    private String imageUrl;
 
     public int getId() {
         return id;
@@ -64,5 +81,37 @@ public class Home_Booked {
 
     public void setHotelId(int hotelId) {
         this.hotelId = hotelId;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public String getHotelAddress() {
+        return hotelAddress;
+    }
+
+    public void setHotelAddress(String hotelAddress) {
+        this.hotelAddress = hotelAddress;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

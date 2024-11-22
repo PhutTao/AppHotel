@@ -3,26 +3,6 @@ package com.example.apphotel.Homescreen.Hotels;
 import android.graphics.Bitmap;
 
 public class Homescreen_PopularHotel {
-    private int hotelId;
-    private String Ten;
-    private String DiaChi;
-    private double DanhGia;
-    private int ReviewQuantity;
-    private double Gia;
-    private Bitmap Hinh;
-    private boolean isRedHeart;
-
-    public Homescreen_PopularHotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, Bitmap hinh, boolean isRedHeart) {
-        this.hotelId = hotelId;
-        Ten = ten;
-        DiaChi = diaChi;
-        DanhGia = danhGia;
-        ReviewQuantity = soLuongDanhGia;
-        Gia = gia;
-        Hinh = hinh;
-        this.isRedHeart = isRedHeart;
-    }
-
     public int getHotelId() {
         return hotelId;
     }
@@ -32,58 +12,79 @@ public class Homescreen_PopularHotel {
     }
 
     public String getTen() {
-        return Ten;
+        return ten;
     }
 
     public void setTen(String ten) {
-        Ten = ten;
+        this.ten = ten;
     }
 
     public String getDiaChi() {
-        return DiaChi;
+        return diaChi;
     }
 
     public void setDiaChi(String diaChi) {
-        DiaChi = diaChi;
+        this.diaChi = diaChi;
     }
 
-    public double getDanhGia() {
-        return DanhGia;
-    }
-
-    public void setDanhGia(double danhGia) {
-        DanhGia = danhGia;
-    }
-
-    public int getSoLuongDanhGia() {
-        return ReviewQuantity;
+    public void setDanhGia(float danhGia) {
+        this.danhGia = danhGia;
     }
 
     public void setSoLuongDanhGia(int soLuongDanhGia) {
-        ReviewQuantity = soLuongDanhGia;
-    }
-
-    public double getGia() {
-        return Gia;
+        this.soLuongDanhGia = soLuongDanhGia;
     }
 
     public void setGia(double gia) {
-        Gia = gia;
+        this.gia = gia;
     }
 
     public Bitmap getHinh() {
-        return Hinh;
+        return hinh;
     }
 
     public void setHinh(Bitmap hinh) {
-        Hinh = hinh;
+        this.hinh = hinh;
     }
 
-    public boolean isRedHeart() {
-        return isRedHeart;
+    public boolean isFavourited() {
+        return isFavourited;
     }
 
-    public void setRedHeart(boolean redHeart) {
-        isRedHeart = redHeart;
+    public void setFavourited(boolean favourited) {
+        isFavourited = favourited;
+    }
+
+    private int hotelId;
+    private String ten;
+    private String diaChi;
+    private double danhGia;
+    private int soLuongDanhGia;
+    private double gia;
+    private Bitmap hinh;
+    private boolean isFavourited;
+
+    // Constructor
+    public Homescreen_PopularHotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, Bitmap hinh, boolean isFavourited) {
+        this.hotelId = hotelId;
+        this.ten = ten;
+        this.diaChi = diaChi;
+        this.danhGia = danhGia;
+        this.soLuongDanhGia = soLuongDanhGia;
+        this.gia = gia;
+        this.hinh = hinh;
+        this.isFavourited = isFavourited;
+    }
+
+    public double getGia() {
+        return gia;
+    }
+
+    public int getSoLuongDanhGia() {
+        return soLuongDanhGia;
+    }
+
+    public double getDanhGia() {
+        return danhGia;
     }
 }

@@ -3,8 +3,9 @@ package com.example.apphotel.Homescreen.HotelApiService;
 import com.google.gson.annotations.SerializedName;
 
 public class Home_ImageDetail {
-    @SerializedName("img")
-    private String imageUrl;
+    public Home_ImageDetail(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -13,5 +14,10 @@ public class Home_ImageDetail {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    @SerializedName("hinhAnh")
+    private String imageUrl;
+
+
 }
 
