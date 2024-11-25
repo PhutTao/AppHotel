@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Nearbyhotel;
 
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
@@ -15,64 +17,84 @@ import java.util.List;
 
 public class Homescreen_NearbyhotelAdapter extends BaseAdapter {
 
+
     private Context context;
     private int layout;
+    private List<Homescreen_Nearbyhotel> nearbyhotelList;
 
-    ImageView imgHinh;
-    private List<Homescreen_Nearbyhotel> nearbyHotelList;
-
-    public Homescreen_NearbyhotelAdapter(Context context, int layout, List<Homescreen_Nearbyhotel> nearbyHotelList) {
+    public Homescreen_NearbyhotelAdapter(Context context, int layout, List<Homescreen_Nearbyhotel> nearbyhotelList) {
         this.context = context;
         this.layout = layout;
-        this.nearbyHotelList = nearbyHotelList;
+        this.nearbyhotelList = nearbyhotelList;
     }
 
     @Override
     public int getCount() {
-        return nearbyHotelList.size();
+        return nearbyhotelList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return nearbyhotelList.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
+    }
+
+    private static class ViewHolder {
+        TextView txtTen;
+        TextView txtDiaChi;
+        ImageView imgHinh;
+        TextView txtDanhGia;
+        TextView txtSLDanhGia;
+        TextView txtGia;
+        ImageView heartImageView;
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
+        ViewHolder holder;
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(layout, null);
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(layout, null);
 
-        // ánh xạ view
-        TextView txtTen = (TextView) view.findViewById(R.id.home_name_nearbyhotel);
-        TextView txtDiaChi = (TextView) view.findViewById(R.id.home_location_nearbyhotel);
-        ImageView imgHinh = (ImageView) view.findViewById(R.id.home_img_nearbyhotel);
-        TextView txtDanhGia = (TextView) view.findViewById(R.id.home_rate_nearbyhotel);
-        TextView txtSLDanhGia = (TextView) view.findViewById(R.id.home_SLdanhgia_nearbyhotel);
-        TextView txtGia = (TextView) view.findViewById(R.id.home_price_nearbyhotel);
+            holder = new Homescreen_NearbyhotelAdapter.ViewHolder();
+            holder.txtTen = view.findViewById(R.id.home_name_nearbyhotel);
+            holder.txtDiaChi = view.findViewById(R.id.home_location_nearbyhotel);
+            holder.imgHinh = view.findViewById(R.id.home_img_nearbyhotel);
+            holder.txtDanhGia = view.findViewById(R.id.home_rate_nearbyhotel);
+            holder.txtSLDanhGia = view.findViewById(R.id.home_SLdanhgia_nearbyhotel);
+            holder.txtGia = view.findViewById(R.id.home_price_nearbyhotel);
 
 
-        //gán giá trị
-        Homescreen_Nearbyhotel nearbyhotel = nearbyHotelList.get(i);
+            view.setTag(holder);
+        } else {
+            holder = (Homescreen_NearbyhotelAdapter.ViewHolder) view.getTag();
+        }
 
-        txtTen.setText(nearbyhotel.getTen());
-        txtDiaChi.setText(nearbyhotel.getDiaChi());
-        imgHinh.setImageBitmap(nearbyhotel.getHinh());
-        txtDanhGia.setText(String.valueOf(nearbyhotel.getDanhGia()));
-        txtSLDanhGia.setText(String.valueOf(nearbyhotel.getSoLuongDanhGia()));
-        txtGia.setText(String.valueOf(nearbyhotel.getGia()));
+        // Gán giá trị
+        Homescreen_Nearbyhotel nearbyhotel = nearbyhotelList.get(i);
 
-        Homescreen_Nearbyhotel hotel = nearbyHotelList.get(i);
+        holder.txtTen.setText(nearbyhotel.getTen());
+        holder.txtDiaChi.setText(nearbyhotel.getDiaChi());
+        holder.imgHinh.setImageBitmap(nearbyhotel.getHinh());
+        holder.txtDanhGia.setText(String.valueOf(nearbyhotel.getDanhGia()));
+        holder.txtSLDanhGia.setText(String.valueOf(nearbyhotel.getSoLuongDanhGia()));
+        holder.txtGia.setText(String.valueOf(nearbyhotel.getGia()));
+
+        // Tải hình ảnh từ URL
+        Glide.with(context)
+                .load(nearbyhotel.getHinh())
+                .placeholder(R.drawable.homescreen_haian) // Hình ảnh hiển thị trong khi tải
+                .error(R.drawable.homescreen_haian) // Hình ảnh khi xảy ra lỗi
+                .into(holder.imgHinh);
+
+        // Xử lý sự kiện khi click vào hình trái tim
 
 
         return view;
     }
 }
-
-
-

@@ -3,6 +3,7 @@ package com.example.apphotel.Searching.AsyncTask;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.apphotel.Searching.API.DetailHotelApiRespone;
 import com.example.apphotel.Searching.API.HotelApiService;
@@ -15,8 +16,10 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class DetailHotelApiCallAsyncTask extends AsyncTask<Integer, Void, Hotel> {
+    private static final String TAG = "DetailHotelApiCall";
     private Context context;
     private ApiCallListener listener;
+    private String errorMessage = "";
 
     public interface ApiCallListener {
         void onApiCallSuccess(Hotel hotel);
@@ -32,27 +35,22 @@ public class DetailHotelApiCallAsyncTask extends AsyncTask<Integer, Void, Hotel>
     protected Hotel doInBackground(Integer... params) {
         int hotelId = params[0];
 
-        SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String authToken = preferences.getString("jwtKey", null);
+        HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
+        Call<DetailHotelApiRespone> call = apiService.getHotelById(hotelId);
 
-        if (authToken != null) {
-            try {
-                HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
-                Call<DetailHotelApiRespone> call = apiService.getHotelById("Bearer " + authToken, hotelId);
-
-                Response<DetailHotelApiRespone> response = call.execute();
-                if (response.isSuccessful() && response.body() != null) {
-                    return response.body().getData();
-                } else {
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            Response<DetailHotelApiRespone> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().getData();
+            } else {
                 return null;
             }
-        } else {
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
+
+
     }
 
     @Override
@@ -62,7 +60,7 @@ public class DetailHotelApiCallAsyncTask extends AsyncTask<Integer, Void, Hotel>
         if (hotel != null) {
             listener.onApiCallSuccess(hotel);
         } else {
-            listener.onApiCallFailure("API call failed");
+            listener.onApiCallFailure(errorMessage.isEmpty() ? "Failed to fetch hotel details." : errorMessage);
         }
     }
 }

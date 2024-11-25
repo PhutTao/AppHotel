@@ -21,6 +21,8 @@ import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.apphotel.Booking.Activity.BookingActivity;
 import com.example.apphotel.Booking.Constants.Constants;
+import com.example.apphotel.Homescreen.Fragment.Homescreen_home;
+import com.example.apphotel.MainActivity;
 import com.example.apphotel.R;
 import com.example.apphotel.Review.ReviewsActivity;
 import com.example.apphotel.Searching.Adapter.ResultItemAdapter;
@@ -33,7 +35,7 @@ import com.example.apphotel.Searching.Domain.Review;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailActivity extends AppCompatActivity implements DetailHotelApiCallAsyncTask.ApiCallListener, ReviewHotelApiCallAsyncTask.ApiCallListener {
+public class DetailActivity extends AppCompatActivity implements DetailHotelApiCallAsyncTask.ApiCallListener {
     TextView tvName, tvAddress, tvOverview, tvPrice;
     RecyclerView rvReviewsItem;
     ImageButton detailBackBtn;
@@ -61,12 +63,12 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
         }
 
         getDetailHotel(hotelId);
-        getReviewById(hotelId);
+
 
         detailBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, SearchingActivity.class);
+                Intent intent = new Intent(DetailActivity.this, Homescreen_home.class);
                 startActivity(intent);
             }
         });
@@ -92,9 +94,7 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
         //End onCreate()
     }
 
-    private void getReviewById(int hotelId) {
-        new ReviewHotelApiCallAsyncTask(this, this).execute(hotelId);
-    }
+
 
     private void getDetailHotel(int hotelId) {
         new DetailHotelApiCallAsyncTask(this, this).execute(hotelId);
@@ -103,7 +103,8 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
     @Override
     public void onApiCallSuccess(Hotel hotel) {
         if (hotel != null) {
-            double formattedPrice = Math.round(hotel.getPrice() / 24237);
+            double formattedPrice = Math.round(hotel.getPrice()
+            );
 
             tvName = findViewById(R.id.detail_tv_hotel_name);
             tvAddress = findViewById(R.id.detail_tv_hotel_address);
@@ -133,18 +134,7 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
-    @Override
-    public void onApiCallSuccess(List<Review> reviews) {
-        if (reviews != null && reviews.size() > 0) {
-            List<Review> firstTwoReviews = reviews.subList(0, Math.min(2, reviews.size()));
-            reviewHotelAdapter = new ReviewHotelAdapter(this, firstTwoReviews);
-            reviewHotelAdapter.notifyDataSetChanged();
-            rvReviewsItem.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
-            rvReviewsItem.setAdapter(reviewHotelAdapter);
-        }
-    }
 
     @Override
     public void onApiCallFailure(String errorMessage) {

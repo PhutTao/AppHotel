@@ -2,39 +2,38 @@ package com.example.apphotel.Homescreen.HotelApiService;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 public class Home_Booked {
     @SerializedName("id")
     private int id;
 
     @SerializedName("NgayCheckIn")
-    private Date startDate;
+    private String ngayCheckIn;
 
     @SerializedName("NgayCheckOut")
-    private Date endDate;
+    private String ngayCheckOut;
 
     @SerializedName("DanhGia")
-    private double hotelRate;
+    private double danhGia;
 
     @SerializedName("SoLuongDanhGia")
-    private int reviewQuantity;
+    private int soLuongDanhGia;
 
     @SerializedName("hotel_id")
     private int hotelId;
 
     @SerializedName("Ten")
-    private String hotelName;
+    private String ten;
 
     @SerializedName("DiaChi")
-    private String hotelAddress;
+    private String diaChi;
 
     @SerializedName("Gia")
-    private double price;
+    private double gia;
 
     @SerializedName("Hinh")
-    private String imageUrl;
+    private String hinh;
 
+    // Getter và Setter cho id
     public int getId() {
         return id;
     }
@@ -43,38 +42,43 @@ public class Home_Booked {
         this.id = id;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    // Getter và Setter cho ngày check-in
+    public String getNgayCheckIn() {
+        return ngayCheckIn;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setNgayCheckIn(String ngayCheckIn) {
+        this.ngayCheckIn = ngayCheckIn;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    // Getter và Setter cho ngày check-out
+    public String getNgayCheckOut() {
+        return ngayCheckOut;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setNgayCheckOut(String ngayCheckOut) {
+        this.ngayCheckOut = ngayCheckOut;
     }
 
-    public double getHotelRate() {
-        return hotelRate;
+    // Getter và Setter cho đánh giá
+    public double getDanhGia() {
+        return danhGia;
     }
 
-    public void setHotelRate(double hotelRate) {
-        this.hotelRate = hotelRate;
+    public void setDanhGia(double danhGia) {
+        this.danhGia = danhGia;
     }
 
-    public int getReviewQuantity() {
-        return reviewQuantity;
+    // Getter và Setter cho số lượng đánh giá
+    public int getSoLuongDanhGia() {
+        return soLuongDanhGia;
     }
 
-    public void setReviewQuantity(int reviewQuantity) {
-        this.reviewQuantity = reviewQuantity;
+    public void setSoLuongDanhGia(int soLuongDanhGia) {
+        this.soLuongDanhGia = soLuongDanhGia;
     }
 
+    // Getter và Setter cho hotelId
     public int getHotelId() {
         return hotelId;
     }
@@ -83,35 +87,39 @@ public class Home_Booked {
         this.hotelId = hotelId;
     }
 
-    public String getHotelName() {
-        return hotelName;
+    // Getter và Setter cho tên khách sạn
+    public String getTen() {
+        return ten;
     }
 
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
-    public String getHotelAddress() {
-        return hotelAddress;
+    // Getter và Setter cho địa chỉ
+    public String getDiaChi() {
+        return diaChi;
     }
 
-    public void setHotelAddress(String hotelAddress) {
-        this.hotelAddress = hotelAddress;
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
     }
 
-    public double getPrice() {
-        return price;
+    // Getter và Setter cho giá
+    public double getGia() {
+        return gia;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setGia(double gia) {
+        this.gia = gia;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    // Getter và Setter cho hình ảnh
+    public String getHinh() {
+        return hinh;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setHinh(String hinh) {
+        this.hinh = hinh;
     }
 }

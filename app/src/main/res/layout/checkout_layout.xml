@@ -159,7 +159,6 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <!-- Checkout Information -->
     <LinearLayout
         android:id="@+id/checkout_summary_information"
@@ -464,14 +463,12 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <!-- Checkout Select Payment -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="586dp"
         android:orientation="vertical">
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -501,7 +498,7 @@
         android:id="@+id/checkout_confirm_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="640dp"
+        android:layout_marginTop="678dp"
         android:background="@drawable/booking_button_shape"
         android:text="Confirm Booking"
         android:textAllCaps="false"

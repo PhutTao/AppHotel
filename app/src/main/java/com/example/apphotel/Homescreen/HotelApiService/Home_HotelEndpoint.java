@@ -26,35 +26,35 @@ public interface Home_HotelEndpoint {
 
     @POST("fetch_bookings.php")
     Call<List<Home_Booked>> fetchBookings();
-    @GET("popular_hotels.php")
+    @GET("Homescreen/popular_hotels.php")  /*done*/
     Call<List<Hotel>> getHotels();
-    @GET("popular_hotels.php")
+    @GET("Homescreen/popular_hotels.php")   /*done*/
     Call<Home_HotelsApiResponse> getHotels(@Header("Authorization") String authorization);
-    @GET("popular_hotels.php")
+    @GET("Homescreen/popular_hotels.php")   /*done*/
     Call<Home_HotelsApiResponse> getPpHotels(@Header("Authorization") String authorization);
-    @GET("popular_hotels.php")
+    @GET("Homescreen/popular_hotels.php")
     Call<Home_HotelsApiResponse> getFavoriteHotels(@Header("Authorization") String authorization);
-    @GET("get_bookings.php")
+    @GET("Homescreen/get_bookings.php")
     Call<Home_BookedApiResponse> getBooked(@Header("Authorization") String authorization);
-    @GET("popular_hotels.php")
+    @GET("Homescreen/popular_hotels.php")
     Call<Home_HotelApiResponse> getHotel(@Path("id") int hotelId, @Header("Authorization") String authorization);
-    @POST("popular_hotels.php")
+    @POST("")
     Call<Home_HotelsApiResponse> postFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
-    @DELETE("popular_hotels.php")
+    @DELETE("")
     Call<Home_HotelsApiResponse> deleteFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
     @PUT("popular_hotels.php")
     Call<ResponseBody> changePassword(@Header("Authorization") String authorization, @Body Home_ChangePasswordRequest request);
     @GET("profile_user.php")
     Call<ResponseBody> getUserAvatar(@Header("Authorization") String authorization);
     @Multipart
-    @POST("profile_user.php")
+    @POST("profile_user.php")  /*done*/
     Call<ResponseBody> uploadUserAvatar(
             @Header("Authorization") String authorization,
             @Part MultipartBody.Part image
     );
-    @GET("profile_user.php")
+    @GET("profile_user.php")  /*done*/
     Call<Home_ProfileResponse> getUserInfo(@Header("Authorization") String authorization);
-    @POST("profile_user.php")
+    @POST("profile_user.php")  /*done*/
     Call<Home_ProfileResponse> updateUserInfo(
             @Header("Authorization") String authorization,
             @Body Home_User updatedUserData

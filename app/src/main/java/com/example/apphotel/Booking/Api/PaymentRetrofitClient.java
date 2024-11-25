@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PaymentRetrofitClient {
-    private static final String BASE_URL = "https://booking-hotel-app-api-project-production.up.railway.app/";
+    private static final String BASE_URL = "http://10.0.2.2/api_hotels/";
 
     private static Retrofit retrofit = null;
 

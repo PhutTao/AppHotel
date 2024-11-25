@@ -87,7 +87,7 @@ public class Homescreen_PopularHotelAdapter extends BaseAdapter {
         if (hotel.getHinh() != null) {
             holder.imgHinh.setImageBitmap(hotel.getHinh());
         } else {
-            holder.imgHinh.setImageResource(R.drawable.homescreen_haian);
+            holder.imgHinh.setImageResource(R.drawable.homescreen_meroda);
         }
 
         return convertView;

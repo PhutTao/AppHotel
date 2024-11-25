@@ -2,7 +2,8 @@ package com.example.apphotel.Searching.API;
 
 import com.example.apphotel.Searching.Domain.Hotel;
 
-public class DetailHotelApiRespone {
+public class
+DetailHotelApiRespone {
     private String message;
     private Hotel data;
 

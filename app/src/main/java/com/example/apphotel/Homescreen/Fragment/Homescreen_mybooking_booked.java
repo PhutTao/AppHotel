@@ -11,10 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.ImageView;
 
 import com.example.apphotel.Homescreen.HotelApiService.Home_Booked;
 import com.example.apphotel.Homescreen.HotelApiService.Home_BookedApiResponse;
@@ -24,13 +24,16 @@ import com.example.apphotel.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class Homescreen_mybooking_booked extends Fragment {
+
     private LinearLayout lnBookedHotel;
     private ProgressBar progressBar;
     private List<Home_Booked> bookedHotels = new ArrayList<>();
@@ -103,21 +106,27 @@ public class Homescreen_mybooking_booked extends Fragment {
             TextView tvCheckOut = itemView.findViewById(R.id.mybooking_ngaycheckout_booked);
             ImageView imgHotel = itemView.findViewById(R.id.mybooking_img_booked);
 
-            // Gán giá trị cho các thành phần UI
-            tvName.setText(booked.getHotelName());
-            tvLocation.setText(booked.getHotelAddress());
-            tvRate.setText(String.valueOf(booked.getHotelRate()));
-            tvReviewCount.setText(String.valueOf(booked.getReviewQuantity()));
-            tvPrice.setText(String.format("%.0f", booked.getPrice()));
-            tvCheckIn.setText(booked.getStartDate() != null ? booked.getStartDate().toString() : "N/A");
-            tvCheckOut.setText(booked.getEndDate() != null ? booked.getEndDate().toString() : "N/A");
+            // Gán giá trị từ API
+            tvName.setText(booked.getTen());
+            tvLocation.setText(booked.getDiaChi());
+            tvRate.setText(String.format(Locale.getDefault(), "%.1f", booked.getDanhGia()));
+            tvReviewCount.setText(String.format(Locale.getDefault(), "(%d đánh giá)", booked.getSoLuongDanhGia()));
+            tvPrice.setText(String.format(Locale.getDefault(), "$%.0f / ngày", booked.getGia()));
+            tvCheckIn.setText(booked.getNgayCheckIn());
+            tvCheckOut.setText(booked.getNgayCheckOut());
 
-// Load ảnh từ URL sử dụng Picasso
-            Picasso.get()
-                    .load(booked.getImageUrl()) // URL ảnh từ API
-                    .into(imgHotel); // ImageView nơi hiển thị ảnh
+            if (booked.getHinh() != null && !booked.getHinh().isEmpty()) {
+                Picasso.get()
+                        .load(booked.getHinh())
+                        .placeholder(R.drawable.homescreen_muongthanh)
+                        .error(R.drawable.homescreen_meroda)
+                        .into(imgHotel);
+            } else {
+                imgHotel.setImageResource(R.drawable.homescreen_muongthanh);
+            }
 
             lnBookedHotel.addView(itemView);
         }
     }
+
 }

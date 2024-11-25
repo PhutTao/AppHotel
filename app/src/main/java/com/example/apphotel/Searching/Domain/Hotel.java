@@ -1,16 +1,27 @@
 package com.example.apphotel.Searching.Domain;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Hotel {
+    @SerializedName("id")
     private int id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("address")
     private String address;
+    @SerializedName("price")
     private double price;
+    @SerializedName("overview")
     private String overview;
+    @SerializedName("image_details")
     private List<ImageDetail> imageDetails;
+    @SerializedName("review_quantity")
     private int reviewQuantity;
+    @SerializedName("is_favorited")
     private boolean isFavourited;
+    @SerializedName("rate")
     private double rate;
 
     public Hotel(int id, String name, String address, double price, String overview, List<ImageDetail> imageDetails, int reviewQuantity, boolean isFavourited, double rate) {

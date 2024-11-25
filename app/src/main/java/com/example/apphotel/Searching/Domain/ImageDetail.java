@@ -1,8 +1,15 @@
 package com.example.apphotel.Searching.Domain;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ImageDetail {
+    @SerializedName("id")
     private int id;
+
+    @SerializedName("img")
     private String img;
+
+    @SerializedName("imgType")
     private String imgType;
 
     public ImageDetail(int id, String img, String imgType) {

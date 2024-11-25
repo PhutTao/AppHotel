@@ -167,14 +167,14 @@ public class Homescreen_home extends Fragment {
                     for (Home_Hotel apiHotel : apiHotels) {
                         // Convert API Hotel to Homescreen_Nearbyhotel
                         double formattedRate = Math.round(apiHotel.getRate() * 10.0) / 10.0;
-                        double formattedPrice = Math.round(apiHotel.getGia() / 24237);
+
                         Homescreen_PopularHotel popularHotel = new Homescreen_PopularHotel(
                                 apiHotel.getId(),
                                 apiHotel.getName(),
                                 apiHotel.getAddress(),
                                 formattedRate,
                                 apiHotel.getReviewQuantity(),
-                                formattedPrice,
+                                apiHotel.getPrice(),
                                 getHinhFromImageDetails(apiHotel.getImageDetails()),
                                 apiHotel.isFavourited()
                         );
@@ -238,7 +238,7 @@ public class Homescreen_home extends Fragment {
                     for (Home_Hotel apiHotel : apiHotels) {
                         // Convert API Hotel to Homescreen_Nearbyhotel
                         double formattedRate = Math.round(apiHotel.getRate() * 10.0) / 10.0;
-                        double formattedPrice = Math.round(apiHotel.getGia() / 24237);
+                        double formattedPrice = Math.round(apiHotel.getPrice() / 24237);
                         Homescreen_Nearbyhotel nearbyHotel = new Homescreen_Nearbyhotel(
                                 apiHotel.getId(),
                                 apiHotel.getName(),
