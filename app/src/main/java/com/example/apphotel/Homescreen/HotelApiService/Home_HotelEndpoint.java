@@ -33,13 +33,13 @@ public interface Home_HotelEndpoint {
     Call<Home_HotelsApiResponse> getHotels(@Header("Authorization") String authorization);
     @GET("Homescreen/popular_hotels.php")   /*done*/
     Call<Home_HotelsApiResponse> getPpHotels(@Header("Authorization") String authorization);
-    @GET("Homescreen/get_favorite_hotels.php")
+    @GET("Homescreen/check_heart.php")
     Call<Home_HotelsApiResponse> getFavoriteHotels(@Header("Authorization") String authorization);
     @GET("Homescreen/get_bookings.php")
     Call<Home_BookedApiResponse> getBooked(@Header("Authorization") String authorization);
     @GET("Homescreen/popular_hotels.php")
     Call<Home_HotelApiResponse> getHotel(@Path("id") int hotelId, @Header("Authorization") String authorization);
-    @POST("Homescreen/favorite_hotels.php")
+    @POST("Homescreen/push_heart.php")
     Call<Home_HotelsApiResponse> postFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
     @DELETE("Homescreen/favorite_hotels.php")
     Call<Home_HotelsApiResponse> deleteFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
