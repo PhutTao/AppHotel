@@ -2,25 +2,9 @@ package com.example.apphotel.Homescreen.Hotels;
 
 import android.graphics.Bitmap;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Homescreen_Nearbyhotel {
-    private int hotelId;
-    private String Ten;
-    private String DiaChi;
-    private double DanhGia;
-    private int SoLuongDanhGia;
-    private double Gia;
-    private Bitmap Hinh;
-
-    public Homescreen_Nearbyhotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, Bitmap hinh) {
-        this.hotelId = hotelId;
-        Ten = ten;
-        DiaChi = diaChi;
-        DanhGia = danhGia;
-        SoLuongDanhGia = soLuongDanhGia;
-        Gia = gia;
-        Hinh = hinh;
-    }
-
     public int getHotelId() {
         return hotelId;
     }
@@ -30,50 +14,96 @@ public class Homescreen_Nearbyhotel {
     }
 
     public String getTen() {
-        return Ten;
+        return ten;
     }
 
     public void setTen(String ten) {
-        Ten = ten;
+        this.ten = ten;
     }
 
     public String getDiaChi() {
-        return DiaChi;
+        return diaChi;
     }
 
     public void setDiaChi(String diaChi) {
-        DiaChi = diaChi;
+        this.diaChi = diaChi;
     }
 
-    public double getDanhGia() {
-        return DanhGia;
-    }
-
-    public void setDanhGia(double danhGia) {
-        DanhGia = danhGia;
-    }
-
-    public int getSoLuongDanhGia() {
-        return SoLuongDanhGia;
+    public void setDanhGia(float danhGia) {
+        this.danhGia = danhGia;
     }
 
     public void setSoLuongDanhGia(int soLuongDanhGia) {
-        SoLuongDanhGia = soLuongDanhGia;
-    }
-
-    public double getGia() {
-        return Gia;
+        this.soLuongDanhGia = soLuongDanhGia;
     }
 
     public void setGia(double gia) {
-        Gia = gia;
+        this.gia = gia;
     }
 
-    public Bitmap getHinh() {
-        return Hinh;
+
+
+    public boolean isFavourited() {
+        return isFavourited;
     }
 
-    public void setHinh(Bitmap hinh) {
-        Hinh = hinh;
+    public void setFavourited(boolean favourited) {
+        isFavourited = favourited;
+    }
+
+    private int hotelId;
+    private String ten;
+    private String diaChi;
+    private double danhGia;
+    private int soLuongDanhGia;
+    private double gia;
+
+    public String getHinh() {
+        return hinh;
+    }
+
+    public void setHinh(String hinh) {
+        this.hinh = hinh;
+    }
+
+    @SerializedName("hotelImage")
+    private String hinh;
+    private boolean isFavourited;
+
+    public boolean isHearted() {
+        return isHearted;
+    }
+
+    public void setHearted(boolean hearted) {
+        isHearted = hearted;
+    }
+
+    private boolean isHearted;
+
+    // Constructor
+
+    public Homescreen_Nearbyhotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, String hinh, boolean isFavourited, boolean isHearted) {
+        this.hotelId = hotelId;
+        this.ten = ten;
+        this.diaChi = diaChi;
+        this.danhGia = danhGia;
+        this.soLuongDanhGia = soLuongDanhGia;
+        this.gia = gia;
+        this.hinh = hinh;
+        this.isFavourited = isFavourited;
+        this.isHearted = isHearted;
+
+    }
+
+    public double getGia() {
+        return gia;
+    }
+
+    public int getSoLuongDanhGia() {
+        return soLuongDanhGia;
+    }
+
+    public double getDanhGia() {
+        return danhGia;
     }
 }

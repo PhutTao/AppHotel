@@ -39,13 +39,13 @@ public class Homescreen_mybooking extends Fragment {
         fragmentManager.beginTransaction().replace(R.id.mybooking_container, fragment).commit();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onTabSelected(TabLayout.Tab tab) { //code xu ly chon tab
                 Fragment fragment = null;
                 if (tab.getPosition() == 0) {
-                    fragment = new Homescreen_mybooking_booked();
+                    fragment = new Homescreen_mybooking_booked(); //trang booked
                 }
                 if (tab.getPosition() == 1) {
-                    fragment = new Homescreen_mybooking_history();
+                    fragment = new Homescreen_mybooking_history(); //trang yeu thich
                 }
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();

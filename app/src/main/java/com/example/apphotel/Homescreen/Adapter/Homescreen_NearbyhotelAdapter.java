@@ -1,4 +1,5 @@
 package com.example.apphotel.Homescreen.Adapter;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +10,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Nearbyhotel;
-
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
 import com.example.apphotel.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class Homescreen_NearbyhotelAdapter extends BaseAdapter {
-
 
     private Context context;
     private int layout;
@@ -50,51 +50,49 @@ public class Homescreen_NearbyhotelAdapter extends BaseAdapter {
         TextView txtDanhGia;
         TextView txtSLDanhGia;
         TextView txtGia;
-        ImageView heartImageView;
+        ImageView heartImageViewTrue;
+        ImageView heartImageViewFalse;
     }
 
+
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder;
-
-        if (view == null) {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Homescreen_NearbyhotelAdapter.ViewHolder holder;
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(layout, null);
-
+            convertView = inflater.inflate(layout, null);
             holder = new Homescreen_NearbyhotelAdapter.ViewHolder();
-            holder.txtTen = view.findViewById(R.id.home_name_nearbyhotel);
-            holder.txtDiaChi = view.findViewById(R.id.home_location_nearbyhotel);
-            holder.imgHinh = view.findViewById(R.id.home_img_nearbyhotel);
-            holder.txtDanhGia = view.findViewById(R.id.home_rate_nearbyhotel);
-            holder.txtSLDanhGia = view.findViewById(R.id.home_SLdanhgia_nearbyhotel);
-            holder.txtGia = view.findViewById(R.id.home_price_nearbyhotel);
-
-
-            view.setTag(holder);
+            holder.txtTen = convertView.findViewById(R.id.home_name_nearbyhotel);
+            holder.txtGia = convertView.findViewById(R.id.home_price_nearbyhotel);
+            holder.txtSLDanhGia = convertView.findViewById(R.id.home_SLdanhgia_nearbyhotel);
+            holder.txtDanhGia = convertView.findViewById(R.id.home_rate_nearbyhotel);
+            holder.imgHinh = convertView.findViewById(R.id.home_img_nearbyhotel);
+            holder.heartImageViewTrue = convertView.findViewById(R.id.home_tym2);
+            holder.heartImageViewFalse = convertView.findViewById(R.id.home_tym);
+            convertView.setTag(holder);
         } else {
-            holder = (Homescreen_NearbyhotelAdapter.ViewHolder) view.getTag();
+            holder = (Homescreen_NearbyhotelAdapter.ViewHolder) convertView.getTag();
         }
 
-        // Gán giá trị
-        Homescreen_Nearbyhotel nearbyhotel = nearbyhotelList.get(i);
+        // Lấy dữ liệu khách sạn từ danh sách
+        Homescreen_Nearbyhotel hotel = nearbyhotelList.get(position);
 
-        holder.txtTen.setText(nearbyhotel.getTen());
-        holder.txtDiaChi.setText(nearbyhotel.getDiaChi());
-        holder.imgHinh.setImageBitmap(nearbyhotel.getHinh());
-        holder.txtDanhGia.setText(String.valueOf(nearbyhotel.getDanhGia()));
-        holder.txtSLDanhGia.setText(String.valueOf(nearbyhotel.getSoLuongDanhGia()));
-        holder.txtGia.setText(String.valueOf(nearbyhotel.getGia()));
+        // Gán thông tin cho TextViews
+        holder.txtTen.setText(hotel.getTen());
+        holder.txtGia.setText(String.format("%.2f/Day", hotel.getGia()));
+        holder.txtSLDanhGia.setText(String.format("(%d)", hotel.getSoLuongDanhGia()));
+        holder.txtDanhGia.setText(String.format("%.1f⭐", hotel.getDanhGia()));
+        // Kiểm tra và gán hình ảnh
+        if (hotel.getHinh() != null && !hotel.getHinh().isEmpty()) {
+            Picasso.get()
+                    .load(hotel.getHinh()) // URL hình ảnh
+                    .placeholder(R.drawable.homescreen_muongthanh) // Hình placeholder khi tải
+                    .error(R.drawable.homescreen_meroda) // Hình lỗi khi không tải được
+                    .into(holder.imgHinh);
+        } else {
+            holder.imgHinh.setImageResource(R.drawable.homescreen_muongthanh); // Hình mặc định nếu không có hình
+        }
 
-        // Tải hình ảnh từ URL
-        Glide.with(context)
-                .load(nearbyhotel.getHinh())
-                .placeholder(R.drawable.homescreen_haian) // Hình ảnh hiển thị trong khi tải
-                .error(R.drawable.homescreen_haian) // Hình ảnh khi xảy ra lỗi
-                .into(holder.imgHinh);
-
-        // Xử lý sự kiện khi click vào hình trái tim
-
-
-        return view;
+        return convertView;
     }
 }

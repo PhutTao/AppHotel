@@ -18,31 +18,38 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Home_HotelEndpoint {
 
 
 
-
-
+    @POST("Homescreen/push_heart.php")
+    Call<Push_Heart> pushHeart( @Query("hotelId") int hotelId, @Query("userId") int userId);
+    @GET("Homescreen/check_heart.php")
+    Call<Check_Heart> checkHeart(
+            @Query("userId") int userId,
+            @Query("hotelId") int hotelId
+    );
     @POST("fetch_bookings.php")
     Call<List<Home_Booked>> fetchBookings();
     @GET("Homescreen/popular_hotels.php")  /*done*/
     Call<List<Hotel>> getHotels();
     @GET("Homescreen/popular_hotels.php")   /*done*/
     Call<Home_HotelsApiResponse> getHotels(@Header("Authorization") String authorization);
-    @GET("Homescreen/popular_hotels.php")   /*done*/
-    Call<Home_HotelsApiResponse> getPpHotels(@Header("Authorization") String authorization);
-    @GET("Homescreen/check_heart.php")
-    Call<Home_HotelsApiResponse> getFavoriteHotels(@Header("Authorization") String authorization);
+    @GET("Homescreen/get_popular_hotels.php")   /*done*/
+    Call<Home_HotelsApiResponse> getPopularHotels(@Header("Authorization") String authorization);
+    @GET("Homescreen/get_favorite_hotels.php")
+    Call<Favourite_Hotels_Api_Response> getFavoriteHotels(@Header("Authorization") String authorization);
     @GET("Homescreen/get_bookings.php")
     Call<Home_BookedApiResponse> getBooked(@Header("Authorization") String authorization);
-    @GET("Homescreen/popular_hotels.php")
-    Call<Home_HotelApiResponse> getHotel(@Path("id") int hotelId, @Header("Authorization") String authorization);
-    @POST("Homescreen/push_heart.php")
-    Call<Home_HotelsApiResponse> postFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
-    @DELETE("Homescreen/favorite_hotels.php")
-    Call<Home_HotelsApiResponse> deleteFavoriteHotels(@Path("hotelId") int hotelId, @Header("Authorization") String authorization);
+    @GET("Homescreen/get_detail_hotels.php")
+    Call<Home_HotelApiResponse> getDetailHotel(
+            @Query("id") int hotelId,
+            @Header("Authorization") String authorization
+    );
+
+
     @PUT("popular_hotels.php")
     Call<ResponseBody> changePassword(@Header("Authorization") String authorization, @Body Home_ChangePasswordRequest request);
     @GET("profile_user.php")
@@ -60,4 +67,5 @@ public interface Home_HotelEndpoint {
             @Header("Authorization") String authorization,
             @Body Home_User updatedUserData
     );
+
 }

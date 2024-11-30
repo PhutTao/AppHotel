@@ -28,11 +28,13 @@ import android.content.Intent;
 import com.example.apphotel.Homescreen.Activity.Homescreen_myprofile;
 import com.example.apphotel.Homescreen.Adapter.Homescreen_NearbyhotelAdapter;
 import com.example.apphotel.Homescreen.Adapter.Homescreen_PopularHotelAdapter;
+import com.example.apphotel.Homescreen.HotelApiService.Check_Heart;
 import com.example.apphotel.Homescreen.HotelApiService.Home_Hotel;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiClient;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelsApiResponse;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
 import com.example.apphotel.Homescreen.HotelApiService.Home_ImageDetail;
+import com.example.apphotel.Homescreen.HotelApiService.Push_Heart;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Nearbyhotel;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
 import com.example.apphotel.R;
@@ -42,6 +44,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -159,15 +162,17 @@ public class Homescreen_home extends Fragment {
             String jwtToken = sharedPreferences.getString("jwtKey", null);
 
             Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
-            Call<Home_HotelsApiResponse> call = hotelEndpoint.getPpHotels("Bearer " + jwtToken);
+            Call<Home_HotelsApiResponse> call = hotelEndpoint.getPopularHotels("Bearer " + jwtToken);
             try {
                 Response<Home_HotelsApiResponse> response = call.execute();
                 if (response.isSuccessful()) {
                     List<Home_Hotel> apiHotels = response.body().getData();
                     for (Home_Hotel apiHotel : apiHotels) {
                         // Convert API Hotel to Homescreen_Nearbyhotel
+                        Call<Check_Heart> checkHeartCall = hotelEndpoint.checkHeart(1, apiHotel.getId());
+                        Response<Check_Heart> response1 = checkHeartCall.execute();
+                        Check_Heart checkHeart = response1.body();
                         double formattedRate = Math.round(apiHotel.getRate() * 10.0) / 10.0;
-
                         Homescreen_PopularHotel popularHotel = new Homescreen_PopularHotel(
                                 apiHotel.getId(),
                                 apiHotel.getName(),
@@ -175,9 +180,12 @@ public class Homescreen_home extends Fragment {
                                 formattedRate,
                                 apiHotel.getReviewQuantity(),
                                 apiHotel.getPrice(),
-                                getHinhFromImageDetails(apiHotel.getImageDetails()),
-                                apiHotel.isFavourited()
+                                apiHotel.getHinh(), // Truyền URL trực tiếp nếu nó là chuỗi
+                                apiHotel.isFavourited(),
+                                checkHeart.isSuccess()
                         );
+
+
 
                         // Add to result list
                         result.add(popularHotel);
@@ -195,26 +203,93 @@ public class Homescreen_home extends Fragment {
         @Override
         protected void onPostExecute(List<Homescreen_PopularHotel> result) {
             if (result != null) {
+                // Clear existing data
                 arrayPopularHotel.clear();
                 arrayPopularHotel.addAll(result);
                 adapter_1.notifyDataSetChanged();
+
+                // Remove all existing views in the container
+                lnPopularHotel.removeAllViews();
+
                 for (int i = 0; i < adapter_1.getCount(); i++) {
                     final int position = i;
                     View item = adapter_1.getView(i, null, null);
                     lnPopularHotel.addView(item);
+
+                    // Set item click listener to open detail activity
                     item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // Lấy ID của view được nhấn
                             int selectedHotelId = arrayPopularHotel.get(position).getHotelId();
-                            // Tạo intent để chuyển sang activity chi tiết và gửi ID
                             Intent intent = new Intent(getContext(), DetailActivity.class);
                             intent.putExtra("hotelId", selectedHotelId);
                             startActivity(intent);
                         }
                     });
+
+                    // Handle heart button click
+                    View heartButton = item.findViewById(R.id.home_tym);
+                    View heartButton_2 = item.findViewById(R.id.home_tym2);
+                    if (heartButton != null) {
+                        heartButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Make pushHeart API call asynchronously
+                                Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
+                                int selectedHotelId = arrayPopularHotel.get(position).getHotelId();
+
+                                Call<Push_Heart> pushHeartCall = hotelEndpoint.pushHeart(selectedHotelId, 1);
+                                pushHeartCall.enqueue(new Callback<Push_Heart>() {
+                                    @Override
+                                    public void onResponse(Call<Push_Heart> call, Response<Push_Heart> response) {
+                                        if (response.isSuccessful() && response.body() != null) {
+                                            Push_Heart pushHeart = response.body();
+                                            heartButton.setVisibility(View.GONE);
+                                            heartButton_2.setVisibility(View.VISIBLE);
+                                        } else {
+                                            Toast.makeText(getContext(), "Failed to toggle heart", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Push_Heart> call, Throwable t) {
+                                        Toast.makeText(getContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+                        heartButton_2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Make pushHeart API call asynchronously
+                                Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
+                                int selectedHotelId = arrayPopularHotel.get(position).getHotelId();
+
+                                Call<Push_Heart> pushHeartCall = hotelEndpoint.pushHeart(selectedHotelId, 1);
+                                pushHeartCall.enqueue(new Callback<Push_Heart>() {
+                                    @Override
+                                    public void onResponse(Call<Push_Heart> call, Response<Push_Heart> response) {
+                                        if (response.isSuccessful() && response.body() != null) {
+                                            Push_Heart pushHeart = response.body();
+                                            heartButton.setVisibility(View.VISIBLE);
+                                            heartButton_2.setVisibility(View.GONE);
+                                        } else {
+                                            Toast.makeText(getContext(), "Failed to toggle heart", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Push_Heart> call, Throwable t) {
+                                        Toast.makeText(getContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
             }
+
+
             progressBar_1.setVisibility(View.GONE);
 
         }
@@ -223,34 +298,36 @@ public class Homescreen_home extends Fragment {
         @Override
         protected List<Homescreen_Nearbyhotel> doInBackground(Void... voids) {
             List<Homescreen_Nearbyhotel> result = new ArrayList<>();
-
             // Retrofit network request
             SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String jwtToken = sharedPreferences.getString("jwtKey", null);
 
             Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
-            Call<Home_HotelsApiResponse> call = hotelEndpoint.getHotels("Bearer " + jwtToken);
-
+            Call<Home_HotelsApiResponse> call = hotelEndpoint.getPopularHotels("Bearer " + jwtToken);
             try {
                 Response<Home_HotelsApiResponse> response = call.execute();
                 if (response.isSuccessful()) {
                     List<Home_Hotel> apiHotels = response.body().getData();
                     for (Home_Hotel apiHotel : apiHotels) {
                         // Convert API Hotel to Homescreen_Nearbyhotel
+                        Call<Check_Heart> checkHeartCall = hotelEndpoint.checkHeart(1, apiHotel.getId());
+                        Response<Check_Heart> response1 = checkHeartCall.execute();
+                        Check_Heart checkHeart = response1.body();
                         double formattedRate = Math.round(apiHotel.getRate() * 10.0) / 10.0;
-                        double formattedPrice = Math.round(apiHotel.getPrice() / 24237);
-                        Homescreen_Nearbyhotel nearbyHotel = new Homescreen_Nearbyhotel(
+                        Homescreen_Nearbyhotel popularHotel = new Homescreen_Nearbyhotel(
                                 apiHotel.getId(),
                                 apiHotel.getName(),
                                 apiHotel.getAddress(),
                                 formattedRate,
                                 apiHotel.getReviewQuantity(),
-                                formattedPrice,
-                                getHinhFromImageDetails(apiHotel.getImageDetails())
+                                apiHotel.getPrice(),
+                                apiHotel.getHinh(), // Truyền URL trực tiếp nếu nó là chuỗi
+                                apiHotel.isFavourited(),
+                                checkHeart.isSuccess()
                         );
 
                         // Add to result list
-                        result.add(nearbyHotel);
+                        result.add(popularHotel);
                     }
                 } else {
                     Log.e("API Error", "Error response from API: " + response.message());
@@ -261,6 +338,7 @@ public class Homescreen_home extends Fragment {
 
             return result;
         }
+
 
         @Override
         protected void onPostExecute(List<Homescreen_Nearbyhotel> result) {
@@ -306,15 +384,15 @@ public class Homescreen_home extends Fragment {
 
     }
     // Method to extract the image URL from ImageDetails
-    private Bitmap getHinhFromImageDetails(List<Home_ImageDetail> imageDetails) {
+    // Method to extract the image URL from ImageDetails
+    private String getHinhFromImageDetails(List<Home_ImageDetail> imageDetails) {
         if (imageDetails != null && !imageDetails.isEmpty()) {
-            String imageUrl = imageDetails.get(0).getImageUrl();
-            // Use Picasso to load the image asynchronously and return the loaded Bitmap
-            return loadBitmapWithPicasso(imageUrl);
+            return imageDetails.get(0).getImageUrl(); // Trả về URL hình ảnh đầu tiên
         }
-        // Return a default Bitmap if no image details are available
-        return BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
+        return "https://via.placeholder.com/150"; // URL mặc định nếu danh sách rỗng
     }
+
+
 
 
     // In your loadBitmapWithPicasso method

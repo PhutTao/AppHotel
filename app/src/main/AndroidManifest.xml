@@ -44,10 +44,10 @@
             android:exported="true"
             android:label="@string/title_activity_register"
             android:theme="@style/Theme.HotelBooking_App" />
-       <!-- <activity
+  <!--    <activity
             android:name=".Homescreen.HomescreenActivity"
             android:exported="true" />
--->
+&ndash;&gt;-->
         <activity
             android:name=".Booking.Activity.BookingActivity"
             android:exported="true" />

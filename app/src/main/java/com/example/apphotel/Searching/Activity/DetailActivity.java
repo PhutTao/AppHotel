@@ -22,6 +22,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.apphotel.Booking.Activity.BookingActivity;
 import com.example.apphotel.Booking.Constants.Constants;
 import com.example.apphotel.Homescreen.Fragment.Homescreen_home;
+import com.example.apphotel.Homescreen.HomescreenActivity;
 import com.example.apphotel.MainActivity;
 import com.example.apphotel.R;
 import com.example.apphotel.Review.ReviewsActivity;
@@ -51,7 +52,10 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
         AppCompatButton bookingBtn = findViewById(R.id.detail_booking_button);
         detailBackBtn = findViewById(R.id.detail_back_button);
         TextView tvReviewsSeeAll = (TextView) findViewById(R.id.detail_tv_reviews_see_all);
-
+        findViewById(R.id.detail_back_button).setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, HomescreenActivity.class);
+            startActivity(intent);
+        });
 
         int hotelId;
         Intent intent = getIntent();
@@ -64,16 +68,6 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
         getDetailHotel(hotelId);
 
 
-        detailBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển về MainActivity và hiển thị Homescreen_home
-                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
-                intent.putExtra("navigateTo", "Homescreen_home"); // Gửi thông tin để chuyển đến đúng Fragment
-                startActivity(intent);
-                finish(); // Đóng Activity hiện tại
-            }
-        });
 
 
         bookingBtn.setOnClickListener(new View.OnClickListener() {

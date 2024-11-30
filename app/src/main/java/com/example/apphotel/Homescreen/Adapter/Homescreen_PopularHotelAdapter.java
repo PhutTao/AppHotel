@@ -13,7 +13,10 @@ import com.example.apphotel.Homescreen.HotelApiService.Home_HotelsApiResponse;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
 import com.example.apphotel.R;
+import com.squareup.picasso.Picasso;
+
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -55,7 +58,8 @@ public class Homescreen_PopularHotelAdapter extends BaseAdapter {
         TextView txtDanhGia;
         TextView txtSLDanhGia;
         TextView txtGia;
-        ImageView heartImageView;
+        ImageView heartImageViewTrue;
+        ImageView heartImageViewFalse;
     }
 
 
@@ -71,6 +75,8 @@ public class Homescreen_PopularHotelAdapter extends BaseAdapter {
             holder.txtSLDanhGia = convertView.findViewById(R.id.home_SLdanhgia_popularhotel);
             holder.txtDanhGia = convertView.findViewById(R.id.home_rate_popularhotel);
             holder.imgHinh = convertView.findViewById(R.id.home_img_popularhotel);
+            holder.heartImageViewTrue = convertView.findViewById(R.id.home_tym2);
+            holder.heartImageViewFalse = convertView.findViewById(R.id.home_tym);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -84,60 +90,25 @@ public class Homescreen_PopularHotelAdapter extends BaseAdapter {
         holder.txtDanhGia.setText(String.format("%.1f⭐", hotel.getDanhGia()));
 
         // Load image with Picasso or other library
-        if (hotel.getHinh() != null) {
-            holder.imgHinh.setImageBitmap(hotel.getHinh());
+        if (hotel.getHinh() != null && !hotel.getHinh().isEmpty()) {
+            Picasso.get()
+                    .load(hotel.getHinh()) // URL hình ảnh
+                    .placeholder(R.drawable.homescreen_muongthanh) // Hình placeholder khi tải
+                    .error(R.drawable.homescreen_meroda) // Hình lỗi khi không tải được
+                    .into(holder.imgHinh);
         } else {
-            holder.imgHinh.setImageResource(R.drawable.homescreen_meroda);
+            holder.imgHinh.setImageResource(R.drawable.homescreen_muongthanh); // Hình mặc định nếu không có hình
+        }
+        if(hotel.isHearted() == true){
+            holder.heartImageViewTrue.setVisibility(View.VISIBLE);
+            holder.heartImageViewFalse.setVisibility(View.GONE);
+        }else{
+            holder.heartImageViewTrue.setVisibility(View.GONE);
+            holder.heartImageViewFalse.setVisibility(View.VISIBLE);
         }
 
         return convertView;
     }
 
 
-
-    private void addToFavorites(int hotelId) {
-        Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String jwtToken = sharedPreferences.getString("jwtKey", null);
-
-        Call<Home_HotelsApiResponse> call = hotelEndpoint.postFavoriteHotels(hotelId, "Bearer " + jwtToken);
-        call.enqueue(new Callback<Home_HotelsApiResponse>() {
-            @Override
-            public void onResponse(Call<Home_HotelsApiResponse> call, Response<Home_HotelsApiResponse> response) {
-                if (response.isSuccessful()) {
-                    // Handle the success response, update your data model if needed
-                } else {
-                    // Handle the error response
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Home_HotelsApiResponse> call, Throwable t) {
-                // Handle the failure (e.g., network error)
-            }
-        });
-    }
-
-    private void removeFromFavorites(int hotelId) {
-        Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String jwtToken = sharedPreferences.getString("jwtKey", null);
-
-        Call<Home_HotelsApiResponse> call = hotelEndpoint.deleteFavoriteHotels(hotelId, "Bearer " + jwtToken);
-        call.enqueue(new Callback<Home_HotelsApiResponse>() {
-            @Override
-            public void onResponse(Call<Home_HotelsApiResponse> call, Response<Home_HotelsApiResponse> response) {
-                if (response.isSuccessful()) {
-                    // Handle the success response, update your data model if needed
-                } else {
-                    // Handle the error response
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Home_HotelsApiResponse> call, Throwable t) {
-                // Handle the failure (e.g., network error)
-            }
-        });
-    }
 }

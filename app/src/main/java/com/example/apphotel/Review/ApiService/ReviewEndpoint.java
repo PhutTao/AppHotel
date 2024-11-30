@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ReviewEndpoint {
-    @GET("/api/v1/review/{hotelId}")
+    @GET("Search/get_reviews.php/{hotelId}")
     Call<ResponseData> getReview(@Header("authorization") String jwtToken, @Path("hotelId") Long hotelId);
     @POST("/api/v1/review/{hotelId}")
     Call<ResponseData> createReview(@Header("authorization") String jwtToken, @Path("hotelId") Long hotelId, @Body ReviewRequest reviewRequest);

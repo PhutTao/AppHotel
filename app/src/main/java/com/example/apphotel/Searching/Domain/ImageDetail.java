@@ -9,13 +9,21 @@ public class ImageDetail {
     @SerializedName("img")
     private String img;
 
-    @SerializedName("imgType")
-    private String imgType;
+    public String getHinh() {
+        return hinh;
+    }
 
-    public ImageDetail(int id, String img, String imgType) {
+    public void setHinh(String hinh) {
+        this.hinh = hinh;
+    }
+
+    @SerializedName("hotelImage")
+    private String hinh;
+
+    public ImageDetail(int id, String img, String hinh) {
         this.id = id;
         this.img = img;
-        this.imgType = imgType;
+        this.hinh = hinh;
     }
 
     public int getId() {
@@ -34,11 +42,5 @@ public class ImageDetail {
         this.img = img;
     }
 
-    public String getImgType() {
-        return imgType;
-    }
 
-    public void setImgType(String imgType) {
-        this.imgType = imgType;
-    }
 }

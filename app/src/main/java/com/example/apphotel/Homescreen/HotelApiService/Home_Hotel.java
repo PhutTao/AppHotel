@@ -15,8 +15,16 @@ public class Home_Hotel {
     @SerializedName("price")
     private double price;
 
-    @SerializedName("img")
-    private List<Home_ImageDetail> imageDetails;
+    public String getHinh() {
+        return hinh;
+    }
+
+    public void setHinh(String hinh) {
+        this.hinh = hinh;
+    }
+
+    @SerializedName("hotelImage")
+    private String hinh;
     @SerializedName("soluongdanhgia")
     private int reviewQuantity;
     @SerializedName("rate")
@@ -80,13 +88,7 @@ public class Home_Hotel {
         this.price = price;
     }
 
-    public List<Home_ImageDetail> getImageDetails() {
-        return imageDetails;
-    }
 
-    public void setImageDetails(List<Home_ImageDetail> imageDetails) {
-        this.imageDetails = imageDetails;
-    }
 
 }
 

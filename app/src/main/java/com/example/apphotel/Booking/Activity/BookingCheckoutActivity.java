@@ -209,7 +209,7 @@ public class BookingCheckoutActivity extends AppCompatActivity implements
 
     @Override
     public void onApiCallSuccess(Hotel hotel) {
-        Glide.with(this).load(hotel.getImageDetails().get(0).getImg()).into(hotelImage);
+
         hotelName.setText(hotel.getName());
         hotelAddress.setText(hotel.getAddress());
         hotelReviewNumber.setText("(" + hotel.getReviewQuantity() + " reviews)");

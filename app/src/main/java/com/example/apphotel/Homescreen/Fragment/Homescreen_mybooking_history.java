@@ -18,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.apphotel.Homescreen.Adapter.Homescreen_NearbyhotelAdapter;
+import com.example.apphotel.Homescreen.HotelApiService.Check_Heart;
+import com.example.apphotel.Homescreen.HotelApiService.Favourite_Hotel;
+import com.example.apphotel.Homescreen.HotelApiService.Favourite_Hotels_Api_Response;
 import com.example.apphotel.Homescreen.HotelApiService.Home_Hotel;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiClient;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiResponse;
@@ -30,6 +33,9 @@ import com.example.apphotel.Searching.Activity.DetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,96 +65,103 @@ public class Homescreen_mybooking_history extends Fragment {
         return view;
     }
 
-private class HotelsAsyncTask extends AsyncTask<Void, Void, List<Homescreen_Nearbyhotel>> {
-    @Override
-    protected List<Homescreen_Nearbyhotel> doInBackground(Void... voids) {
-        List<Homescreen_Nearbyhotel> result = new ArrayList<>();
+    private class HotelsAsyncTask extends AsyncTask<Void, Void, List<Homescreen_Nearbyhotel>> {
+        @Override
+        protected List<Homescreen_Nearbyhotel> doInBackground(Void... voids) {
+            List<Homescreen_Nearbyhotel> result = new ArrayList<>();
 
-        // Retrofit network request
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String jwtToken = sharedPreferences.getString("jwtKey", null);
+            // Retrofit network request
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("jwtKey", null);
 
-        Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
-        Call<Home_HotelsApiResponse> call = hotelEndpoint.getFavoriteHotels("Bearer " + jwtToken);
+            Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
+            Call<Favourite_Hotels_Api_Response> call = hotelEndpoint.getFavoriteHotels("Bearer " + jwtToken);
+            //code dong tren de lay du lieju cac booking yeu thich
+            try {
+                Response<Favourite_Hotels_Api_Response> response = call.execute();
+                if (response.isSuccessful()) {
+                    List<Favourite_Hotel> apiHotels = response.body().getData();
+                    //danh sach hotel yeu thich
+                    for (Favourite_Hotel apiHotel : apiHotels) {
+                        //liet ke tung khach sang
+                        Call<Home_HotelApiResponse> hotelCall = hotelEndpoint.getDetailHotel(apiHotel.getHotelId(),"Bearer " + jwtToken);
+                        Response<Home_HotelApiResponse> hotelResponse = hotelCall.execute();
+                        if(hotelResponse.isSuccessful()) {
+                            Home_Hotel apiTymHotel = hotelResponse.body().getData();
+                            // Convert API Hotel to Homescreen_Nearbyhotel
+                            Call<Check_Heart> checkHeartCall = hotelEndpoint.checkHeart(1, apiHotel.getId());
+                            Response<Check_Heart> response1 = checkHeartCall.execute();
+                            Check_Heart checkHeart = response1.body();
+                            double formattedRate = Math.round(apiTymHotel.getRate() * 10.0) / 10.0;
 
-        try {
-            Response<Home_HotelsApiResponse> response = call.execute();
-            if (response.isSuccessful()) {
-                List<Home_Hotel> apiHotels = response.body().getData();
-                for (Home_Hotel apiHotel : apiHotels) {
-                    Call<Home_HotelApiResponse> hotelCall = hotelEndpoint.getHotel(apiHotel.getId(),"Bearer " + jwtToken);
-                    Response<Home_HotelApiResponse> hotelResponse = hotelCall.execute();
-                    if(hotelResponse.isSuccessful()) {
-                        Home_Hotel apiTymHotel = hotelResponse.body().getData();
-                        // Convert API Hotel to Homescreen_Nearbyhotel
-                        double formattedRate = Math.round(apiTymHotel.getRate() * 10.0) / 10.0;
-                        double formattedPrice = Math.round(apiHotel.getPrice() / 24237);
-                        Homescreen_Nearbyhotel nearbyHotel = new Homescreen_Nearbyhotel(
-                                apiHotel.getId(),
-                                apiHotel.getName(),
-                                apiHotel.getAddress(),
-                                formattedRate,
-                                apiTymHotel.getReviewQuantity(),
-                                formattedPrice,
-                                getHinhFromImageDetails(apiHotel.getImageDetails())
-                        );
-                        // Add to result list
-                        result.add(nearbyHotel);
+                            Homescreen_Nearbyhotel nearbyHotel = new Homescreen_Nearbyhotel(
+                                    apiTymHotel.getId(),
+                                    apiTymHotel.getName(),
+                                    apiTymHotel.getAddress(),
+                                    formattedRate,
+                                    apiTymHotel.getReviewQuantity(),
+                                    apiTymHotel.getPrice(),
+                                    apiTymHotel.getHinh(), // Truyền URL trực tiếp nếu nó là chuỗi
+                                    apiTymHotel.isFavourited(),
+                                    checkHeart.isSuccess()
+                            );
+                            // Add to result list
+                            result.add(nearbyHotel);
+                        }
+
                     }
-
+                } else {
+                    Log.e("API Error", "Error response from API: " + response.message());
                 }
-            } else {
-                Log.e("API Error", "Error response from API: " + response.message());
+            } catch (IOException e) {
+                Log.e("API Error", "Exception during API call: " + e.getMessage());
             }
-        } catch (IOException e) {
-            Log.e("API Error", "Exception during API call: " + e.getMessage());
+
+            return result;
         }
 
-        return result;
-    }
-
-    @Override
-    protected void onPostExecute(List<Homescreen_Nearbyhotel> result) {
-        if (result != null) {
-            arrayHistory.clear();
-            arrayHistory.addAll(result);
-            adapter.notifyDataSetChanged();
-            for (int i = 0; i < adapter.getCount(); i++) {
-                final int position = i;
-                View item = adapter.getView(i, null, null);
-                lnHistory.addView(item);
-                item.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Lấy ID của view được nhấn
-                        int selectedHotelId = arrayHistory.get(position).getHotelId();
-                        // Tạo intent để chuyển sang activity chi tiết và gửi ID
-                        Intent intent = new Intent(getContext(), DetailActivity.class);
-                        intent.putExtra("hotelId", selectedHotelId);
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            // Check and log the contents of arrayNearByHotel
-            if (!arrayHistory.isEmpty()) {
-                for (Homescreen_Nearbyhotel hotel : arrayHistory) {
-                    Log.d("Hotel Info", "Hotel Name: " + hotel.getTen());
-                    Log.d("Hotel Info", "Hotel rate: " + hotel.getDanhGia());
-                    Log.d("Hotel Info", "Hotel rate: " + hotel.getSoLuongDanhGia());
+        @Override
+        protected void onPostExecute(List<Homescreen_Nearbyhotel> result) {
+            if (result != null) {
+                arrayHistory.clear();
+                arrayHistory.addAll(result);
+                adapter.notifyDataSetChanged();
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    final int position = i;
+                    View item = adapter.getView(i, null, null);
+                    lnHistory.addView(item);
+                    item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Lấy ID của view được nhấn
+                            int selectedHotelId = arrayHistory.get(position).getHotelId();
+                            // Tạo intent để chuyển sang activity chi tiết và gửi ID
+                            Intent intent = new Intent(getContext(), DetailActivity.class);
+                            intent.putExtra("hotelId", selectedHotelId);
+                            startActivity(intent);
+                        }
+                    });
                 }
+
+                // Check and log the contents of arrayNearByHotel
+                if (!arrayHistory.isEmpty()) {
+                    for (Homescreen_Nearbyhotel hotel : arrayHistory) {
+                        Log.d("Hotel Info", "Hotel Name: " + hotel.getTen());
+                        Log.d("Hotel Info", "Hotel rate: " + hotel.getDanhGia());
+                        Log.d("Hotel Info", "Hotel rate: " + hotel.getSoLuongDanhGia());
+                    }
+                } else {
+                    Log.e("Hotel Info", "arrayNearByHotel is empty");
+                }
+
             } else {
-                Log.e("Hotel Info", "arrayNearByHotel is empty");
+                Log.e("API Error", "Null response received from API");
             }
-
-        } else {
-            Log.e("API Error", "Null response received from API");
+            progressBar.setVisibility(View.GONE);
         }
-        progressBar.setVisibility(View.GONE);
+
+
     }
-
-
-}
     // Method to extract the image URL from ImageDetails
     private Bitmap getHinhFromImageDetails(List<Home_ImageDetail> imageDetails) {
         if (imageDetails != null && !imageDetails.isEmpty()) {
