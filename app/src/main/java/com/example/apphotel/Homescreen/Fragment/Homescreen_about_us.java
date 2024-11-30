@@ -1,5 +1,6 @@
 package com.example.apphotel.Homescreen.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,11 +12,13 @@ import android.widget.ImageButton;
 
 import com.example.apphotel.Homescreen.HomescreenActivity;
 import com.example.apphotel.R;
+import com.example.apphotel.Searching.Activity.SearchingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Homescreen_about_us extends Fragment {
-    ImageButton aboutus_btn_back;
+    ImageButton aboutus_btn_back,  btn_search_button ;
     BottomNavigationView bottomNavigationView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
