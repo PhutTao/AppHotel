@@ -1,9 +1,7 @@
 package com.example.apphotel.Booking.Fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
@@ -20,20 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.apphotel.Booking.Activity.BookingAddCardActivity;
-import com.example.apphotel.Booking.Activity.BookingCheckoutActivity;
 import com.example.apphotel.Booking.Adapter.BookingPaymentMethodAdapter;
 import com.example.apphotel.Booking.AsyncTask.DeletePaymentApi;
 import com.example.apphotel.Booking.AsyncTask.GetAllPaymentsApi;
 import com.example.apphotel.Booking.Constants.Constants;
 import com.example.apphotel.Booking.Data.BookingFormDetailData;
+import com.example.apphotel.Booking.Enum.PaymentMethod;
 import com.example.apphotel.Booking.Interface.PaymentSelectionListener;
 import com.example.apphotel.Booking.Item.BookingPaymentMethod;
 import com.example.apphotel.R;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -45,26 +42,18 @@ import java.util.concurrent.ExecutionException;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class BookingPaymentsSelectBottomSheet extends BottomSheetDialogFragment
-        implements
-        GetAllPaymentsApi.ApiCallListener,
-        BookingPaymentMethodAdapter.OnItemClickListener,
+        implements GetAllPaymentsApi.ApiCallListener, BookingPaymentMethodAdapter.OnItemClickListener,
         YesNoDialogFragment.YesNoDialogListener {
-    private View contentView;
+
+    private static final String TAG = "BookingPayments";
+
     private RecyclerView rvPaymentMethod;
     private AppCompatButton addPaymentBtn;
-    public BookingPaymentMethodAdapter bookingPaymentMethodAdapter;
+    private BookingPaymentMethodAdapter bookingPaymentMethodAdapter;
     private List<BookingPaymentMethod> paymentMethodList;
-    private BottomSheetBehavior<View> bottomSheetBehavior;
-
-    private BookingCheckoutActivity bookingCheckoutActivity;
-    private BookingFormDetailData bookingFormDetailData;
-
-    private ItemTouchHelper itemTouchHelper;
     private int swipedPosition = RecyclerView.NO_POSITION;
 
-    public interface SwipedPositionListener {
-        void onSwipedPosition(int position);
-    }
+    private BookingFormDetailData bookingFormDetailData;
 
     public BookingPaymentsSelectBottomSheet() {
         // Required empty public constructor
@@ -73,6 +62,15 @@ public class BookingPaymentsSelectBottomSheet extends BottomSheetDialogFragment
     public BookingPaymentsSelectBottomSheet(BookingFormDetailData bookingFormDetailData) {
         this.bookingFormDetailData = bookingFormDetailData;
     }
+    public static class ViewHolder {
+
+        TextView paymentMethodTextView;
+        TextView cardNameTextView;
+
+        TextView cardNumberTextView;
+
+
+    }
 
     @NonNull
     @Override
@@ -80,45 +78,33 @@ public class BookingPaymentsSelectBottomSheet extends BottomSheetDialogFragment
         BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
 
-        contentView = LayoutInflater.from(getContext()).inflate(R.layout.booking_payments_select_bottom_sheet, null);
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.booking_payments_select_bottom_sheet, null);
         bottomSheetDialog.setContentView(contentView);
 
-        // Bottom sheet behavior
-        bottomSheetBehavior = BottomSheetBehavior.from((View) contentView.getParent());
-//        bottomSheetBehavior.setPeekHeight(1400); // Set the initial peek height
+        rvPaymentMethod = contentView.findViewById(R.id.booking_payment_recycler_view);
+        addPaymentBtn = contentView.findViewById(R.id.booking_add_payment_button);
+
+        setupRecyclerView();
+        setUpNavigateToAddPayment();
+
+        // Trigger API call to load payment methods
+        new GetAllPaymentsApi(this).execute();
 
         return bottomSheetDialog;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        rvPaymentMethod = view.findViewById(R.id.booking_payment_recycler_view);
-        addPaymentBtn = view.findViewById(R.id.booking_add_payment_button);
-
-        // Initialize the list and adapter
+    private void setupRecyclerView() {
         paymentMethodList = new ArrayList<>();
         bookingPaymentMethodAdapter = new BookingPaymentMethodAdapter((ArrayList<BookingPaymentMethod>) paymentMethodList);
-
-        // Add click listener
-        bookingCheckoutActivity = new BookingCheckoutActivity();
         bookingPaymentMethodAdapter.addOnItemClickListener(this);
 
-        // Set up RecyclerView
         rvPaymentMethod.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvPaymentMethod.setItemAnimator(new DefaultItemAnimator());
         rvPaymentMethod.addItemDecoration(new DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL));
         rvPaymentMethod.setAdapter(bookingPaymentMethodAdapter);
-        // Add swipe event to item of RecyclerView
-        itemTouchHelper = new ItemTouchHelper(simpleCallback);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rvPaymentMethod);
-
-        // Set up click listener for add payment button
-        setUpNavigateToAddPayment();
-
-        // Trigger the API call
-        new GetAllPaymentsApi(requireContext(), this).execute();
     }
 
     private void setUpNavigateToAddPayment() {
@@ -135,36 +121,37 @@ public class BookingPaymentsSelectBottomSheet extends BottomSheetDialogFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.booking_payments_select_bottom_sheet, container, false);
-    }
-
-    @Override
     public void onGetAllPaymentsCompleted(List<BookingPaymentMethod> payments) {
-        if (payments != null) {
+        if (payments != null && !payments.isEmpty()) {
+            paymentMethodList.clear();
+            for (BookingPaymentMethod payment : payments) {
+                if (payment.getPaymentMethod() == null) {
+                    Log.e("PaymentDataError", "Payment method is null for card: " + payment.getCardName());
+                    payment.setPaymentMethod(PaymentMethod.UNKNOWN); // Hoáº·c giĂ¡ trá»‹ máº·c Ä‘á»‹nh phĂ¹ há»£p
+                }
+            }
             paymentMethodList.addAll(payments);
             bookingPaymentMethodAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(requireContext(), "No payment methods available.", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onGetAllPaymentsFailure(String errorMessage) {
-        Log.e("API Error! Fail to get all payment methods", errorMessage);
+        Log.e(TAG, "Error fetching payments: " + errorMessage);
+        Toast.makeText(requireContext(), "Failed to load payment methods.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemClick(BookingPaymentMethod item) {
         if (getActivity() instanceof PaymentSelectionListener) {
-            ((PaymentSelectionListener) getActivity()).onPaymentSelected(item);
+            ((PaymentSelectionListener) requireActivity()).onPaymentSelected(item);
         }
-
         dismiss();
     }
 
-    // Handle swipe item to delete
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    private final ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -173,12 +160,11 @@ public class BookingPaymentsSelectBottomSheet extends BottomSheetDialogFragment
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             swipedPosition = viewHolder.getAdapterPosition();
-
-            if (direction == ItemTouchHelper.LEFT) {
-                String customMessage = "Do you want to delete this payment";
-                YesNoDialogFragment dialog = new YesNoDialogFragment(customMessage);
+            if (swipedPosition != RecyclerView.NO_POSITION) {
+                String message = "Do you want to delete this payment?";
+                YesNoDialogFragment dialog = new YesNoDialogFragment(message);
                 dialog.setListener(BookingPaymentsSelectBottomSheet.this);
-                dialog.show(getParentFragmentManager(), "CustomYesNoDialog");
+                dialog.show(getParentFragmentManager(), "YesNoDialog");
             }
         }
 
@@ -197,41 +183,56 @@ public class BookingPaymentsSelectBottomSheet extends BottomSheetDialogFragment
         }
     };
 
-    // Handle click on dialog
     @Override
     public void onYesClicked() {
-        BookingPaymentMethod deletedPayment = paymentMethodList.get(swipedPosition);
-        int deletedPaymentId = deletedPayment.getId();
-        SharedPreferences preferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String authToken = preferences.getString("jwtKey", null);
+        if (swipedPosition != RecyclerView.NO_POSITION) {
+            BookingPaymentMethod deletedPayment = paymentMethodList.get(swipedPosition);
 
-        boolean deletionPaymentSuccessful;
-        try {
-            deletionPaymentSuccessful = new DeletePaymentApi(requireContext(), authToken, deletedPaymentId).execute().get();
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+            try {
+                boolean success = new DeletePaymentApi(requireContext(), deletedPayment.getId()).execute().get();
 
-        if (deletionPaymentSuccessful) {
-            paymentMethodList.remove(swipedPosition);
-            bookingPaymentMethodAdapter.notifyItemRemoved(swipedPosition);
-            Toast.makeText(getContext(), "Deleted payment successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Deleted payment failed", Toast.LENGTH_SHORT).show();
+                if (success) {
+                    paymentMethodList.remove(swipedPosition);
+                    bookingPaymentMethodAdapter.notifyItemRemoved(swipedPosition);
+                    Toast.makeText(requireContext(), "Payment deleted successfully.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Failed to delete payment.", Toast.LENGTH_SHORT).show();
+                }
+            } catch (ExecutionException | InterruptedException e) {
+                Log.e(TAG, "Error deleting payment: " + e.getMessage(), e);
+                Toast.makeText(requireContext(), "An error occurred.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     @Override
     public void onNoClicked() {
-        refreshSwipeState();
-    }
-
-    private void refreshSwipeState() {
         if (swipedPosition != RecyclerView.NO_POSITION) {
-            // Trigger the swipe state programmatically
-            itemTouchHelper.startSwipe(rvPaymentMethod.findViewHolderForAdapterPosition(swipedPosition));
+            bookingPaymentMethodAdapter.notifyItemChanged(swipedPosition);
         }
     }
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        BookingPaymentMethod paymentMethod = paymentMethodList.get(position);
+
+        if (paymentMethod != null) {
+            if (paymentMethod.getPaymentMethod() != null) {
+                holder.paymentMethodTextView.setText(paymentMethod.getPaymentMethod().name());
+            } else {
+                holder.paymentMethodTextView.setText("Unknown"); // Hoáº·c giĂ¡ trá»‹ máº·c Ä‘á»‹nh khĂ¡c
+            }
+            holder.cardNameTextView.setText(paymentMethod.getCardName());
+            holder.cardNumberTextView.setText(paymentMethod.getCardNumber());
+        } else {
+            holder.paymentMethodTextView.setText("Invalid Data");
+            holder.cardNameTextView.setText("");
+            holder.cardNumberTextView.setText("");
+        }
+    }
+
+
+
+
+
+
 }

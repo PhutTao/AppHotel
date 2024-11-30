@@ -9,9 +9,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface BookingApiService {
-    @POST("/api/v1/booking/{hotelId}")
-    Call<Void> postBooking(
-            @Header("Authorization") String authorization,
+    @POST("Booking/post_booking.php/{hotelId}")
+    Call<Void> postBookingWithoutToken(
             @Path("hotelId") int hotelId,
             @Body BookingDto bookingDto
     );

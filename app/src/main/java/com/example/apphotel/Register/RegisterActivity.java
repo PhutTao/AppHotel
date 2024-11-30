@@ -1,8 +1,11 @@
 package com.example.apphotel.Register;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.apphotel.AdditionalProfile.AdditionalProfileActivity;
 import com.example.apphotel.Api.ApiService;
 import com.example.apphotel.Api.RetrofitClient;
 
@@ -74,7 +78,8 @@ public class RegisterActivity extends AppCompatActivity {
                         if (response.isSuccessful() && response.body() != null) {
                             RegisterResponse registerResponse = response.body();
                             if (registerResponse.isSuccess()) {
-                                Toast.makeText(RegisterActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(RegisterActivity.this, AdditionalProfileActivity.class);
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(RegisterActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -99,6 +104,20 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+        passwordImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable currentDrawable = passwordImageView.getDrawable();
+                if (currentDrawable != null && !currentDrawable.getConstantState().equals(getResources().getDrawable(R.drawable.signup_password_hide).getConstantState())) {
+                    passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordImageView.setImageResource(R.drawable.signup_password_hide);
+                } else {
+                    passwordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordImageView.setImageResource(R.drawable.signup_visible_icon);
+                }
+
             }
         });
 

@@ -107,42 +107,31 @@ public class BookingCheckoutActivity extends AppCompatActivity implements
 
     private void setUpConfirmButtonClick() {
         confirmBtn.setOnClickListener(v -> {
-            SharedPreferences preferences = (BookingCheckoutActivity.this).getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            String authToken = preferences.getString("jwtKey", null);
-
             if (bookingFormDetailData.getBookingPaymentMethod() == null) {
-                AlertDialogFragment.showAlertDialog(this,"Alert", "Please select your payment before booking");
-            } else {
-                int hotelId = bookingFormDetailData.getHotelId();
-
-                BookingDto bookingDto = new BookingDto();
-                // Set hotelId
-                bookingDto.setHotelId(hotelId);
-                // Set start date and end date
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-                String startDate = dateFormat.format(bookingFormDetailData.getStartDate()); // Replace this with your actual start date
-                String endDate = dateFormat.format(bookingFormDetailData.getEndDate());   // Replace this with your actual end date
-                bookingDto.setStartDate(startDate);
-                bookingDto.setEndDate(endDate);
-                // Set other properties
-                bookingDto.setAdultsQuantity(bookingFormDetailData.getSelectedAdultValue());
-                bookingDto.setChildQuantity(bookingFormDetailData.getSelectedChildValue());
-                bookingDto.setPhoneNumber(bookingFormDetailData.getPhoneNumber());
-                bookingDto.setHotelRate(5.0);
-                bookingDto.setReviewQuantity(0);
-                bookingDto.setPaymentMethod(bookingFormDetailData.getBookingPaymentMethod().getPaymentMethod().toString());
-                // Set room types
-                List<String> roomTypes = new ArrayList<>();
-                for (BookingRoomType roomType : bookingFormDetailData.getRoomTypeList()) {
-                    roomTypes.add(roomType.getRoomType().toString());
-                }
-                bookingDto.setRoomTypes(roomTypes);
-
-                new PostBookingApi(BookingCheckoutActivity.this, authToken, hotelId, bookingDto).execute();
+                AlertDialogFragment.showAlertDialog(this, "Alert", "Please select your payment before booking");
+                return;
             }
+
+            int hotelId = bookingFormDetailData.getHotelId();
+            BookingDto bookingDto = new BookingDto();
+            // Điền thông tin BookingDto
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            bookingDto.setHotelId(hotelId);
+            bookingDto.setStartDate(dateFormat.format(bookingFormDetailData.getStartDate()));
+            bookingDto.setEndDate(dateFormat.format(bookingFormDetailData.getEndDate()));
+            bookingDto.setAdultsQuantity(bookingFormDetailData.getSelectedAdultValue());
+            bookingDto.setChildQuantity(bookingFormDetailData.getSelectedChildValue());
+            bookingDto.setPhoneNumber(bookingFormDetailData.getPhoneNumber());
+            bookingDto.setPaymentMethod(bookingFormDetailData.getBookingPaymentMethod().getPaymentMethod().toString());
+
+
+            // In JSON để kiểm tra
+            Log.d("BookingDto", new Gson().toJson(bookingDto));
+
+            // Gọi API
+            new PostBookingApi(BookingCheckoutActivity.this, hotelId, bookingDto).execute();
         });
     }
-
     public static void showToastWithJson(Context context, BookingDto bookingDto) {
         if (context == null || bookingDto == null) {
             return;
@@ -165,8 +154,10 @@ public class BookingCheckoutActivity extends AppCompatActivity implements
     }
 
     private void getDetailHotel(int hotelId) {
-        new DetailHotelApiCallAsyncTask(this, this).execute(hotelId);
+        // Chỉ truyền "this" cho ApiCallListener
+        new DetailHotelApiCallAsyncTask(this).execute(hotelId);
     }
+
 
     private void setUpOpenPaymentsSelectBottomSheet() {
         selectPaymentBtn.setOnClickListener(v -> {
@@ -189,12 +180,12 @@ public class BookingCheckoutActivity extends AppCompatActivity implements
         });
     }
 
-    private void setUpClickConfirmCheckout() {
+  /*  private void setUpClickConfirmCheckout() {
         confirmBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, HomescreenActivity.class);
             startActivity(intent);
         });
-    }
+    }*/
 
     private void updateCheckoutView(BookingFormDetailData data) {
         String dateFormatted = formatDateRange(data.getStartDate(), data.getEndDate());

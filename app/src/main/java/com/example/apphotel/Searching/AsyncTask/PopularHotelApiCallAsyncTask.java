@@ -31,32 +31,24 @@ public class PopularHotelApiCallAsyncTask extends AsyncTask<Void, Void, List<Hot
 
     @Override
     protected List<Hotel> doInBackground(Void... voids) {
-        SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String authToken = preferences.getString("jwtKey", null);
-        if (authToken != null) {
-            try {
-                HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
-                Call<HotelApiRespone> call = apiService.getAllPopularHotels("Bearer " + authToken);
+        try {
+            HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
+            Call<HotelApiRespone> call = apiService.getAllPopularHotels();
 
-                Response<HotelApiRespone> response = call.execute();
-                if (response.isSuccessful() && response.body() != null) {
-                    return response.body().getData();
-                } else {
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            Response<HotelApiRespone> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().getData();
+            } else {
                 return null;
             }
-        } else {
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(List<Hotel> popularHotels) {
-        super.onPostExecute(popularHotels);
-
         if (popularHotels != null) {
             listener.onApiCallSuccess(popularHotels);
         } else {

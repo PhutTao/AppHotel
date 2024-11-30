@@ -50,7 +50,6 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
         rvReviewsItem = findViewById(R.id.detail_rv_reviews_item);
         AppCompatButton bookingBtn = findViewById(R.id.detail_booking_button);
         detailBackBtn = findViewById(R.id.detail_back_button);
-        detailBackBtn = findViewById(R.id.detail_back_button);
         TextView tvReviewsSeeAll = (TextView) findViewById(R.id.detail_tv_reviews_see_all);
 
 
@@ -68,10 +67,14 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
         detailBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, Homescreen_home.class);
+                // Chuyển về MainActivity và hiển thị Homescreen_home
+                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+                intent.putExtra("navigateTo", "Homescreen_home"); // Gửi thông tin để chuyển đến đúng Fragment
                 startActivity(intent);
+                finish(); // Đóng Activity hiện tại
             }
         });
+
 
         bookingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,8 +100,10 @@ public class DetailActivity extends AppCompatActivity implements DetailHotelApiC
 
 
     private void getDetailHotel(int hotelId) {
-        new DetailHotelApiCallAsyncTask(this, this).execute(hotelId);
+        // Chỉ truyền "this" cho ApiCallListener
+        new DetailHotelApiCallAsyncTask(this).execute(hotelId);
     }
+
 
     @Override
     public void onApiCallSuccess(Hotel hotel) {

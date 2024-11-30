@@ -11,21 +11,18 @@ import com.example.apphotel.Booking.Api.BookingApiService;
 import com.example.apphotel.Booking.Api.PaymentRetrofitClient;
 import com.example.apphotel.Booking.Dto.BookingDto;
 import com.example.apphotel.Homescreen.HomescreenActivity;
-import com.example.apphotel.Homescreen.HotelApiService.Home_Booked;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class PostBookingApi extends AsyncTask<Void, Void, Boolean> {
+public class PostBookingApi extends AsyncTask<Void, Void, String> {
     private Context context;
-    private String authToken;
     private int hotelId;
     private BookingDto bookingDto;
     private ProgressDialog progressDialog;
 
-    public PostBookingApi(Context context, String authToken, int hotelId, BookingDto bookingDto) {
+    public PostBookingApi(Context context, int hotelId, BookingDto bookingDto) {
         this.context = context;
-        this.authToken = authToken;
         this.hotelId = hotelId;
         this.bookingDto = bookingDto;
     }
@@ -40,42 +37,42 @@ public class PostBookingApi extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... voids) {
+    protected String doInBackground(Void... voids) {
         BookingApiService bookingService = PaymentRetrofitClient.getRetrofitInstance().create(BookingApiService.class);
-        Call<Void> call = bookingService.postBooking("Bearer " + authToken, hotelId, bookingDto);
+        Call<Void> call = bookingService.postBookingWithoutToken(hotelId, bookingDto);
 
         try {
             Response<Void> response = call.execute();
 
             if (response.isSuccessful()) {
-                Log.e("API RESPONSE SUCCESS - POST", "Successfully");
-                return true;
+                Log.d("API_RESPONSE", "Booking successful");
+                return "success";
             } else {
-                Log.e("API RESPONSE ERROR - POST", "Unsuccessful: " + response.code());
-                return false;
+                // Lấy thông báo lỗi chi tiết từ response
+                String errorMessage = "Error: " + response.code() + " - " + response.message();
+                Log.e("API_RESPONSE_ERROR", errorMessage);
+                return errorMessage;
             }
         } catch (Exception e) {
+            Log.e("API_CALL_FAILURE", "Network failure: " + e.getMessage());
             e.printStackTrace();
-            Log.e("API CALL FAILURE", "Network failure");
-            return false;
+            return "Network failure: " + e.getMessage();
         }
     }
 
     @Override
-    protected void onPostExecute(Boolean success) {
-        if (success) {
-            // Start another activity upon success
-            progressDialog.dismiss();
+    protected void onPostExecute(String result) {
+        progressDialog.dismiss();
+
+        if ("success".equals(result)) {
+            // Chuyển hướng sang màn hình chính khi đặt phòng thành công
             Intent intent = new Intent(context, HomescreenActivity.class);
-//            context.startActivity(intent);
             intent.putExtra("navigateTo", "mybookingfragment");
             context.startActivity(intent);
-
+            Toast.makeText(context, "Booking successful!", Toast.LENGTH_SHORT).show();
         } else {
-            progressDialog.dismiss();
-            Toast.makeText(context, "Booking hotel failed!", Toast.LENGTH_SHORT).show();
-            // Handle failure or show a message
-            // You may add a callback or interface to communicate with the calling activity/fragment
+            // Hiển thị thông báo lỗi
+            Toast.makeText(context, "Booking failed: " + result, Toast.LENGTH_LONG).show();
         }
     }
 }

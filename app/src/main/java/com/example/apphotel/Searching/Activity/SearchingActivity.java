@@ -34,14 +34,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class SearchingActivity extends AppCompatActivity implements PopularHotelApiCallAsyncTask.ApiCallListener, AllHotelApiCallAsyncTask.ApiCallListener {
+public class SearchingActivity extends AppCompatActivity
+        implements PopularHotelApiCallAsyncTask.ApiCallListener, AllHotelApiCallAsyncTask.ApiCallListener {
+
     private static final int MAX_LAST_SEARCH_ITEMS = 5;
 
-    androidx.appcompat.widget.SearchView searchView;
-    RecyclerView rvLastSearch, rvPopularHotel, rvHighRatingHotel;
-    LastSearchAdapter lastSearchAdapter;
-    PopularHotelAdapter mPopularHotelAdapter;
-    HighRatingHotelAdapter highRatingHotelAdapter;
+    private SearchView searchView;
+    private RecyclerView rvLastSearch, rvPopularHotel, rvHighRatingHotel;
+    private LastSearchAdapter lastSearchAdapter;
+    private PopularHotelAdapter mPopularHotelAdapter;
+    private HighRatingHotelAdapter highRatingHotelAdapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,26 +51,28 @@ public class SearchingActivity extends AppCompatActivity implements PopularHotel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.searching_layout);
 
-        searchView = findViewById(R.id.searching_ed_search_box);
-
-        rvLastSearch = findViewById(R.id.searching_rv_last_search);
+        initViews();
+        setupListeners();
         initLastSearchRecyclerView();
 
+        getAllPopularHotels();
+        getHighRatingHotels();
+    }
+
+    private void initViews() {
+        searchView = findViewById(R.id.searching_ed_search_box);
+        rvLastSearch = findViewById(R.id.searching_rv_last_search);
+        rvPopularHotel = findViewById(R.id.searching_rv_popular_hotel);
+        rvHighRatingHotel = findViewById(R.id.searching_rv_high_rating_hotel);
+    }
+
+    private void setupListeners() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //  Store keywords to LastSearchAdapter
-                ArrayList<LastSearchDomain> existingSearchData = loadLastSearchData();
-                existingSearchData.add(new LastSearchDomain(query));
-                saveLastSearchData(existingSearchData);
-                lastSearchAdapter.updateData(existingSearchData);
-
-
-                //  Intent to SearchingResultsActivity with hotelId extra
-                Intent intent = new Intent(SearchingActivity.this, SearchingResultsActivity.class);
-                intent.putExtra("SEARCH_QUERY", query);
-                startActivity(intent);
+                saveSearchQuery(query);
+                navigateToResults(query);
                 return true;
             }
 
@@ -78,61 +82,40 @@ public class SearchingActivity extends AppCompatActivity implements PopularHotel
             }
         });
 
-
-
-        rvPopularHotel = findViewById(R.id.searching_rv_popular_hotel);
-        getAllPopularHotels();
-
-        rvHighRatingHotel = findViewById(R.id.searching_rv_high_rating_hotel);
-        getHighRatingHotels();
-
-        TextView clearAllBtn = findViewById(R.id.searching_tv_clear_all);
-        clearAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearLastSearchData();
-                updateLastSearchRecyclerView();
-            }
+        findViewById(R.id.searching_tv_clear_all).setOnClickListener(v -> {
+            clearLastSearchData();
+            updateLastSearchRecyclerView();
         });
 
-        TextView seeAllBtn_1 = findViewById(R.id.searching_tv_popular_hotel_see_all);
-        seeAllBtn_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SwithToSearchingResultActivity();
-            }
-        });
+        View.OnClickListener seeAllListener = v -> switchToSearchingResultActivity();
+        findViewById(R.id.searching_tv_popular_hotel_see_all).setOnClickListener(seeAllListener);
+        findViewById(R.id.searching_tv_high_rating_see_all).setOnClickListener(seeAllListener);
 
-        TextView seeAllBtn_2 = findViewById(R.id.searching_tv_high_rating_see_all);
-        seeAllBtn_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SwithToSearchingResultActivity();
-            }
+        findViewById(R.id.searching_back_button).setOnClickListener(v -> {
+            Intent intent = new Intent(SearchingActivity.this, HomescreenActivity.class);
+            startActivity(intent);
         });
-
-        //  Intent to HomescreenActivity
-        ImageButton returnHomeBtn = findViewById(R.id.searching_back_button);
-        returnHomeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchingActivity.this, HomescreenActivity.class);
-                startActivity(intent);
-            }
-        });
-        // End onCreate()
     }
 
-    private void SwithToSearchingResultActivity() {
+    private void saveSearchQuery(String query) {
+        ArrayList<LastSearchDomain> existingSearchData = loadLastSearchData();
+        existingSearchData.add(new LastSearchDomain(query));
+        saveLastSearchData(existingSearchData);
+        lastSearchAdapter.updateData(existingSearchData);
+    }
+
+    private void navigateToResults(String query) {
         Intent intent = new Intent(SearchingActivity.this, SearchingResultsActivity.class);
-        String NULL_TEXT = "";
-        intent.putExtra("SEARCH_QUERY", NULL_TEXT);
+        intent.putExtra("SEARCH_QUERY", query);
         startActivity(intent);
     }
 
+    private void switchToSearchingResultActivity() {
+        Intent intent = new Intent(SearchingActivity.this, SearchingResultsActivity.class);
+        intent.putExtra("SEARCH_QUERY", "");
+        startActivity(intent);
+    }
 
-
-    @SuppressLint("NotifyDataSetChanged")
     private void updateLastSearchRecyclerView() {
         ArrayList<LastSearchDomain> updatedList = loadLastSearchData();
         lastSearchAdapter.setData(updatedList);
@@ -142,24 +125,17 @@ public class SearchingActivity extends AppCompatActivity implements PopularHotel
 
     private void clearLastSearchData() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("lastSearchData");
-        editor.apply();
+        sharedPreferences.edit().remove("lastSearchData").apply();
     }
 
     private ArrayList<LastSearchDomain> loadLastSearchData() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
-        Gson gson = new Gson();
         String json = sharedPreferences.getString("lastSearchData", null);
-
-        Type type = new TypeToken<ArrayList<LastSearchDomain>>() {}.getType();
         if (json != null) {
-            ArrayList<LastSearchDomain> lastSearchList = gson.fromJson(json, type);
-            return lastSearchList;
-        } else {
-            return new ArrayList<>();
+            Type type = new TypeToken<ArrayList<LastSearchDomain>>() {}.getType();
+            return new Gson().fromJson(json, type);
         }
+        return new ArrayList<>();
     }
 
     private void saveLastSearchData(ArrayList<LastSearchDomain> lastSearchList) {
@@ -167,19 +143,14 @@ public class SearchingActivity extends AppCompatActivity implements PopularHotel
             lastSearchList = new ArrayList<>(lastSearchList.subList(1, MAX_LAST_SEARCH_ITEMS + 1));
         }
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(lastSearchList);
-        editor.putString("lastSearchData", json);
-        editor.apply();
+        String json = new Gson().toJson(lastSearchList);
+        sharedPreferences.edit().putString("lastSearchData", json).apply();
     }
 
-
-
     private void initLastSearchRecyclerView() {
-        ArrayList<LastSearchDomain> arrLastSearchData = loadLastSearchData();;
-        Collections.reverse(arrLastSearchData);
-        lastSearchAdapter = new LastSearchAdapter(this, arrLastSearchData);
+        ArrayList<LastSearchDomain> lastSearchData = loadLastSearchData();
+        Collections.reverse(lastSearchData);
+        lastSearchAdapter = new LastSearchAdapter(this, lastSearchData);
         rvLastSearch.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         rvLastSearch.setAdapter(lastSearchAdapter);
     }
@@ -188,13 +159,11 @@ public class SearchingActivity extends AppCompatActivity implements PopularHotel
         new PopularHotelApiCallAsyncTask(this, this).execute();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onApiCallSuccess(List<Hotel> popularHotels) {
         if (popularHotels != null) {
             List<Hotel> firstFiveHotels = popularHotels.subList(0, Math.min(5, popularHotels.size()));
             mPopularHotelAdapter = new PopularHotelAdapter(this, firstFiveHotels);
-            mPopularHotelAdapter.notifyDataSetChanged();
             rvPopularHotel.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
             rvPopularHotel.setAdapter(mPopularHotelAdapter);
         }
@@ -202,33 +171,27 @@ public class SearchingActivity extends AppCompatActivity implements PopularHotel
 
     @Override
     public void onApiCallFailure(String errorMessage) {
-        Log.e("API Error! Fail to get all popular hotels", errorMessage);
+        Log.e("API Error", errorMessage);
     }
 
     private void getHighRatingHotels() {
-        new AllHotelApiCallAsyncTask(this, this).execute();
+        new AllHotelApiCallAsyncTask(this).execute();
     }
+
 
     @Override
     public void onGetAllHotelsCompleted(List<Hotel> hotels) {
         if (hotels != null) {
-            Collections.sort(hotels, new Comparator<Hotel>() {
-                @Override
-                public int compare(Hotel hotel1, Hotel hotel2) {
-                    return Double.compare(hotel2.getRate(), hotel1.getRate());
-                }
-            });
-
+            hotels.sort((hotel1, hotel2) -> Double.compare(hotel2.getRate(), hotel1.getRate()));
             List<Hotel> firstFiveHighRatingHotels = hotels.subList(0, Math.min(5, hotels.size()));
             highRatingHotelAdapter = new HighRatingHotelAdapter(this, firstFiveHighRatingHotels);
-            highRatingHotelAdapter.notifyDataSetChanged();
-            rvHighRatingHotel.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            rvHighRatingHotel.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             rvHighRatingHotel.setAdapter(highRatingHotelAdapter);
         }
     }
 
     @Override
     public void onGetAllHotelsFailure(String errorMessage) {
-        Log.e("API Error! Fail to get all hotels", errorMessage);
+        Log.e("API Error", errorMessage);
     }
 }

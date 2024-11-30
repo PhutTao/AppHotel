@@ -3,34 +3,34 @@ package com.example.apphotel.Homescreen.HotelApiService;
 import com.google.gson.annotations.SerializedName;
 
 public class Home_Booked {
-    @SerializedName("id")
+    @SerializedName("bookingId")
     private int id;
 
-    @SerializedName("NgayCheckIn")
+    @SerializedName("startDate")
     private String ngayCheckIn;
 
-    @SerializedName("NgayCheckOut")
+    @SerializedName("endDate")
     private String ngayCheckOut;
 
-    @SerializedName("DanhGia")
+    @SerializedName("hotelRate")
     private double danhGia;
 
-    @SerializedName("SoLuongDanhGia")
+    @SerializedName("reviewQuantity")
     private int soLuongDanhGia;
 
-    @SerializedName("hotel_id")
+    @SerializedName("hotelId")
     private int hotelId;
 
-    @SerializedName("Ten")
+    @SerializedName("hotelName")
     private String ten;
 
-    @SerializedName("DiaChi")
+    @SerializedName("hotelAddress")
     private String diaChi;
 
-    @SerializedName("Gia")
+    @SerializedName("hotelPrice")
     private double gia;
 
-    @SerializedName("Hinh")
+    @SerializedName("hotelImage")
     private String hinh;
 
     // Getter và Setter cho id

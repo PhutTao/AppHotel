@@ -45,8 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:background="@color/booking_light_grey"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -164,7 +163,7 @@
         android:id="@+id/checkout_summary_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="180dp"
         android:background="@drawable/checkout_container_shape"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
@@ -467,7 +466,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="586dp"
+        android:layout_marginTop="556dp"
         android:orientation="vertical">
 
         <TextView
@@ -498,7 +497,7 @@
         android:id="@+id/checkout_confirm_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="678dp"
+        android:layout_marginTop="628dp"
         android:background="@drawable/booking_button_shape"
         android:text="Confirm Booking"
         android:textAllCaps="false"

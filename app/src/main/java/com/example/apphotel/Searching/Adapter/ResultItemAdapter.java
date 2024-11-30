@@ -12,19 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.request.target.ImageViewTargetFactory;
 import com.example.apphotel.R;
 import com.example.apphotel.Searching.Activity.DetailActivity;
 import com.example.apphotel.Searching.Domain.Hotel;
-import com.example.apphotel.Searching.Domain.ResultItemDomain;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.resultItemHolder> {
+public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.ResultItemHolder> {
+
     private Context context;
     private List<Hotel> mListHotels;
 
@@ -32,47 +28,54 @@ public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.re
         this.context = context;
         this.mListHotels = mListHotels;
     }
+
     @NonNull
     @Override
-    public ResultItemAdapter.resultItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.searching_item_search_result_items, parent, false);
-        return new resultItemHolder(view);
+    public ResultItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.searching_item_search_result_items, parent, false);
+        return new ResultItemHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ResultItemAdapter.resultItemHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ResultItemHolder holder, int position) {
         Hotel hotel = mListHotels.get(position);
 
+        // Format dữ liệu
         double formattedRate = Math.round(hotel.getRate() * 10.0) / 10.0;
-        double formattedPrice = Math.round(hotel.getPrice() / 24237);
+        double formattedPrice = Math.round(hotel.getPrice() );
 
-        // Set other data to the views
+        // Đặt dữ liệu vào View
         holder.tvName.setText(hotel.getName());
         holder.tvAddress.setText(hotel.getAddress());
-        holder.tvRating.setText("" + formattedRate);
+        holder.tvRating.setText(String.valueOf(formattedRate));
         holder.tvPrice.setText("$" + formattedPrice + "/day");
-        holder.tvCount.setText("(" + hotel.getReviewQuantity() + ")");
+        holder.tvCount.setText("(" + hotel.getReviewQuantity() + " reviews)");
 
-        // Load image using Picasso
+        // Load hình ảnh khách sạn
         if (hotel.getImageDetails() != null && !hotel.getImageDetails().isEmpty()) {
             String imageUrl = hotel.getImageDetails().get(0).getImg();
-            Picasso.get().load(imageUrl).into(holder.imgHotel);
+            Picasso.get().load(imageUrl).placeholder(R.drawable.homescreen_haian).into(holder.imgHotel);
         } else {
-            holder.imgHotel.setImageResource(R.drawable.searching_image_muongthanh);
+            holder.imgHotel.setImageResource(R.drawable.searching_image_muongthanh); // Hình ảnh mặc định
         }
     }
 
     @Override
     public int getItemCount() {
-        return mListHotels.size();
+        return mListHotels != null ? mListHotels.size() : 0;
     }
 
-    public class resultItemHolder extends RecyclerView.ViewHolder {
+    public void updateData(List<Hotel> newHotels) {
+        this.mListHotels = newHotels;
+        notifyDataSetChanged();
+    }
+
+    public class ResultItemHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvAddress, tvPrice, tvRating, tvCount;
         ImageView imgHotel;
         CardView cvHotel;
-        public resultItemHolder(@NonNull View itemView) {
+
+        public ResultItemHolder(@NonNull View itemView) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.item_tv_search_result_name);
@@ -83,20 +86,16 @@ public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.re
             imgHotel = itemView.findViewById(R.id.item_img_search_result);
             cvHotel = itemView.findViewById(R.id.item_cv_search_result);
 
-            cvHotel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        Hotel clickedHotel = mListHotels.get(position);
-                        int hotelId = clickedHotel.getId();
+            cvHotel.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Hotel clickedHotel = mListHotels.get(position);
+                    int hotelId = clickedHotel.getId();
 
-                        Intent intent = new Intent(context, DetailActivity.class);
-                        intent.putExtra("hotelId", hotelId);
-
-                        // Start DetailActivity
-                        context.startActivity(intent);
-                    }
+                    // Chuyển sang DetailActivity
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    intent.putExtra("hotelId", hotelId);
+                    context.startActivity(intent);
                 }
             });
         }

@@ -12,18 +12,18 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface PaymentApiService {
-    @GET("Booking/payment.php")
-    Call<PaymentApiResponse> getAllPayments(@Header("Authorization") String token);
+    // Lấy tất cả các phương thức thanh toán
+    @GET("Booking/get_payment_methods.php")
+    Call<PaymentApiResponse> getAllPayments();
 
-    @POST("Booking/payment.php")
-    Call<Void> postPayment(
-            @Header("Authorization") String authorization,
-            @Body PaymentDto paymentDto
-    );
 
-    @DELETE("Booking/payment.php")
+    // Thêm một phương thức thanh toán
+    @POST("Booking/add_payment_method.php")
+    Call<Void> postPayment(@Body PaymentDto paymentDto);
+
+    // Xóa một phương thức thanh toán
+    @DELETE("Booking/delete_payment_method.php")
     Call<Void> deletePayment(
-            @Header("Authorization") String authorization,
             @Path("paymentId") String paymentId
     );
 }

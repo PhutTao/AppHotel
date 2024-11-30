@@ -70,6 +70,7 @@ public class SettingProfileAsyncTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
+
     private Boolean setAvatar() {
         try{
             RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -97,4 +98,5 @@ public class SettingProfileAsyncTask extends AsyncTask<String, Void, Boolean> {
             callBack.onFailure();
         }
     }
+
 }

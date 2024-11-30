@@ -1,60 +1,44 @@
 package com.example.apphotel.Booking.AsyncTask;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.example.apphotel.Booking.Api.BookingApiService;
 import com.example.apphotel.Booking.Api.PaymentApiService;
 import com.example.apphotel.Booking.Api.PaymentRetrofitClient;
-import com.example.apphotel.Booking.Dto.BookingDto;
 import com.example.apphotel.Booking.Dto.PaymentDto;
-import com.example.apphotel.Homescreen.HomescreenActivity;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class PostPaymentApi extends AsyncTask<Void, Void, Boolean> {
+    private static final String TAG = "PostPaymentApi";
+
     private Context context;
-    private String authToken;
     private PaymentDto paymentDto;
-    private ProgressDialog progressDialog;
 
-    public PostPaymentApi(Context context, String authToken, PaymentDto paymentDto) {
+    public PostPaymentApi(Context context, PaymentDto paymentDto) {
         this.context = context;
-        this.authToken = authToken;
         this.paymentDto = paymentDto;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Adding your payment...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
     }
 
     @Override
     protected Boolean doInBackground(Void... voids) {
         PaymentApiService paymentService = PaymentRetrofitClient.getRetrofitInstance().create(PaymentApiService.class);
-        Call<Void> call = paymentService.postPayment("Bearer " + authToken, paymentDto);
+        Call<Void> call = paymentService.postPayment(paymentDto);
 
         try {
             Response<Void> response = call.execute();
-
             if (response.isSuccessful()) {
-                Log.e("API RESPONSE SUCCESS - POST PAYMENT", "Successfully");
+                Log.d(TAG, "Post payment successful");
                 return true;
             } else {
-                Log.e("API RESPONSE ERROR - POST PAYMENT", "Unsuccessful: " + response.code());
+                Log.e(TAG, "Post payment failed: " + response.code());
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("API CALL POST PAYMENT FAILURE", "Network failure");
+            Log.e(TAG, "Post payment exception: " + e.getMessage(), e);
             return false;
         }
     }
@@ -62,14 +46,9 @@ public class PostPaymentApi extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean success) {
         if (success) {
-            // Start another activity upon success
-            progressDialog.dismiss();
-            Log.e("API CALL POST PAYMENT", "POST PAYMENT SUCCESSFULLY");
+            Toast.makeText(context, "Payment added successfully!", Toast.LENGTH_SHORT).show();
         } else {
-            progressDialog.dismiss();
-            Log.e("API CALL POST PAYMENT", "POST PAYMENT FAILED");
-            // Handle failure or show a message
-            // You may add a callback or interface to communicate with the calling activity/fragment
+            Toast.makeText(context, "Failed to add payment. Please try again.", Toast.LENGTH_SHORT).show();
         }
     }
 }

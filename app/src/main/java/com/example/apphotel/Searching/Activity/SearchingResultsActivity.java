@@ -25,90 +25,89 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchingResultsActivity extends AppCompatActivity implements SearchHotelApiCallAsyncTask.ApiCallListener {
-    ResultFilterAdapter resultFilterAdapter;
-    ResultItemAdapter resultItemAdapter;
-    RecyclerView rvResultFilter, rvResultItem;
-    androidx.appcompat.widget.SearchView searchView;
+
+    private ResultItemAdapter resultItemAdapter;
+    private RecyclerView rvResultItem;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.searching_results_layout);
 
-        rvResultFilter = findViewById(R.id.searching_rv_search_result_filter);
-        innitResultFilterRecyclerView();
-
+        // Initialize views
         rvResultItem = findViewById(R.id.searching_rv_search_result_items);
-        resultItemAdapter = new ResultItemAdapter(this, new ArrayList<>());
-
         searchView = findViewById(R.id.searching_ed_result_search_view);
 
+        resultItemAdapter = new ResultItemAdapter(this, new ArrayList<>());
+        rvResultItem.setLayoutManager(new GridLayoutManager(this, 2));
+        rvResultItem.setAdapter(resultItemAdapter);
 
+        // Handle search query from Intent
         Intent intent = getIntent();
         String searchQuery = intent.getStringExtra("SEARCH_QUERY");
-        searchView.setQuery(searchQuery, false);
-        getSearchHotels(searchQuery);
+        if (searchQuery != null) {
+            searchView.setQuery(searchQuery, false);
+            getSearchHotels(searchQuery);
+        }
 
+        // Handle search input
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                getSearchHotels(query);
-                return false;
+                getSearchHotels(query);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                getSearchHotels(newText);
+                if (newText.trim().length() > 2) {
+                    getSearchHotels(newText);
+                }
                 return true;
             }
         });
 
+        // Back button
         ImageButton resultBackBtn = findViewById(R.id.searching_result_back_button);
-        resultBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchingResultsActivity.this, SearchingActivity.class);
-                startActivity(intent);
-            }
+        resultBackBtn.setOnClickListener(v -> {
+            Intent backIntent = new Intent(SearchingResultsActivity.this, SearchingActivity.class);
+            startActivity(backIntent);
         });
-        // End onCreate()
     }
-
 
     private void getSearchHotels(String searchQuery) {
-        new SearchHotelApiCallAsyncTask(this, this).execute(searchQuery);
+        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+            Toast.makeText(this, "Search query cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new SearchHotelApiCallAsyncTask(this).execute(searchQuery);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onApiCallSuccess(List<Hotel> hotels) {
-        resultItemAdapter = new ResultItemAdapter(this, hotels);
-        resultItemAdapter.notifyDataSetChanged();
-        rvResultItem.setLayoutManager(new GridLayoutManager(this, 2));
-        rvResultItem.setAdapter(resultItemAdapter);
+        if (hotels != null && !hotels.isEmpty()) {
+            updateSearchResults(hotels);
+        } else {
+            Toast.makeText(this, "No results found.", Toast.LENGTH_SHORT).show();
+            clearSearchResults();
+        }
     }
 
     @Override
     public void onApiCallFailure(String errorMessage) {
-        Toast.makeText(this, "Api call failed", Toast.LENGTH_SHORT).show();
-        Log.e("API Error", errorMessage);
+        Toast.makeText(this, "Error fetching search results: " + errorMessage, Toast.LENGTH_SHORT).show();
+        Log.e("SearchHotelsError", errorMessage);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateSearchResults(List<Hotel> hotels) {
+        resultItemAdapter.updateData(hotels);
+    }
 
-    private void innitResultFilterRecyclerView() {
-        ArrayList<ResultFilterDomain> arrResultFilterData = new ArrayList<>();
-        //  Soft by reviewQuantity
-        arrResultFilterData.add(new ResultFilterDomain("Most Popular"));
-        //  Soft by price
-        arrResultFilterData.add(new ResultFilterDomain("Cheapest"));
-        //  Soft by rate
-        arrResultFilterData.add(new ResultFilterDomain("High Rating"));
-
-        resultFilterAdapter = new ResultFilterAdapter(arrResultFilterData);
-
-        rvResultFilter.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        rvResultFilter.setAdapter(resultFilterAdapter);
+    private void clearSearchResults() {
+        resultItemAdapter.updateData(new ArrayList<>());
     }
 }
-
 

@@ -16,7 +16,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class SearchHotelApiCallAsyncTask extends AsyncTask<String, Void, List<Hotel>> {
-    private Context context;
     private ApiCallListener listener;
 
     public interface ApiCallListener {
@@ -24,45 +23,40 @@ public class SearchHotelApiCallAsyncTask extends AsyncTask<String, Void, List<Ho
         void onApiCallFailure(String errorMessage);
     }
 
-    public SearchHotelApiCallAsyncTask(Context context, ApiCallListener listener) {
-        this.context = context;
+    public SearchHotelApiCallAsyncTask(ApiCallListener listener) {
         this.listener = listener;
     }
 
     @Override
     protected List<Hotel> doInBackground(String... params) {
-        String keyword = params[0];
+        if (params == null || params.length == 0) {
+            return null; // Không có từ khóa tìm kiếm
+        }
 
-        SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String authToken = preferences.getString("jwtKey", null);
+        String keyword = params[0]; // Lấy từ khóa từ tham số đầu tiên
 
-        if (authToken != null) {
-            try {
-                HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
-                Call<HotelApiRespone> call = apiService.getSearchHotels("Bearer " + authToken, keyword);
+        try {
+            HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
+            Call<HotelApiRespone> call = apiService.getSearchHotels(keyword);
 
-                Response<HotelApiRespone> response = call.execute();
-                if (response.isSuccessful() && response.body() != null) {
-                    return response.body().getData();
-                } else {
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
+            Response<HotelApiRespone> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().getData(); // Trả về danh sách khách sạn
+            } else {
+                return null; // Lỗi API
             }
-        } else {
-            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null; // Lỗi mạng
         }
     }
 
     @Override
     protected void onPostExecute(List<Hotel> hotels) {
-        super.onPostExecute(hotels);
         if (hotels != null) {
             listener.onApiCallSuccess(hotels);
         } else {
-            listener.onApiCallFailure("API call failed");
+            listener.onApiCallFailure("Failed to fetch search results.");
         }
     }
 }

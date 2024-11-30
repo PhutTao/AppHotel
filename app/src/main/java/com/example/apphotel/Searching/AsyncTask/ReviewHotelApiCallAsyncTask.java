@@ -1,7 +1,6 @@
 package com.example.apphotel.Searching.AsyncTask;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import com.example.apphotel.Searching.API.HotelApiService;
@@ -16,7 +15,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class ReviewHotelApiCallAsyncTask extends AsyncTask<Integer, Void, List<Review>> {
-    private Context context;
     private ApiCallListener listener;
 
     public interface ApiCallListener {
@@ -24,45 +22,35 @@ public class ReviewHotelApiCallAsyncTask extends AsyncTask<Integer, Void, List<R
         void onApiCallFailure(String errorMessage);
     }
 
-    public ReviewHotelApiCallAsyncTask(Context context, ApiCallListener listener) {
-        this.context = context;
+    public ReviewHotelApiCallAsyncTask(ApiCallListener listener) {
         this.listener = listener;
     }
 
     @Override
     protected List<Review> doInBackground(Integer... params) {
-        int hotelId = params[0];
+        int hotelId = params[0]; // Lấy hotelId từ tham số đầu tiên
 
-        SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String authToken = preferences.getString("jwtKey", null);
+        try {
+            HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
+            Call<ReviewHotelApiRespone> call = apiService.getReviewHotelById(hotelId);
 
-        if (authToken != null) {
-            try {
-                HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
-                Call<ReviewHotelApiRespone> call = apiService.getReviewHotelById("Bearer " + authToken, hotelId);
-
-                Response<ReviewHotelApiRespone> response = call.execute();
-                if (response.isSuccessful() && response.body() != null) {
-                    return response.body().getData();
-                } else {
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            Response<ReviewHotelApiRespone> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().getData();
+            } else {
                 return null;
             }
-        } else {
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(List<Review> reviews) {
-        super.onPostExecute(reviews);
         if (reviews != null) {
             listener.onApiCallSuccess(reviews);
-        }
-        else {
+        } else {
             listener.onApiCallFailure("API Call Failed");
         }
     }

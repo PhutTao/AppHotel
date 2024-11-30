@@ -3,15 +3,29 @@ package com.example.apphotel.Booking.Dto;
 import com.google.gson.annotations.SerializedName;
 
 public class PaymentDto {
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("userName")
     private String username;
+
+    @SerializedName("cardName")
     private String cardName;
-    @SerializedName("carNumber")
+
+    @SerializedName("cardNumber")
     private String cardNumber;
+
+    @SerializedName("numberCVV")
     private String numberCVV;
+
+    @SerializedName("member_since")
     private String memberSince;
+
+    @SerializedName("paymentMethod")
     private String paymentMethod;
 
-    public  PaymentDto(String paymentMethod, String cardName, String cardNumber) {
+    // Constructor
+    public PaymentDto(String paymentMethod, String cardName, String cardNumber) {
         this.paymentMethod = paymentMethod;
         this.cardName = cardName;
         this.cardNumber = cardNumber;
@@ -20,6 +34,7 @@ public class PaymentDto {
         this.numberCVV = "";
     }
 
+    // Getters and Setters
     public String getUsername() {
         return username;
     }

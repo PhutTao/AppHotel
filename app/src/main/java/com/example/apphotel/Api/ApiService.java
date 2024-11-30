@@ -30,11 +30,6 @@ public interface ApiService {
             @Field("email") String email,
             @Field("password") String password
     );
-    @GET("popular_hotels.php")
-    Call<ApiResponse> getPopularHotels();
-    @GET("popular_hotels.php")
-    Call<ApiResponse> getNearbyHotels();
-
 
 
 }

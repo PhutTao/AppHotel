@@ -1,7 +1,5 @@
 package com.example.apphotel.Searching.AsyncTask;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import com.example.apphotel.Searching.API.HotelApiRespone;
@@ -16,7 +14,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class AllHotelApiCallAsyncTask extends AsyncTask<Void, Void, List<Hotel>> {
-    private Context context;
     private ApiCallListener listener;
 
     public interface ApiCallListener {
@@ -24,42 +21,33 @@ public class AllHotelApiCallAsyncTask extends AsyncTask<Void, Void, List<Hotel>>
         void onGetAllHotelsFailure(String errorMessage);
     }
 
-    public AllHotelApiCallAsyncTask(Context context, ApiCallListener listener) {
-        this.context = context;
+    public AllHotelApiCallAsyncTask(ApiCallListener listener) {
         this.listener = listener;
     }
 
     @Override
     protected List<Hotel> doInBackground(Void... voids) {
-        SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String authToken = preferences.getString("jwtKey", null);
-        if (authToken != null) {
-            try {
-                HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
-                Call<HotelApiRespone> call = apiService.getAllHotels("Bearer " + authToken);
-
-                Response<HotelApiRespone> response = call.execute();
-                if (response.isSuccessful() && response.body() != null) {
-                    return response.body().getData();
-                } else {
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            HotelApiService apiService = HotelRetrofitClient.getRetrofitInstance().create(HotelApiService.class);
+            Call<HotelApiRespone> call = apiService.getAllHotels();
+            Response<HotelApiRespone> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().getData();
+            } else {
                 return null;
             }
-        } else {
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(List<Hotel> hotels) {
-        super.onPostExecute(hotels);
         if (hotels != null) {
             listener.onGetAllHotelsCompleted(hotels);
         } else {
-            listener.onGetAllHotelsFailure("API call failed");
+            listener.onGetAllHotelsFailure("Failed to fetch high rating hotels");
         }
     }
 }
