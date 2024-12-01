@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import com.example.apphotel.Homescreen.Fragment.Homescreen_about_us;
 import com.example.apphotel.Homescreen.Fragment.Homescreen_setting;
+import com.example.apphotel.Login.User;
 import com.example.apphotel.R;
 import com.example.apphotel.Homescreen.Fragment.Homescreen_home;
 import com.example.apphotel.Homescreen.Fragment.Homescreen_mybooking;
@@ -37,7 +38,6 @@ public class HomescreenActivity extends AppCompatActivity {
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.homescreen_containerr, homefragment).commit();
         }
-
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {

@@ -79,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                             RegisterResponse registerResponse = response.body();
                             if (registerResponse.isSuccess()) {
                                 Intent intent=new Intent(RegisterActivity.this, AdditionalProfileActivity.class);
+                                intent.putExtra("username", username);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(RegisterActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();

@@ -21,9 +21,8 @@ public class PostBookingApi extends AsyncTask<Void, Void, String> {
     private BookingDto bookingDto;
     private ProgressDialog progressDialog;
 
-    public PostBookingApi(Context context, int hotelId, BookingDto bookingDto) {
+    public PostBookingApi(Context context, BookingDto bookingDto) {
         this.context = context;
-        this.hotelId = hotelId;
         this.bookingDto = bookingDto;
     }
 
@@ -39,11 +38,11 @@ public class PostBookingApi extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
         BookingApiService bookingService = PaymentRetrofitClient.getRetrofitInstance().create(BookingApiService.class);
-        Call<Void> call = bookingService.postBookingWithoutToken(hotelId, bookingDto);
+        Call<Void> call = bookingService.postBookingWithoutToken(bookingDto);
 
         try {
             Response<Void> response = call.execute();
-
+            System.out.println(response.body());
             if (response.isSuccessful()) {
                 Log.d("API_RESPONSE", "Booking successful");
                 return "success";

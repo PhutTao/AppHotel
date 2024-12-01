@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.apphotel.Homescreen.Adapter.Homescreen_NearbyhotelAdapter;
-import com.example.apphotel.Homescreen.HotelApiService.Check_Heart;
 import com.example.apphotel.Homescreen.HotelApiService.Favourite_Hotel;
 import com.example.apphotel.Homescreen.HotelApiService.Favourite_Hotels_Api_Response;
 import com.example.apphotel.Homescreen.HotelApiService.Home_Hotel;
@@ -30,6 +29,7 @@ import com.example.apphotel.Homescreen.HotelApiService.Home_ImageDetail;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Nearbyhotel;
 import com.example.apphotel.R;
 import com.example.apphotel.Searching.Activity.DetailActivity;
+import com.example.apphotel.utils.SessionManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -73,10 +73,11 @@ public class Homescreen_mybooking_history extends Fragment {
             // Retrofit network request
             SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String jwtToken = sharedPreferences.getString("jwtKey", null);
-
+            SessionManager sessionManager = new SessionManager(getContext());
+            int userId = sessionManager.getUserId();
             Home_HotelEndpoint hotelEndpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
-            Call<Favourite_Hotels_Api_Response> call = hotelEndpoint.getFavoriteHotels("Bearer " + jwtToken);
-            //code dong tren de lay du lieju cac booking yeu thich
+            Call<Favourite_Hotels_Api_Response> call = hotelEndpoint.getFavoriteHotels(userId);
+
             try {
                 Response<Favourite_Hotels_Api_Response> response = call.execute();
                 if (response.isSuccessful()) {
@@ -84,14 +85,13 @@ public class Homescreen_mybooking_history extends Fragment {
                     //danh sach hotel yeu thich
                     for (Favourite_Hotel apiHotel : apiHotels) {
                         //liet ke tung khach sang
+
                         Call<Home_HotelApiResponse> hotelCall = hotelEndpoint.getDetailHotel(apiHotel.getHotelId(),"Bearer " + jwtToken);
                         Response<Home_HotelApiResponse> hotelResponse = hotelCall.execute();
                         if(hotelResponse.isSuccessful()) {
                             Home_Hotel apiTymHotel = hotelResponse.body().getData();
                             // Convert API Hotel to Homescreen_Nearbyhotel
-                            Call<Check_Heart> checkHeartCall = hotelEndpoint.checkHeart(1, apiHotel.getId());
-                            Response<Check_Heart> response1 = checkHeartCall.execute();
-                            Check_Heart checkHeart = response1.body();
+
                             double formattedRate = Math.round(apiTymHotel.getRate() * 10.0) / 10.0;
 
                             Homescreen_Nearbyhotel nearbyHotel = new Homescreen_Nearbyhotel(
@@ -101,9 +101,7 @@ public class Homescreen_mybooking_history extends Fragment {
                                     formattedRate,
                                     apiTymHotel.getReviewQuantity(),
                                     apiTymHotel.getPrice(),
-                                    apiTymHotel.getHinh(), // Truyền URL trực tiếp nếu nó là chuỗi
-                                    apiTymHotel.isFavourited(),
-                                    checkHeart.isSuccess()
+                                    apiTymHotel.getHinh()
                             );
                             // Add to result list
                             result.add(nearbyHotel);
@@ -163,9 +161,8 @@ public class Homescreen_mybooking_history extends Fragment {
 
     }
     // Method to extract the image URL from ImageDetails
-    private Bitmap getHinhFromImageDetails(List<Home_ImageDetail> imageDetails) {
-        if (imageDetails != null && !imageDetails.isEmpty()) {
-            String imageUrl = imageDetails.get(0).getImageUrl();
+    private Bitmap getHinhFromImageDetails(String imageUrl) {
+        if (imageUrl != null && !imageUrl.isEmpty()) {
             // Use Picasso to load the image asynchronously and return the loaded Bitmap
             return loadBitmapWithPicasso(imageUrl);
         }

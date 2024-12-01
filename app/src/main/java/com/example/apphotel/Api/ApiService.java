@@ -17,7 +17,7 @@ import retrofit2.http.PUT;
 
 public interface ApiService {
     @FormUrlEncoded
-    @POST("register.php")  // Đường dẫn của API (phần sau cùng URL)
+    @POST("auth/register.php")  // Đường dẫn của API (phần sau cùng URL)
     Call<RegisterResponse> registerUser(
             @Field("username") String username,
             @Field("email") String email,
@@ -25,11 +25,18 @@ public interface ApiService {
     );
     // Đăng nhập
     @FormUrlEncoded
-    @POST("login.php")
+    @POST("auth/login.php")
     Call<LoginResponse> loginUser(
             @Field("email") String email,
             @Field("password") String password
     );
+    @FormUrlEncoded
+    @POST("auth/updateUser.php")
+    Call<LoginResponse> updateUser(@Field("selectedDate") String selectedDate,
+                                   @Field("address") String address,
+                                   @Field("phone") String phone,
+                                   @Field("sex") String sex,
+                                   @Field("username") String username);
 
 
 }

@@ -94,6 +94,16 @@ public class Homescreen_Nearbyhotel {
         this.isHearted = isHearted;
 
     }
+    public Homescreen_Nearbyhotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, String hinh) {
+        this.hotelId = hotelId;
+        this.ten = ten;
+        this.diaChi = diaChi;
+        this.danhGia = danhGia;
+        this.soLuongDanhGia = soLuongDanhGia;
+        this.gia = gia;
+        this.hinh = hinh;
+
+    }
 
     public double getGia() {
         return gia;

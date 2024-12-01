@@ -13,8 +13,6 @@ import com.example.apphotel.Homescreen.HotelApiService.Home_HotelsApiResponse;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
 import com.example.apphotel.R;
-import com.squareup.picasso.Picasso;
-
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
@@ -90,14 +88,10 @@ public class Homescreen_PopularHotelAdapter extends BaseAdapter {
         holder.txtDanhGia.setText(String.format("%.1f⭐", hotel.getDanhGia()));
 
         // Load image with Picasso or other library
-        if (hotel.getHinh() != null && !hotel.getHinh().isEmpty()) {
-            Picasso.get()
-                    .load(hotel.getHinh()) // URL hình ảnh
-                    .placeholder(R.drawable.homescreen_muongthanh) // Hình placeholder khi tải
-                    .error(R.drawable.homescreen_meroda) // Hình lỗi khi không tải được
-                    .into(holder.imgHinh);
+        if (hotel.getHinh() != null) {
+            holder.imgHinh.setImageBitmap(hotel.getHinh());
         } else {
-            holder.imgHinh.setImageResource(R.drawable.homescreen_muongthanh); // Hình mặc định nếu không có hình
+            holder.imgHinh.setImageResource(R.drawable.homescreen_meroda);
         }
         if(hotel.isHearted() == true){
             holder.heartImageViewTrue.setVisibility(View.VISIBLE);

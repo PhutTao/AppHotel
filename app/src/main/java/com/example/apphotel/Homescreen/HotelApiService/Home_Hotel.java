@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Home_Hotel {
+
     @SerializedName("id")
     private int id;
 

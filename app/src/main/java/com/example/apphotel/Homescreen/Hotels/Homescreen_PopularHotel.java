@@ -2,8 +2,6 @@ package com.example.apphotel.Homescreen.Hotels;
 
 import android.graphics.Bitmap;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Homescreen_PopularHotel {
     public int getHotelId() {
         return hotelId;
@@ -41,7 +39,13 @@ public class Homescreen_PopularHotel {
         this.gia = gia;
     }
 
+    public Bitmap getHinh() {
+        return hinh;
+    }
 
+    public void setHinh(Bitmap hinh) {
+        this.hinh = hinh;
+    }
 
     public boolean isFavourited() {
         return isFavourited;
@@ -57,17 +61,7 @@ public class Homescreen_PopularHotel {
     private double danhGia;
     private int soLuongDanhGia;
     private double gia;
-
-    public String getHinh() {
-        return hinh;
-    }
-
-    public void setHinh(String hinh) {
-        this.hinh = hinh;
-    }
-
-    @SerializedName("hotelImage")
-    private String hinh;
+    private Bitmap hinh;
     private boolean isFavourited;
 
     public boolean isHearted() {
@@ -81,8 +75,18 @@ public class Homescreen_PopularHotel {
     private boolean isHearted;
 
     // Constructor
+    public Homescreen_PopularHotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, Bitmap hinh, boolean isFavourited) {
+        this.hotelId = hotelId;
+        this.ten = ten;
+        this.diaChi = diaChi;
+        this.danhGia = danhGia;
+        this.soLuongDanhGia = soLuongDanhGia;
+        this.gia = gia;
+        this.hinh = hinh;
+        this.isFavourited = isFavourited;
 
-    public Homescreen_PopularHotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, String hinh, boolean isFavourited, boolean isHearted) {
+    }
+    public Homescreen_PopularHotel(int hotelId, String ten, String diaChi, double danhGia, int soLuongDanhGia, double gia, Bitmap hinh, boolean isFavourited, boolean isHearted) {
         this.hotelId = hotelId;
         this.ten = ten;
         this.diaChi = diaChi;

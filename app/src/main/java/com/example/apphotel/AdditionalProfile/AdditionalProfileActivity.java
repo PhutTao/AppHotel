@@ -26,7 +26,11 @@ import android.widget.Toast;
 import com.example.apphotel.AdditionalProfile.AsyncTask.SettingProfileAsyncTask;
 import com.example.apphotel.AdditionalProfile.profileApiService.ProfileApiCallBack;
 import com.example.apphotel.AdditionalProfile.profileApiService.ProfileEndpoint;
+import com.example.apphotel.Api.ApiService;
+import com.example.apphotel.Api.RetrofitClient;
 import com.example.apphotel.Homescreen.HomescreenActivity;
+import com.example.apphotel.Login.LoginActivity;
+import com.example.apphotel.Model.LoginResponse;
 import com.example.apphotel.R;
 
 import java.io.File;
@@ -35,6 +39,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -53,12 +60,15 @@ public class AdditionalProfileActivity extends AppCompatActivity {
     EditText addressEditText;
     EditText phoneEditText;
     private Retrofit retrofit;
+    private String username;
+    private ApiService apiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.additional_profile_layout);
-
         openAdditionalProfile();
+        apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
     }
 
     private void openAdditionalProfile() {
@@ -71,16 +81,6 @@ public class AdditionalProfileActivity extends AppCompatActivity {
         sexRadioGroup=findViewById(R.id.radioGroup);
         addressEditText=findViewById(R.id.profile_address);
         phoneEditText=findViewById(R.id.profile_phone_number);
-
-
-        String BASE_URL = getString(R.string.base_url);
-        // Initialize Retrofit only once
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-
 
 
         sexRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -117,37 +117,51 @@ public class AdditionalProfileActivity extends AppCompatActivity {
                     }catch (IOException e){
                         e.printStackTrace();
                     }
-
-
                 }
-
-
-                new SettingProfileAsyncTask( retrofit.create(ProfileEndpoint.class), new ProfileApiCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        Intent intent= new Intent(AdditionalProfileActivity.this, HomescreenActivity.class);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        Toast.makeText(AdditionalProfileActivity.this, "No Profile", Toast.LENGTH_SHORT).show();
-
-                    }
-                }, file)
-                        .execute(
-                                dateOfBirth.getText().toString(),
-                                sex.toString(),
-                                addressEditText.getText().toString(),
-                                phoneEditText.getText().toString(),
-                                jwt);
-
-
+                Intent intent = getIntent();
+                username = intent.getStringExtra("username");
+                selectedDate = dateOfBirth.getText().toString();
+                String address = addressEditText.getText().toString();
+                String phone = phoneEditText.getText().toString();
+                updateUser(selectedDate,address,phone, sex, username);
             }
         });
 
 
         uploadImg();
+    }
+    private void updateUser(String selectedDate, String address, String phone, String sex, String username) {
+        System.out.println(selectedDate);
+        System.out.println(address);
+        System.out.println(phone);
+        System.out.println(sex);
+        System.out.println(username);
+
+        Call<LoginResponse> call = apiService.updateUser(selectedDate, address, phone, sex, username);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+
+                    if (loginResponse.isSuccess()) {
+                        Toast.makeText(AdditionalProfileActivity.this, "User updated successfully!", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(AdditionalProfileActivity.this, LoginActivity.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(AdditionalProfileActivity.this, "Update failed: " + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(AdditionalProfileActivity.this, "Server error: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(AdditionalProfileActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void showCalendarDialog() {
         Dialog calendarDialog = new Dialog(this); // 'this' tham chiếu đến Activity hiện tại

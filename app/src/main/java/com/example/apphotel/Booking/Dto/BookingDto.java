@@ -23,12 +23,19 @@ public class BookingDto {
     private String paymentMethod;
     @SerializedName("roomTypes")
     private List<String> roomTypes;
-    @SerializedName("hotelRate")
-    private Double hotelRate;
-    @SerializedName("reviewQuantity")
-    private int reviewQuantity;
     @SerializedName("hotelId")
     private int hotelId;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @SerializedName("userId")
+    private int userId;
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
@@ -56,14 +63,6 @@ public class BookingDto {
 
     public void setRoomTypes(List<String> roomTypes) {
         this.roomTypes = roomTypes;
-    }
-
-    public void setHotelRate(Double hotelRate) {
-        this.hotelRate = hotelRate;
-    }
-
-    public void setReviewQuantity(int reviewQuantity) {
-        this.reviewQuantity = reviewQuantity;
     }
 
     public void setHotelId(int hotelId) {
@@ -96,14 +95,6 @@ public class BookingDto {
 
     public List<String> getRoomTypes() {
         return roomTypes;
-    }
-
-    public Double getHotelRate() {
-        return hotelRate;
-    }
-
-    public int getReviewQuantity() {
-        return reviewQuantity;
     }
 
     public int getHotelId() {

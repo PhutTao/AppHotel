@@ -9,9 +9,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface BookingApiService {
-    @POST("Booking/post_booking.php/{hotelId}")
+    @POST("Booking/post_booking.php")
     Call<Void> postBookingWithoutToken(
-            @Path("hotelId") int hotelId,
             @Body BookingDto bookingDto
     );
 }

@@ -40,10 +40,10 @@ public interface Home_HotelEndpoint {
     @GET("Homescreen/get_popular_hotels.php")   /*done*/
     Call<Home_HotelsApiResponse> getPopularHotels(@Header("Authorization") String authorization);
     @GET("Homescreen/get_favorite_hotels.php")
-    Call<Favourite_Hotels_Api_Response> getFavoriteHotels(@Header("Authorization") String authorization);
+    Call<Favourite_Hotels_Api_Response> getFavoriteHotels(@Query("id") int userId);
     @GET("Homescreen/get_bookings.php")
     Call<Home_BookedApiResponse> getBooked(@Header("Authorization") String authorization);
-    @GET("Homescreen/get_detail_hotels.php")
+    @GET("Homescreen/get_detail_hotel.php")
     Call<Home_HotelApiResponse> getDetailHotel(
             @Query("id") int hotelId,
             @Header("Authorization") String authorization

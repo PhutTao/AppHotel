@@ -28,6 +28,7 @@ import com.example.apphotel.Homescreen.HomescreenActivity;
 import com.example.apphotel.R;
 import com.example.apphotel.Searching.AsyncTask.DetailHotelApiCallAsyncTask;
 import com.example.apphotel.Searching.Domain.Hotel;
+import com.example.apphotel.utils.SessionManager;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -114,6 +115,8 @@ public class BookingCheckoutActivity extends AppCompatActivity implements
 
             int hotelId = bookingFormDetailData.getHotelId();
             BookingDto bookingDto = new BookingDto();
+            SessionManager sessionManager = new SessionManager(getApplicationContext());
+            int userId = sessionManager.getUserId();
             // Điền thông tin BookingDto
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
             bookingDto.setHotelId(hotelId);
@@ -123,13 +126,13 @@ public class BookingCheckoutActivity extends AppCompatActivity implements
             bookingDto.setChildQuantity(bookingFormDetailData.getSelectedChildValue());
             bookingDto.setPhoneNumber(bookingFormDetailData.getPhoneNumber());
             bookingDto.setPaymentMethod(bookingFormDetailData.getBookingPaymentMethod().getPaymentMethod().toString());
-
+            bookingDto.setUserId(userId);
 
             // In JSON để kiểm tra
             Log.d("BookingDto", new Gson().toJson(bookingDto));
 
             // Gọi API
-            new PostBookingApi(BookingCheckoutActivity.this, hotelId, bookingDto).execute();
+            new PostBookingApi(BookingCheckoutActivity.this, bookingDto).execute();
         });
     }
     public static void showToastWithJson(Context context, BookingDto bookingDto) {
