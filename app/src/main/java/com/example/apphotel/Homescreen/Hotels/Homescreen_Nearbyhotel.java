@@ -57,6 +57,8 @@ public class Homescreen_Nearbyhotel {
     private double danhGia;
     private int soLuongDanhGia;
     private double gia;
+    @SerializedName("hotelImage")
+    private String hinh;
 
     public String getHinh() {
         return hinh;
@@ -66,8 +68,7 @@ public class Homescreen_Nearbyhotel {
         this.hinh = hinh;
     }
 
-    @SerializedName("hotelImage")
-    private String hinh;
+
     private boolean isFavourited;
 
     public boolean isHearted() {

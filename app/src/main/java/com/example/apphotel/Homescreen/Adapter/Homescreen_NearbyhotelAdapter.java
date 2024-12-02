@@ -67,8 +67,6 @@ public class Homescreen_NearbyhotelAdapter extends BaseAdapter {
             holder.txtSLDanhGia = convertView.findViewById(R.id.home_SLdanhgia_nearbyhotel);
             holder.txtDanhGia = convertView.findViewById(R.id.home_rate_nearbyhotel);
             holder.imgHinh = convertView.findViewById(R.id.home_img_nearbyhotel);
-            holder.heartImageViewTrue = convertView.findViewById(R.id.home_tym2);
-            holder.heartImageViewFalse = convertView.findViewById(R.id.home_tym);
             convertView.setTag(holder);
         } else {
             holder = (Homescreen_NearbyhotelAdapter.ViewHolder) convertView.getTag();
@@ -83,7 +81,9 @@ public class Homescreen_NearbyhotelAdapter extends BaseAdapter {
         holder.txtSLDanhGia.setText(String.format("(%d)", hotel.getSoLuongDanhGia()));
         holder.txtDanhGia.setText(String.format("%.1f⭐", hotel.getDanhGia()));
         // Kiểm tra và gán hình ảnh
+        System.out.println("image" + hotel.getHinh());
         if (hotel.getHinh() != null && !hotel.getHinh().isEmpty()) {
+
             Picasso.get()
                     .load(hotel.getHinh()) // URL hình ảnh
                     .placeholder(R.drawable.homescreen_muongthanh) // Hình placeholder khi tải
