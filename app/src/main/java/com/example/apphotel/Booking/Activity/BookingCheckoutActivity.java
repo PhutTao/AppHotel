@@ -1,10 +1,13 @@
 package com.example.apphotel.Booking.Activity;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,6 +78,8 @@ public class BookingCheckoutActivity extends AppCompatActivity implements
         totalBillPrice = findViewById(R.id.checkout_booking_detail_total_price);
         confirmBtn = findViewById(R.id.checkout_confirm_button);
         selectPaymentBtn = findViewById(R.id.booking_payment_bottom_sheet_open_button);
+
+
 
         // Get data which user had selected before
         Intent bookingActivityIntent = getIntent();

@@ -1,6 +1,7 @@
 package com.example.apphotel.Homescreen.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,16 +12,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.apphotel.Booking.Activity.BookingActivity;
 import com.example.apphotel.Homescreen.HotelApiService.Home_Booked;
 import com.example.apphotel.Homescreen.HotelApiService.Home_BookedApiResponse;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiClient;
 import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
 import com.example.apphotel.R;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -30,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Homescreen_mybooking_booked extends Fragment {
@@ -89,6 +95,40 @@ public class Homescreen_mybooking_booked extends Fragment {
             }
         }
     }
+    private void cancelBooking(int bookingId) {
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("bookingId", bookingId);
+
+        Home_HotelEndpoint endpoint = Home_HotelApiClient.getClient().create(Home_HotelEndpoint.class);
+        Call<JsonObject> call = endpoint.cancelBooking(requestBody);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    JsonObject responseBody = response.body();
+                    boolean success = responseBody.get("success").getAsBoolean();
+                    String message = responseBody.get("message").getAsString();
+
+                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    if (success) {
+                        // Xóa thành công, cập nhật danh sách
+                        new FetchBookedHotelsTask().execute();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Lỗi API: Không nhận được phản hồi hợp lệ.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
 
     private void populateBookedHotels() {
         lnBookedHotel.removeAllViews();
@@ -105,6 +145,10 @@ public class Homescreen_mybooking_booked extends Fragment {
             TextView tvCheckIn = itemView.findViewById(R.id.mybooking_ngaycheckin_booked);
             TextView tvCheckOut = itemView.findViewById(R.id.mybooking_ngaycheckout_booked);
             ImageView imgHotel = itemView.findViewById(R.id.mybooking_img_booked);
+            Button btnCancel = itemView.findViewById(R.id.mybooking_btn_cancel);
+            Button btnEdit = itemView.findViewById(R.id.mybooking_btn_edit);
+
+
 
             // Gán giá trị từ API
             tvName.setText(booked.getTen());
@@ -124,9 +168,44 @@ public class Homescreen_mybooking_booked extends Fragment {
             } else {
                 imgHotel.setImageResource(R.drawable.homescreen_muongthanh);
             }
+            // Xử lý sự kiện nút hủy
+            btnCancel.setOnClickListener(v -> {
+                new android.app.AlertDialog.Builder(getContext())
+                        .setTitle("Xác nhận hủy")
+                        .setMessage("Bạn có chắc chắn muốn hủy đặt phòng tại " + booked.getTen() + "?")
+                        .setPositiveButton("Đồng ý", (dialog, which) -> cancelBooking(booked.getId()))
+                        .setNegativeButton("Hủy", null)
+                        .show();
+            });
+            btnEdit.setOnClickListener(v -> {
+                new android.app.AlertDialog.Builder(getContext())
+                        .setTitle("Xác nhận đặt")
+                        .setMessage("Vui lòng đặt phòng mới và xóa phòng cũ đã đặt")
+                        .setPositiveButton("Đồng ý", (dialog, which) -> {
+                            // Chuyển sang BookingActivity khi người dùng nhấn "Đồng ý"
+                            Intent intent = new Intent(getContext(), BookingActivity.class);
+
+                            // Truyền dữ liệu cần thiết vào Intent (nếu có)
+                            intent.putExtra("bookingId", booked.getId());
+                            intent.putExtra("hotelName", booked.getTen());
+                            intent.putExtra("location", booked.getDiaChi());
+                            intent.putExtra("checkInDate", booked.getNgayCheckIn());
+                            intent.putExtra("checkOutDate", booked.getNgayCheckOut());
+                            intent.putExtra("price", booked.getGia());
+
+
+                            // Bắt đầu BookingActivity
+                            startActivity(intent);
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
+            });
+
+
 
             lnBookedHotel.addView(itemView);
         }
     }
+
 
 }

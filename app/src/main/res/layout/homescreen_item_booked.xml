@@ -2,181 +2,232 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/homescreen_custom_itempopular">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:orientation="horizontal"
-            android:id="@+id/bookedhotels_infhotel">
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/mybooking_img_booked"
-                android:layout_width="110dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="@drawable/homescreen_custom_img"
-                android:clipToOutline="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/homescreen_muongthanh">
-            </ImageView>
+        <!-- Container chính -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/homescreen_custom_itempopular"
+            android:padding="10dp">
+
+            <!-- Layout chứa thông tin khách sạn -->
             <LinearLayout
+                android:id="@+id/bookedhotels_infhotel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentTop="true">
+
+                <!-- Ảnh khách sạn -->
+                <ImageView
+                    android:id="@+id/mybooking_img_booked"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/homescreen_custom_img"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/homescreen_muongthanh" />
+
+                <!-- Thông tin khách sạn -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Tên khách sạn -->
+                    <TextView
+                        android:id="@+id/mybooking_name_booked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HAIAN Hotel"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:ellipsize="end"
+                        android:singleLine="true" />
+
+                    <!-- Địa chỉ -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/homescreen_icon_location" />
+
+                        <TextView
+                            android:id="@+id/mybooking_location_booked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="My Khe Beach"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <!-- Đánh giá -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:id="@+id/mybooking_rate_booked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4.5"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginStart="5dp"
+                            android:src="@drawable/homescreen_icon_star" />
+
+                        <TextView
+                            android:id="@+id/mybooking_SLdanhgia_booked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="(600 reviews)"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Giá tiền -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#06B3C4" />
+
+                        <TextView
+                            android:id="@+id/mybooking_price_booked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="105"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#06B3C4" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/Day"
+                            android:layout_marginStart="5dp"
+                            android:textSize="14sp"
+                            android:textColor="#06B3C4" />
+                    </LinearLayout>
+                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/buttons_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/mybooking_name_booked"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="HAIAN"
-                    android:textSize="20sp"
-                    android:layout_marginTop="7dp"
-                    android:textStyle="bold"></TextView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/homescreen_icon_location">
-                    </ImageView>
-                    <TextView
-                        android:id="@+id/mybooking_location_booked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:text="My Khe Beach">
-                    </TextView>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/mybooking_rate_booked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="4.5">
-                    </TextView>
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/homescreen_icon_star"></ImageView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="("
-                        android:textSize="12sp"
-                        android:gravity="bottom"></TextView>
-                    <TextView
-                        android:id="@+id/mybooking_SLdanhgia_booked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="600"
-                        android:textSize="12sp"
-                        android:gravity="bottom"></TextView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text=")"
-                        android:textSize="12sp"
-                        android:gravity="bottom"></TextView>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="$"
-                        android:gravity="bottom"
-                        android:textColor="#06B3C4"
-                        android:textStyle="bold"
-                        android:textSize="17sp"/>
-                    <TextView
-                        android:id="@+id/mybooking_price_booked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="105"
-                        android:gravity="bottom"
-                        android:textColor="#06B3C4"
-                        android:textStyle="bold"
-                        android:textSize="17sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="/Day"
-                        android:gravity="bottom"
-                        android:textColor="#06B3C4"
-                        android:textSize="17sp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/bookedhotels_date"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/bookedhotels_infhotel"
-            android:orientation="horizontal"
-            android:background="@drawable/homescreen_booked_custom_date">
-            <LinearLayout
+                <Button
+                android:id="@+id/mybooking_btn_cancel"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hủy"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#FF5252"
+                android:layout_gravity="center_vertical" />
+                <Button
+                    android:id="@+id/mybooking_btn_edit"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Check in"
-                    android:textAlignment="center"/>
-                <TextView
-                    android:id="@+id/mybooking_ngaycheckin_booked"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="28 June"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textAlignment="center"/>
+                    android:backgroundTint="#040404"
+                    android:text="Sửa"
+                    android:textColor="@android:color/white" />
+
             </LinearLayout>
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/homescreen_icon_arrow_right" />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Check out"
-                    android:textAlignment="center"/>
-                <TextView
-                    android:id="@+id/mybooking_ngaycheckout_booked"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="28 June"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textAlignment="center"/>
+                <!-- Nút hủy đặt phòng -->
+
+
             </LinearLayout>
 
-        </LinearLayout>
+            <!-- Ngày Check-in và Check-out -->
+            <LinearLayout
+                android:id="@+id/bookedhotels_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bookedhotels_infhotel"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:background="@drawable/homescreen_booked_custom_date">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Check in"
+                        android:textAlignment="center"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/mybooking_ngaycheckin_booked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="28 June"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/homescreen_icon_arrow_right" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Check out"
+                        android:textAlignment="center"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/mybooking_ngaycheckout_booked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="30 June"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
+
 
 
 </RelativeLayout>

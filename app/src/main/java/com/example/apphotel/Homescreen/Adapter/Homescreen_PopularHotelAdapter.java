@@ -8,19 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiClient;
-import com.example.apphotel.Homescreen.HotelApiService.Home_HotelsApiResponse;
-import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_PopularHotel;
 import com.example.apphotel.R;
-import android.content.SharedPreferences;
-import android.widget.Toast;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Homescreen_PopularHotelAdapter extends BaseAdapter {
 
@@ -40,69 +32,82 @@ public class Homescreen_PopularHotelAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
-        return popularHotelList.get(i);
+    public Object getItem(int position) {
+        return popularHotelList.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        return position;
     }
 
     private static class ViewHolder {
-        TextView txtTen;
-        TextView txtDiaChi;
-        ImageView imgHinh;
-        TextView txtDanhGia;
-        TextView txtSLDanhGia;
-        TextView txtGia;
-        ImageView heartImageViewTrue;
-        ImageView heartImageViewFalse;
+        TextView txtName, txtPrice, txtReviewCount, txtRating;
+        ImageView imgHotel, imgHeartFilled, imgHeartOutline;
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+
         if (convertView == null) {
+            // Inflate layout
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout, null);
+
+            // Initialize ViewHolder
             holder = new ViewHolder();
-            holder.txtTen = convertView.findViewById(R.id.home_name_popularhotel);
-            holder.txtGia = convertView.findViewById(R.id.home_price_popularhotel);
-            holder.txtSLDanhGia = convertView.findViewById(R.id.home_SLdanhgia_popularhotel);
-            holder.txtDanhGia = convertView.findViewById(R.id.home_rate_popularhotel);
-            holder.imgHinh = convertView.findViewById(R.id.home_img_popularhotel);
-            holder.heartImageViewTrue = convertView.findViewById(R.id.home_tym2);
-            holder.heartImageViewFalse = convertView.findViewById(R.id.home_tym);
+            holder.txtName = convertView.findViewById(R.id.home_name_popularhotel);
+            holder.txtPrice = convertView.findViewById(R.id.home_price_popularhotel);
+            holder.txtReviewCount = convertView.findViewById(R.id.home_SLdanhgia_popularhotel);
+            holder.txtRating = convertView.findViewById(R.id.home_rate_popularhotel);
+            holder.imgHotel = convertView.findViewById(R.id.home_img_popularhotel);
+            holder.imgHeartFilled = convertView.findViewById(R.id.home_tym2);
+            holder.imgHeartOutline = convertView.findViewById(R.id.home_tym);
+
+            // Set tag
             convertView.setTag(holder);
         } else {
+            // Retrieve ViewHolder
             holder = (ViewHolder) convertView.getTag();
         }
 
+        // Get current hotel
         Homescreen_PopularHotel hotel = popularHotelList.get(position);
 
-        holder.txtTen.setText(hotel.getTen());
-        holder.txtGia.setText(String.format("$%.2f/Day", hotel.getGia()));
-        holder.txtSLDanhGia.setText(String.format("(%d)", hotel.getSoLuongDanhGia()));
-        holder.txtDanhGia.setText(String.format("%.1f⭐", hotel.getDanhGia()));
+        // Bind data
+        holder.txtName.setText(hotel.getTen());
+        holder.txtPrice.setText(String.format("$%.2f/Day", hotel.getGia()));
+        holder.txtReviewCount.setText(String.format("(%d)", hotel.getSoLuongDanhGia()));
+        holder.txtRating.setText(String.format("%.1f⭐", hotel.getDanhGia()));
 
-        // Load image with Picasso or other library
-        if (hotel.getHinh() != null) {
-            holder.imgHinh.setImageBitmap(hotel.getHinh());
+        // Load hotel image
+        Picasso.get()
+                .load(hotel.getHinh())
+                .placeholder(R.drawable.homescreen_muongthanh)
+                .error(R.drawable.homescreen_meroda)
+                .into(holder.imgHotel);
+
+        // Update heart visibility
+        if (hotel.isHearted()) {
+            holder.imgHeartFilled.setVisibility(View.VISIBLE);
+            holder.imgHeartOutline.setVisibility(View.GONE);
         } else {
-            holder.imgHinh.setImageResource(R.drawable.homescreen_meroda);
+            holder.imgHeartFilled.setVisibility(View.GONE);
+            holder.imgHeartOutline.setVisibility(View.VISIBLE);
         }
-        if(hotel.isHearted() == true){
-            holder.heartImageViewTrue.setVisibility(View.VISIBLE);
-            holder.heartImageViewFalse.setVisibility(View.GONE);
-        }else{
-            holder.heartImageViewTrue.setVisibility(View.GONE);
-            holder.heartImageViewFalse.setVisibility(View.VISIBLE);
-        }
+
+        // Set click listeners for hearts
+        holder.imgHeartFilled.setOnClickListener(v -> {
+            hotel.setHearted(false);
+            notifyDataSetChanged();
+        });
+
+        holder.imgHeartOutline.setOnClickListener(v -> {
+            hotel.setHearted(true);
+            notifyDataSetChanged();
+        });
 
         return convertView;
     }
-
-
 }

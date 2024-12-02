@@ -1,6 +1,7 @@
 package com.example.apphotel.Homescreen.HotelApiService;
 
 import com.example.apphotel.Searching.Domain.Hotel;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -43,11 +45,19 @@ public interface Home_HotelEndpoint {
     Call<Favourite_Hotels_Api_Response> getFavoriteHotels(@Query("id") int userId);
     @GET("Homescreen/get_bookings.php")
     Call<Home_BookedApiResponse> getBooked(@Header("Authorization") String authorization);
+    @POST("Homescreen/cancelBooking.php")
+    @Headers("Content-Type: application/json")
+    Call<JsonObject> cancelBooking(@Body JsonObject bookingId);
+
+
+
     @GET("Homescreen/get_detail_hotel.php")
     Call<Home_HotelApiResponse> getDetailHotel(
             @Query("id") int hotelId,
             @Header("Authorization") String authorization
     );
+    @GET("Homescreen/updateBooking.php")
+    Call<JsonObject> updateBooking(@Body JsonObject requestBody);
 
 
     @PUT("popular_hotels.php")

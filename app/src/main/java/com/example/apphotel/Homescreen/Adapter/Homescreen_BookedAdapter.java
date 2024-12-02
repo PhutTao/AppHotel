@@ -1,16 +1,27 @@
 package com.example.apphotel.Homescreen.Adapter;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.apphotel.Homescreen.HotelApiService.Home_BookedApiResponse;
+import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiClient;
+import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
 import com.example.apphotel.Homescreen.Hotels.Homescreen_Booked;
 import com.example.apphotel.R;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Homescreen_BookedAdapter extends BaseAdapter {
     private Context context;
@@ -30,12 +41,12 @@ public class Homescreen_BookedAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return bookedList.get(i); // Trả về đối tượng tại vị trí `i`
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
@@ -43,27 +54,31 @@ public class Homescreen_BookedAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(layout, null);
 
-        // ánh xạ view
-        TextView txtTen = (TextView) view.findViewById(R.id.mybooking_name_booked);
-        TextView txtDiaChi = (TextView) view.findViewById(R.id.mybooking_location_booked);
-        ImageView imgHinh = (ImageView) view.findViewById(R.id.mybooking_img_booked);
-        TextView txtDanhGia = (TextView) view.findViewById(R.id.mybooking_rate_booked);
-        TextView txtSLDanhGia = (TextView) view.findViewById(R.id.mybooking_SLdanhgia_booked);
-        TextView txtGia = (TextView) view.findViewById(R.id.mybooking_price_booked);
-        TextView txtCheckIn = (TextView) view.findViewById(R.id.mybooking_ngaycheckin_booked);
-        TextView txtCheckOut = (TextView) view.findViewById(R.id.mybooking_ngaycheckout_booked);
+        // Ánh xạ view
+        TextView txtTen = view.findViewById(R.id.mybooking_name_booked);
+        TextView txtDiaChi = view.findViewById(R.id.mybooking_location_booked);
+        ImageView imgHinh = view.findViewById(R.id.mybooking_img_booked);
+        TextView txtDanhGia = view.findViewById(R.id.mybooking_rate_booked);
+        TextView txtSLDanhGia = view.findViewById(R.id.mybooking_SLdanhgia_booked);
+        TextView txtGia = view.findViewById(R.id.mybooking_price_booked);
+        TextView txtCheckIn = view.findViewById(R.id.mybooking_ngaycheckin_booked);
+        TextView txtCheckOut = view.findViewById(R.id.mybooking_ngaycheckout_booked);
 
-        //gán giá trị
-        Homescreen_Booked bookedhotels = bookedList.get(i);
+        // Gán giá trị từ đối tượng
+        Homescreen_Booked bookedHotels = bookedList.get(i);
 
-        txtTen.setText(bookedhotels.getTen());
-        txtDiaChi.setText(bookedhotels.getDiaChi());
-        imgHinh.setImageBitmap(bookedhotels.getHinh());
-        txtDanhGia.setText(String.valueOf(bookedhotels.getDanhGia()));
-        txtSLDanhGia.setText(String.valueOf(bookedhotels.getSoLuongDanhGia()));
-        txtGia.setText(String.valueOf(bookedhotels.getGia()));
-        txtCheckIn.setText(new SimpleDateFormat("dd/MM/yyyy").format(bookedhotels.getNgayCheckIn()));
-        txtCheckOut.setText(new SimpleDateFormat("dd/MM/yyyy").format(bookedhotels.getNgayCheckOut()));
+        txtTen.setText(bookedHotels.getTen());
+        txtDiaChi.setText(bookedHotels.getDiaChi());
+        imgHinh.setImageBitmap(bookedHotels.getHinh());
+        txtDanhGia.setText(String.valueOf(bookedHotels.getDanhGia()));
+        txtSLDanhGia.setText(String.valueOf(bookedHotels.getSoLuongDanhGia()));
+        txtGia.setText(String.format("$%.2f / ngày", bookedHotels.getGia()));
+        txtCheckIn.setText(new SimpleDateFormat("dd/MM/yyyy").format(bookedHotels.getNgayCheckIn()));
+        txtCheckOut.setText(new SimpleDateFormat("dd/MM/yyyy").format(bookedHotels.getNgayCheckOut()));
+
+        // Xử lý sự kiện nút "Hủy"
+
+
         return view;
     }
 }

@@ -25,6 +25,6 @@ public interface HotelApiService {
             @Query("keyword") String keyword
     );
 
-    @GET("Homescreen/get_bookings.php")
+    @GET("Search/get_hotel_detail.php")
     Call<ReviewHotelApiRespone> getReviewHotelById(@Query("id") int hotelId);
 }

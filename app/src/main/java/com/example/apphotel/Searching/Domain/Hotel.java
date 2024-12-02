@@ -17,7 +17,7 @@ public class Hotel {
     private String overview;
     @SerializedName("image_details")
     private List<ImageDetail> imageDetails;
-    @SerializedName("review_quantity")
+    @SerializedName("soluongdanhgia")
     private int reviewQuantity;
     @SerializedName("is_favorited")
     private boolean isFavourited;

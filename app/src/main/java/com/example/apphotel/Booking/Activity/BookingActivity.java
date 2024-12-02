@@ -2,13 +2,11 @@ package com.example.apphotel.Booking.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-//import android.util.Pair;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,14 +15,13 @@ import com.example.apphotel.Booking.Data.BookingFormDetailData;
 import com.example.apphotel.Booking.Fragment.AlertDialogFragment;
 import com.example.apphotel.Booking.Fragment.BookingGuestsSelectBottomSheet;
 import com.example.apphotel.Booking.Fragment.BookingRoomsSelectBottomSheet;
-
-import com.example.apphotel.Booking.Item.BookingRoomType;
-
 import com.example.apphotel.Booking.Interface.OnSaveClickListener;
-
+import com.example.apphotel.Booking.Item.BookingRoomType;
+import com.example.apphotel.Homescreen.HotelApiService.Home_HotelApiClient;
+import com.example.apphotel.Homescreen.HotelApiService.Home_HotelEndpoint;
 import com.example.apphotel.R;
-import com.example.apphotel.Searching.Activity.DetailActivity;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.gson.JsonObject;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -35,21 +32,21 @@ import java.util.Locale;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.util.Pair;
-import androidx.lifecycle.ViewModelProvider;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookingActivity extends AppCompatActivity implements OnSaveClickListener {
     private FrameLayout backBtn;
-
-    private TextView guestsSelect;
-    private TextView roomsSelect;
-    private TextView datesSelect;
+    private TextView guestsSelect, roomsSelect, datesSelect;
     private EditText phoneNumberSelect;
     private AppCompatButton continueBtn;
     private CheckBox ckbPolicy1, ckbPolicy2;
     private MaterialDatePicker<Pair<Long, Long>> datePicker;
 
     private int bookingHotelId;
-    BookingFormDetailData bookingFormDetailData;
+    private BookingFormDetailData bookingFormDetailData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,22 +66,10 @@ public class BookingActivity extends AppCompatActivity implements OnSaveClickLis
         ckbPolicy1 = findViewById(R.id.booking_checkbox_policy_1);
         ckbPolicy2 = findViewById(R.id.booking_checkbox_policy_2);
 
-        Intent intent = getIntent();
+        // Handle Intent data
+        handleIntentData();
 
-        if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_DETAIL_TO_BOOKING)) {
-            bookingHotelId = intent.getIntExtra("hotelId", 0);
-        }
-
-        if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_CHECKOUT_TO_BOOKING)) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                bookingFormDetailData = (BookingFormDetailData) bundle.getSerializable("bookingFormData");
-
-                bookingHotelId = bookingFormDetailData.getHotelId();
-                updateBookingFormView(bookingFormDetailData);
-            }
-        }
-
+        // Setup interactions
         setupGuestsSelect(bookingFormDetailData);
         setupRoomsSelect(bookingFormDetailData);
         setupDateSelect();
@@ -92,10 +77,30 @@ public class BookingActivity extends AppCompatActivity implements OnSaveClickLis
         setUpNavigateBackToDetail();
     }
 
+    private void handleIntentData() {
+        Intent intent = getIntent();
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(Constants.ACTION_DETAIL_TO_BOOKING)) {
+                bookingHotelId = intent.getIntExtra("hotelId", 0);
+            } else if (intent.getAction().equals(Constants.ACTION_CHECKOUT_TO_BOOKING)) {
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
+                    bookingFormDetailData = (BookingFormDetailData) bundle.getSerializable("bookingFormData");
+                    if (bookingFormDetailData != null) {
+                        bookingHotelId = bookingFormDetailData.getHotelId();
+                        updateBookingFormView(bookingFormDetailData);
+                    }
+                }
+            }
+        }
+    }
+
+
+
     private void updateBookingFormView(BookingFormDetailData data) {
         if (data != null) {
             String dateFormatted = formatDateRange(data.getStartDate(), data.getEndDate());
-            String guestRoomQuantity = (data.getSelectedAdultValue() + data.getSelectedChildValue()) + " guests " + "- " + data.getSelectedRoomValue() + " rooms";
+            String guestRoomQuantity = (data.getSelectedAdultValue() + data.getSelectedChildValue()) + " guests - " + data.getSelectedRoomValue() + " rooms";
             String roomTypeQuantity = data.getRoomTypeList().size() + " room types";
             String phoneNumber = data.getPhoneNumber();
 
@@ -107,21 +112,16 @@ public class BookingActivity extends AppCompatActivity implements OnSaveClickLis
     }
 
     private void setUpNavigateBackToDetail() {
-        backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(this, DetailActivity.class);
-            intent.setAction(Constants.ACTION_BOOKING_TO_DETAIL);
-            intent.putExtra("hotelId", bookingHotelId);
-
-            startActivity(intent);
-        });
+        backBtn.setOnClickListener(v -> finish());
     }
 
     private void setUpNavigateToCheckout() {
         continueBtn.setOnClickListener(v -> {
-            bookingFormDetailData.setPhoneNumber(String.valueOf(phoneNumberSelect.getText()));
+            bookingFormDetailData.setPhoneNumber(phoneNumberSelect.getText().toString().trim());
             bookingFormDetailData.setHotelId(bookingHotelId);
 
-            if (checkDataBeforeNavigateToCheckout() == Constants.STATE_OK) {
+            String validationMessage = checkDataBeforeNavigateToCheckout();
+            if (validationMessage.equals(Constants.STATE_OK)) {
                 Intent intent = new Intent(this, BookingCheckoutActivity.class);
                 intent.setAction(Constants.ACTION_BOOKING_TO_CHECKOUT);
 
@@ -131,7 +131,7 @@ public class BookingActivity extends AppCompatActivity implements OnSaveClickLis
 
                 startActivity(intent);
             } else {
-                AlertDialogFragment.showAlertDialog(this,"Lack of information", checkDataBeforeNavigateToCheckout());
+                AlertDialogFragment.showAlertDialog(this, "Lack of information", validationMessage);
             }
         });
     }
@@ -140,31 +140,24 @@ public class BookingActivity extends AppCompatActivity implements OnSaveClickLis
         if (bookingFormDetailData.getStartDate() == null) {
             return "Please select a start date";
         }
-
         if (bookingFormDetailData.getEndDate() == null) {
-            return "Please select a end date";
+            return "Please select an end date";
         }
-
         if (bookingFormDetailData.getSelectedChildValue() == 0 && bookingFormDetailData.getSelectedAdultValue() == 0) {
-            return "Please choose people quantity";
+            return "Please choose the number of guests";
         }
-
         if (bookingFormDetailData.getSelectedRoomValue() == 0) {
-            return "Please choose room quantity";
+            return "Please choose the number of rooms";
         }
-
-        if (bookingFormDetailData.getRoomTypeList().size() == 0) {
-            return "Please select room type";
+        if (bookingFormDetailData.getRoomTypeList().isEmpty()) {
+            return "Please select a room type";
         }
-
-        if (bookingFormDetailData.getPhoneNumber().equals("")) {
-            return "Please fill in your phone number";
+        if (bookingFormDetailData.getPhoneNumber().isEmpty()) {
+            return "Please provide your phone number";
         }
-
         if (!ckbPolicy1.isChecked() || !ckbPolicy2.isChecked()) {
             return "Please agree with our policies";
         }
-
         return Constants.STATE_OK;
     }
 
@@ -192,10 +185,8 @@ public class BookingActivity extends AppCompatActivity implements OnSaveClickLis
                 .setTheme(R.style.ThemeMaterialCalendar)
                 .build();
 
-
         datePicker.addOnPositiveButtonClickListener(selection -> {
             Pair<Long, Long> dateRange = datePicker.getSelection();
-
             Date startDate = new Date(dateRange.first);
             Date endDate = new Date(dateRange.second);
             String formattedDateRange = formatDateRange(startDate, endDate);
@@ -205,33 +196,23 @@ public class BookingActivity extends AppCompatActivity implements OnSaveClickLis
             datesSelect.setText(formattedDateRange);
         });
 
-        datesSelect.setOnClickListener(v -> showDatePicker());
+        datesSelect.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "datePicker_tag"));
     }
-
-
-    private void showDatePicker() {
-        datePicker.show(getSupportFragmentManager(), "datePicker_tag");
-    }
-
 
     private String formatDateRange(Date startDate, Date endDate) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String formattedStart = dateFormat.format(startDate);
-        String formattedEnd = dateFormat.format(endDate);
-
-        return formattedStart + " - " + formattedEnd;
+        return dateFormat.format(startDate) + " - " + dateFormat.format(endDate);
     }
 
     @Override
     public void onSaveClick(int totalGuests, int totalRooms) {
-        String selectedValue = totalGuests + " guests " + "- " + totalRooms + " rooms";
+        String selectedValue = totalGuests + " guests - " + totalRooms + " rooms";
         guestsSelect.setText(selectedValue);
     }
 
     @Override
     public void onSelectClick(ArrayList<BookingRoomType> roomTypeList) {
         String displayValue = roomTypeList.size() + " room types";
-
         bookingFormDetailData.setRoomTypeList(roomTypeList);
         roomsSelect.setText(displayValue);
     }
