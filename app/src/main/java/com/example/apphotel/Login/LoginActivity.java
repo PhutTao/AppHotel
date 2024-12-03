@@ -19,6 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.apphotel.Admin.Activity.AdminActivity;
+import com.example.apphotel.Admin.Response.UserResponse;
+import com.example.apphotel.Api.ApiService;
+import com.example.apphotel.Api.RetrofitClient;
 import com.example.apphotel.Homescreen.HomescreenActivity;
 
 import com.example.apphotel.Login.AuthService.AuthEnpoint;
@@ -28,6 +32,7 @@ import com.example.apphotel.Login.Fragment.ForgotPasswordBottomSheetFragment;
 import com.example.apphotel.Model.LoginResponse;
 import com.example.apphotel.R;
 import com.example.apphotel.Register.RegisterActivity;
+import com.example.apphotel.utils.SessionManager;
 
 import java.util.Objects;
 
@@ -105,34 +110,38 @@ public class LoginActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 String username = emailText.getText().toString().trim();
                 String password = passwordText.getText().toString().trim();
-
-                // Kiểm tra rỗng
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                     Toast.makeText(LoginActivity.this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                AuthEnpoint authEndpoint = retrofit.create(AuthEnpoint.class);
-                Call<LoginResponse> call = authEndpoint.login(username, password);
+                ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+                Call<LoginResponse> call = apiService.loginUser(username, password);
+
                 call.enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             LoginResponse loginResponse = response.body();
                             if (loginResponse.isSuccess()) {
-                                successLogin();
+                                User user = loginResponse.getData();
+                                SessionManager sessionManager = new SessionManager(getApplicationContext());
+                                sessionManager.saveUser(user.getId(), user.getUsername(), user.getEmail(), user.getRole());
+                                successLogin(user.getRole());
                             } else {
+                                // Show server-side error message
                                 Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
+                            // Server returned an unsuccessful response
                             Toast.makeText(LoginActivity.this, "Lỗi phản hồi từ server", Toast.LENGTH_SHORT).show();
                         }
                     }
 
-
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                        // Handle network or other errors
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("LoginError", t.getMessage());
                     }
                 });
@@ -178,9 +187,14 @@ public class LoginActivity extends AppCompatActivity  {
 
     }
 
-    private void successLogin() {
-        Intent intent = new Intent(LoginActivity.this, HomescreenActivity.class);
-        startActivity(intent);
+    private void successLogin(int role) {
+        if(role == 1){
+            Intent intent = new Intent(LoginActivity.this, HomescreenActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+            startActivity(intent);
+        }
     }
 
 

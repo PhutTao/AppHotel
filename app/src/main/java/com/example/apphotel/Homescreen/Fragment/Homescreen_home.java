@@ -118,8 +118,6 @@ public class Homescreen_home extends Fragment {
         });
 
 
-
-        //đổi màu textnearbyhotel
         nearbyHotels = view.findViewById(R.id.home_nearbyhotels);
         scrollview = view.findViewById(R.id.home_contentt);
 

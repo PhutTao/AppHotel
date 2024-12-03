@@ -1,5 +1,9 @@
 package com.example.apphotel.Api;
 
+import com.example.apphotel.Admin.Fragment.UserDetailFragment;
+import com.example.apphotel.Admin.Response.DetailUserResponse;
+import com.example.apphotel.Admin.Response.Response;
+import com.example.apphotel.Admin.Response.UserResponse;
 import com.example.apphotel.Homescreen.HotelApiService.Home_ChangePasswordRequest;
 import com.example.apphotel.Model.LoginResponse;
 import com.example.apphotel.Model.RegisterResponse;
@@ -14,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @FormUrlEncoded
@@ -27,7 +32,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("auth/login.php")
     Call<LoginResponse> loginUser(
-            @Field("email") String email,
+            @Field("username") String username,
             @Field("password") String password
     );
     @FormUrlEncoded
@@ -37,6 +42,12 @@ public interface ApiService {
                                    @Field("phone") String phone,
                                    @Field("sex") String sex,
                                    @Field("username") String username);
-
+    @GET("admin/getAllUser.php")
+    Call<UserResponse> getAllUser();
+    @GET("admin/getDetailUser.php")
+    Call<DetailUserResponse> getDetailUser(@Query("id") int id);
+    @FormUrlEncoded
+    @POST("admin/changeRole.php")
+    Call<Response> changeRole(@Field("id") int id,@Field("role") int role);
 
 }

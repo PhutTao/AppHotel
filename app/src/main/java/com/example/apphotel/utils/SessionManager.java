@@ -8,6 +8,7 @@ public class SessionManager {
     private static final String KEY_ID = "id";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_EMAIL = "email";
+    private static final String KEY_ROLE = "role";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -20,10 +21,11 @@ public class SessionManager {
     }
 
     // Save user data
-    public void saveUser(int id, String username, String email) {
+    public void saveUser(int id, String username, String email, int role) {
         editor.putInt(KEY_ID, id);
         editor.putString(KEY_USERNAME, username);
         editor.putString(KEY_EMAIL, email);
+        editor.putInt(KEY_ROLE, role);
         editor.apply();
     }
 
@@ -40,6 +42,9 @@ public class SessionManager {
     // Retrieve email
     public String getEmail() {
         return sharedPreferences.getString(KEY_EMAIL, null);
+    }
+    public int getRole() {
+        return sharedPreferences.getInt(KEY_ROLE, 1);
     }
 
     // Clear session

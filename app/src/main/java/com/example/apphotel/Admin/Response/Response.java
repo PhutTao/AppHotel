@@ -1,25 +1,19 @@
-package com.example.apphotel.Model;
+package com.example.apphotel.Admin.Response;
 
-import com.example.apphotel.Login.User;
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
+public class Response {
     @SerializedName("success")
     private boolean success;
-
     @SerializedName("message")
     private String message;
 
-    @SerializedName("data")
-    private User data;
-
-    public LoginResponse(boolean success, String message, User data) {
+    public Response(boolean success, String message) {
         this.success = success;
         this.message = message;
-        this.data = data;
     }
 
-    public boolean isSuccess() {
+    public boolean getSuccess() {
         return success;
     }
 
@@ -33,13 +27,5 @@ public class LoginResponse {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public User getData() {
-        return data;
-    }
-
-    public void setData(User data) {
-        this.data = data;
     }
 }

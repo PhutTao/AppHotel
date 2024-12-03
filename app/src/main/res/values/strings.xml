@@ -1,4 +1,9 @@
 <resources>
+    <string-array name="role_array">
+        <item>Admin</item>
+        <item>Khach Hang</item>
+    </string-array>
+
     <string name="app_name">HotelBooking_App</string>
 
     <string name="txtClearAll">Clear All</string>
